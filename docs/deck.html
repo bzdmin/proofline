@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>ProofLine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+  @page { size: 297mm 167mm; margin: 0; }
+  :root{
+    --ground:#0E1017; --surface:#171A24; --ink:#E8EBF3; --muted:#98A0B6; --faint:#6F778D;
+    --line:#272C3B; --accent:#8CA0FF; --ok:#3FC099; --warn:#E29457; --bad:#F4788A;
+  }
+  *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{margin:0;background:#05060A;font-family:"Source Serif 4",Georgia,serif;color:var(--ink)}
+  .slide{
+    width:297mm;height:167mm;background:var(--ground);padding:17mm 20mm;
+    display:flex;flex-direction:column;position:relative;overflow:hidden;
+    page-break-after:always;break-after:page;margin:0 auto 6mm;
+  }
+  .slide:last-child{page-break-after:auto}
+  .n{position:absolute;top:13mm;right:20mm;font-family:"JetBrains Mono",monospace;
+     font-size:9pt;color:var(--faint)}
+  .eyebrow{font-family:Archivo,sans-serif;font-size:8.5pt;font-weight:700;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--faint);margin-bottom:6mm}
+  h1{font-family:Archivo,sans-serif;font-size:40pt;font-weight:700;letter-spacing:-.025em;
+     margin:0 0 4mm;line-height:1.02}
+  h2{font-family:Archivo,sans-serif;font-size:24pt;font-weight:700;letter-spacing:-.02em;
+     margin:0 0 6mm;line-height:1.1}
+  p{font-size:13pt;line-height:1.55;margin:0 0 4mm;max-width:62ch;color:var(--muted)}
+  p.lead{font-size:16pt;color:var(--ink);max-width:56ch}
+  strong{color:var(--ink);font-weight:600}
+  .mono{font-family:"JetBrains Mono",monospace}
+  .grow{flex:1}
+  .foot{font-family:"JetBrains Mono",monospace;font-size:8.5pt;color:var(--faint);
+        border-top:1px solid var(--line);padding-top:3mm}
+  table{border-collapse:collapse;width:100%;font-size:11pt}
+  th{font-family:Archivo,sans-serif;font-size:8pt;font-weight:700;letter-spacing:.14em;
+     text-transform:uppercase;color:var(--faint);text-align:left;padding:2.5mm 3mm;
+     border-bottom:1px solid var(--line)}
+  td{padding:2.5mm 3mm;border-bottom:1px solid var(--line);font-family:"JetBrains Mono",monospace;font-size:10.5pt}
+  td.t{font-family:"Source Serif 4",serif;font-size:11pt}
+  tr.hi td{background:#1C2140}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:14mm}
+  .cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:8mm}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:2mm;padding:5mm 6mm}
+  .card .k{font-family:Archivo,sans-serif;font-size:8pt;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--faint)}
+  .card .v{font-family:"JetBrains Mono",monospace;font-size:19pt;margin:2mm 0 1.5mm}
+  .card .s{font-size:9.5pt;color:var(--muted);line-height:1.4}
+  pre{font-family:"JetBrains Mono",monospace;font-size:10pt;line-height:1.6;color:var(--muted);margin:0}
+  pre b{color:var(--accent);font-weight:600}
+  .ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)} .acc{color:var(--accent)}
+  ul{margin:0;padding-left:5mm;font-size:11.5pt;color:var(--muted);line-height:1.65}
+  li{margin-bottom:2mm} li::marker{color:var(--faint)}
+  li b{color:var(--ink)}
+</style></head><body>
+
+<!-- 1 ------------------------------------------------------------------ -->
+<div class="slide">
+  <div class="grow" style="display:flex;flex-direction:column;justify-content:center">
+    <div class="eyebrow">BUIDL CTC 2026 Fall &middot; DeFi &middot; RWA</div>
+    <h1>ProofLine</h1>
+    <p class="lead">Verified economic history becomes reusable credit.</p>
+    <p style="max-width:58ch">Ethereum contains evidence of economic behaviour. Attestcoin lets
+    Creditcoin verify that evidence. ProofLine turns verified events into persistent credit
+    state that independent applications can consume.</p>
+  </div>
+  <div class="foot">Live on Ethereum Sepolia &amp; Creditcoin CC3 &middot; 118 tests &middot; every claim reproducible from the repo</div>
+</div>
+
+<!-- 2 ------------------------------------------------------------------ -->
+<div class="slide"><div class="n">02</div>
+  <div class="eyebrow">The problem</div>
+  <h2>Economic behaviour is provable.<br>Creditworthiness is not portable.</h2>
+  <div class="grow">
+    <p>A business earns on Ethereum. That history is public, permanent and cryptographically
+    real &mdash; and completely unusable as credit anywhere else.</p>
+    <p>Bridging it means trusting an operator. Re-stating it means trusting a database. Both
+    replace the one property that made the history worth having.</p>
+    <p style="color:var(--ink)"><strong>The question is not how to move the data. It is how to
+    make a credit decision that is impossible to make without the proof.</strong></p>
+  </div>
+  <div class="foot">Remove the proof layer from ProofLine and the credit file cannot change at all</div>
+</div>
+
+<!-- 3 ------------------------------------------------------------------ -->
+<div class="slide"><div class="n">03</div>
+  <div class="eyebrow">The insight</div>
+  <h2>Attestcoin proves inclusion.<br>It does not prove truth.</h2>
+  <div class="grow cols">
+    <div>
+      <p>A proof establishes that an authorised contract emitted a log in a transaction that
+      succeeded. It says nothing about whether the log's claim is <em>true</em>.</p>
+      <p>So the source contract has to make a false claim unreachable. <span class="mono acc">InvoicePaid</span>
+      cannot exist unless the measured ERC-20 balance delta equals the invoice amount.
+      <span class="mono acc">InvoiceLate</span> cannot exist before the due date.</p>
+      <p style="color:var(--ink)"><strong>Attestcoin then proves the contract reached a state
+      its own invariants made impossible to reach falsely.</strong></p>
+    </div>
+    <div class="card">
+      <div class="k">Six verification gates</div>
+      <pre style="margin-top:4mm">1  replay      <span class="acc">proof-derived identity</span>
+2  verifyAndEmit          precompile
+3  transaction type
+4  <b>receiptStatus == 1</b>     protocol MUST
+5  matching logs found
+6  emitter authorised</pre>
+      <div class="s" style="margin-top:4mm">Gate 6 must come last: the emitter address does
+      not exist until the receipt is decoded, which requires the proof to have verified.</div>
+    </div>
+  </div>
+  <div class="foot">Our original replay key was caller-supplied and spoofable &middot; found by reading ASCBase.sol, fixed, recorded</div>
+</div>
+
+<!-- 4 ------------------------------------------------------------------ -->
+<div class="slide"><div class="n">04</div>
+  <div class="eyebrow">How it works</div>
+  <div class="grow" style="display:flex;align-items:center">
+<pre style="font-size:11.5pt;line-height:1.75">Ethereum Sepolia
+  <b>Receivable.sol</b>          real mUSD moves, invariants enforced on-chain
+      │
+      ▼
+  <b>Attestcoin</b>              Merkle inclusion + continuity proof
+      │
+      ▼
+  <b>ASCReceiver.sol</b>         six gates, proof-derived replay identity
+      │
+      ▼
+  <b>CreditFile.sol</b>          ← <span class="acc">the product</span>
+      │                     append-only, proof-backed credit state
+      │
+      ├── UnderwritingLib → <b>Treasury.sol</b>       working capital
+      │
+      └── tier            → <b>CreditAccess.sol</b>   security deposit</pre>
+  </div>
+  <div class="foot">One writer. CreditFile changes only when a proof verifies, in the same transaction</div>
+</div>
+
+<!-- 5 ------------------------------------------------------------------ -->
+<div class="slide"><div class="n">05</div>
+  <div class="eyebrow">Measured on live chains</div>
+  <h2>Five settlements changed the terms</h2>
+  <table>
+    <thead><tr><th>Settlement</th><th>Counterparty</th><th>Amount</th><th>Tier</th><th>Advance</th><th>APR</th><th>Deposit</th></tr></thead>
+    <tbody>
+      <tr><td>#1</td><td>buyer A</td><td>$12,000</td><td class="t">STANDARD</td><td>60%</td><td>16%</td><td>75%</td></tr>
+      <tr><td>#2</td><td>buyer B</td><td>$8,000</td><td class="t">STANDARD</td><td>60%</td><td>16%</td><td>75%</td></tr>
+      <tr><td>#3</td><td>buyer C</td><td>$10,000</td><td class="t ok">GOOD</td><td>70%</td><td>14%</td><td>40%</td></tr>
+      <tr><td>#4</td><td>buyer A</td><td>$7,000</td><td class="t ok">GOOD</td><td>70%</td><td>14%</td><td>40%</td></tr>
+      <tr class="hi"><td>#5</td><td>buyer B</td><td>$9,000</td><td class="t ok"><strong>TRUSTED</strong></td><td><strong>80%</strong></td><td><strong>12%</strong></td><td><strong>0%</strong></td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:6mm">Every row is a real Sepolia transaction moving real value between
+  independently registered counterparties, proven through Attestcoin. Nothing was seeded.
+  <strong>Capacity rose from 7,200 to 9,600 while the largest settlement stayed at 12,000</strong>
+  &mdash; every increase came from a rate earned by history, never from a bigger invoice.</p>
+  <div class="foot">Attestation 7.96 min, one attempt, covering all eight events across a 10-block span</div>
+</div>
+
+<!-- 6 ------------------------------------------------------------------ -->
+<div class="slide"><div class="n">06</div>
+  <div class="eyebrow">Then we actually lent</div>
+  <h2>Earned credit, used</h2>
+  <table>
+    <thead><tr><th>State</th><th>Tier</th><th>Capacity</th><th>Approved line</th><th>Available</th><th>Debt</th></tr></thead>
+    <tbody>
+      <tr class="hi"><td class="t">Before receivable</td><td class="t">TRUSTED</td><td>9,600</td><td>9,600</td><td><strong>0</strong></td><td>0</td></tr>
+      <tr><td class="t">Receivable outstanding</td><td class="t">TRUSTED</td><td>9,600</td><td>9,600</td><td>9,600</td><td>0</td></tr>
+      <tr><td class="t">Borrowed 6,300</td><td class="t">TRUSTED</td><td>9,600</td><td>9,600</td><td>3,300</td><td>6,300</td></tr>
+      <tr><td class="t">Repaid 3,150</td><td class="t">TRUSTED</td><td>9,600</td><td>9,600</td><td>6,449.999</td><td>3,150.001</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:6mm"><strong>The first row is the architecture in one line.</strong>
+  Earned standing of 9,600 with nothing currently drawable &mdash; a state that cannot be
+  expressed at all if the three numbers are collapsed into one "credit limit".</p>
+  <p>Tier, capacity and line never moved. Only availability and debt responded to borrowing.
+  The <span class="mono">.001</span> is real accrued interest, left unrounded.</p>
+  <div class="foot">borrow 0xd3174e51 &middot; repay 0x3cf490de &middot; ten assertions, all passing</div>
+</div>
+
+<!-- 7 ------------------------------------------------------------------ -->
+<div class="slide"><div class="n">07</div>
+  <div class="eyebrow">Why this is different</div>
+  <h2>CreditFile is the product</h2>
+  <div class="cols3 grow" style="align-content:start">
+    <div class="card"><div class="k">Reusable</div><div class="v acc">2</div>
+      <div class="s">Independent consumers over one credit file. Treasury lends; CreditAccess
+      waives security deposits. Neither imports the other, neither computes a tier, neither
+      can write.</div></div>
+    <div class="card"><div class="k">Load-bearing</div><div class="v ok">1</div>
+      <div class="s">One writer. Delete Attestcoin and the credit file is immutable &mdash;
+      not degraded, not stale. The financial state transition becomes impossible.</div></div>
+    <div class="card"><div class="k">Stateful</div><div class="v warn">10</div>
+      <div class="s">Credit is persistent state, not a one-shot reaction to a proof. History
+      compounds; delinquency tightens terms immediately; a proven default freezes permanently.</div></div>
+  </div>
+  <p style="margin-top:2mm">One proven settlement moved Treasury from 70%/14% to 80%/12% and
+  waived CreditAccess's 40% deposit &mdash; through a credit file that imports neither
+  application. <strong>The invoice contract is our source of evidence, not the product.</strong></p>
+  <div class="foot">Any Creditcoin application can read getCreditFile / getCreditEvents / getTerms</div>
+</div>
+
+<!-- 8 ------------------------------------------------------------------ -->
+<div class="slide"><div class="n">08</div>
+  <div class="eyebrow">Evidence &amp; limitations</div>
+  <div class="cols grow">
+    <div>
+      <div class="k eyebrow" style="margin-bottom:3mm">Measured, not assumed</div>
+      <ul>
+        <li><b>7.96&ndash;8.7 min</b> end-to-end attestation</li>
+        <li><b>321,498 gas</b> mean production ingest, 8 samples</li>
+        <li><b>244&ndash;669 ms</b> proof construction once attested</li>
+        <li><b>Permissionless relay works</b> &mdash; the worker is convenience, not trust</li>
+        <li>Continuity roots vary <b>1&ndash;10</b> across six blocks &mdash; the expiry mechanism</li>
+      </ul>
+      <div class="k eyebrow" style="margin:6mm 0 3mm">Found, fixed, recorded</div>
+      <ul>
+        <li>Replay key was <b>caller-spoofable</b></li>
+        <li>Accounting silently <b>aliased its input</b></li>
+        <li>A gate-ordering test <b>passed while proving nothing</b></li>
+        <li>Unchecked payer allowed <b>manufactured counterparties</b></li>
+        <li>One of our own claims was an inference &mdash; <b>disproved and corrected in place</b></li>
+      </ul>
+    </div>
+    <div>
+      <div class="k eyebrow" style="margin-bottom:3mm">Stated plainly</div>
+      <ul>
+        <li><b>Sybil resistance is not solved.</b> Five controls raise the cost; three funded
+        addresses can still manufacture history. Production needs counterparty attestations
+        and stake-at-risk.</li>
+        <li><b>Repayment is unsecured.</b> Writability is in audit, so the receivable cannot be
+        seized. Enforcement is the credit file &mdash; deliberate, and Creditcoin's own thesis.</li>
+        <li><b>Batch proving is unmeasured.</b> Nothing depends on it.</li>
+        <li><b>Tier thresholds are our policy</b>, not a Creditcoin standard. The reusable part
+        is the shape: verified history → deterministic function → terms.</li>
+      </ul>
+      <div class="card" style="margin-top:6mm">
+        <div class="s" style="color:var(--ink)">A credit primitive other Creditcoin
+        applications build on &mdash; with two of them already shipped, and every claim
+        checkable with <span class="mono">cast call</span>.</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">118 tests &middot; evidence/ separates documented, measured and designed &middot; github.com/&mdash; ProofLine</div>
+</div>
+
+</body></html>
