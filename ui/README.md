@@ -2,8 +2,8 @@
 
 Static. No build step, no server-side code, no indexer, no cache.
 
-    npx serve ui        # or any static file server
-    open http://localhost:3000
+    node ui/serve.mjs   # no dependencies; falls through to a free port
+    open http://localhost:4173
 
 Everything on screen is a live contract read against Creditcoin CC3. `ethers` is vendored
 in `vendor/` so it works offline, and `data/config.json` holds only addresses and a map from

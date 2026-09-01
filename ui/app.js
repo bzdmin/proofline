@@ -45,6 +45,7 @@ function render(d) {
       <div class="tier">
         <span class="name t-${tier}">${tier}</span>
         <span class="rates">${Number(terms.advanceBps)/100}% advance &nbsp;·&nbsp; ${Number(terms.aprBps)/100}% APR</span>
+        <button id="whybtn" class="why-btn">Why these terms?</button>
       </div>
       <div class="why">
         <div><span class="k">Settlements</span><span class="v">${file.settled}</span></div>
@@ -110,6 +111,7 @@ function render(d) {
       </div>
     </div>`;
 
+  document.getElementById('whybtn').onclick = () => renderWhy(d);
   document.querySelectorAll('.ev').forEach(el =>
     el.onclick = () => { state.selected = +el.dataset.i; render(d); });
   renderChain(events[state.selected]);
@@ -135,6 +137,53 @@ function eventRow(e, i) {
       <small>counterparty ${short(e.counterparty)}</small></div>
     <div class="amt">${usd(e.amount)}</div>
   </div>`;
+}
+
+/// Term provenance. Every number a consumer acts on, traced to the verified facts that
+/// produced it. These are the same inputs UnderwritingLib reads on-chain - the UI does not
+/// recompute the tier, it shows what the contract was given and what it returned.
+function renderWhy(d) {
+  const { file, events, terms } = d;
+  const tier = TIER[Number(terms.tier)];
+  const settled = Number(file.settled), onTime = Number(file.onTime);
+  const pct = settled ? Math.round(onTime * 100 / settled) : 0;
+  const settlements = events
+    .map((e, i) => ({ e, i }))
+    .filter(x => Number(x.e.eventType) === 1);
+
+  const row = (k, v, met) =>
+    `<div class="wrow"><span class="wk">${k}</span><span class="wv">${v}</span>
+     <span class="wm ${met ? 'yes' : 'no'}">${met ? 'met' : 'not met'}</span></div>`;
+
+  document.getElementById('chain').innerHTML = `<div class="chain" style="padding-bottom:8px">
+    <div class="wtitle">Why ${Number(terms.advanceBps)/100}% advance and ${Number(terms.aprBps)/100}% APR?</div>
+    <div class="wsub">Tier <b>${tier}</b> under policy <b>ProofLine v1</b>. Every condition below
+      is read from the credit file; the rate table is fixed in UnderwritingLib.</div>
+
+    ${row('Qualifying settlements', settled, settled >= 5)}
+    ${row('Distinct counterparties', file.counterparties, Number(file.counterparties) >= 3)}
+    ${row('On-time rate', pct + '%', pct >= 90)}
+    ${row('Proven defaults', file.defaults, Number(file.defaults) === 0)}
+    ${row('Open delinquencies', file.openDelinquencies, Number(file.openDelinquencies) === 0)}
+
+    <div class="wtitle" style="margin-top:16px">Capacity ${usd(terms.capacity)}</div>
+    <div class="wsub">${Number(terms.advanceBps)/100}% of ${usd(file.maxSettledAmount)}, the
+      largest settlement ever proven. Not the largest invoice issued - being paid is what
+      earns capacity.</div>
+
+    <div class="wtitle" style="margin-top:16px">Evidence</div>
+    <div class="wsub">${settlements.length} proven settlement${settlements.length===1?'':'s'},
+      each traceable to Ethereum. Click one to follow it.</div>
+    ${settlements.map(x => `<div class="wev" data-i="${x.i}">
+        <span>#${x.e.obligationId}</span>
+        <span>${usd(x.e.amount)}</span>
+        <span>${short(x.e.counterparty)}</span>
+        <span class="wm yes">${Number(x.e.timestamp) <= Number(x.e.dueDate) ? 'on time' : 'late'}</span>
+      </div>`).join('')}
+  </div>`;
+
+  document.querySelectorAll('.wev').forEach(el =>
+    el.onclick = () => { state.selected = +el.dataset.i; render(d); });
 }
 
 /// The interaction that matters: a credit event, followed back to Ethereum.

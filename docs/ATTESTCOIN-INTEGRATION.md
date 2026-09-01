@@ -26,7 +26,7 @@ Ethereum Sepolia          Attestcoin              Creditcoin CC3
 Receivable.sol      →     attestation       →     ASCReceiver.sol
   real mUSD moves         Merkle proof             six verification gates
   invariants enforced     continuity proof              ↓
-                                                  CreditFile.sol
+                                                  CreditFile.sol   <- the primitive
                                                   append-only credit state
                                                        ↓
                                           ┌────────────┴────────────┐
@@ -221,7 +221,7 @@ forge test                     # 118 tests, incl. real captured Attestcoin proof
 node script/deploy.mjs         # both networks
 node script/history-emit.mjs   # real economic facts on Sepolia
 node script/history-prove.mjs  # prove them (resumable)
-npx serve ui                   # read the live credit file
+node ui/serve.mjs              # read the live credit file
 ```
 
 `evidence/` contains the G0-A protocol study, the captured proof fixtures, the integration

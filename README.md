@@ -3,10 +3,12 @@
 **ProofLine turns verified economic events on Ethereum into reusable credit state on
 Creditcoin.**
 
-The product is `CreditFile` - a proof-backed credit primitive that any Creditcoin
-application can read. The invoice contract is our source of economic evidence. `Treasury` is
-the first capital consumer. `CreditAccess` is a second, independent one. Everything else
-exists to prove those three things belong together.
+**ProofLine is the reference application. `CreditFile` is the primitive.**
+
+`CreditFile` is a proof-backed credit-state layer any Creditcoin application can read. The
+invoice contract is one source of economic evidence. `Treasury` is the first capital
+consumer. `CreditAccess` is a second, independent one. Everything else exists to prove those
+three things belong together.
 
 ```
 Ethereum Sepolia
@@ -16,7 +18,7 @@ Ethereum Sepolia
   Attestcoin
       │  Merkle inclusion + continuity proof, verified on a Creditcoin precompile
       ▼
-  CreditFile.sol            ← the product
+  CreditFile.sol            ← the primitive
       │  append-only, proof-backed credit state
       │
       ├── UnderwritingLib → Treasury.sol       working capital
@@ -119,7 +121,7 @@ an inference we later disproved and corrected in place.
 
 ```bash
 forge test                      # 118 tests, incl. real captured Attestcoin proofs
-npx serve ui                    # read the live credit file in a browser
+node ui/serve.mjs               # read the live credit file in a browser
 ```
 
 Full pipeline against your own testnet keys:
