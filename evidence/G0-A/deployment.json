@@ -1,0 +1,20 @@
+{
+  "deployedAt": "2026-09-01T13:45:48.992Z",
+  "deployer": "0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA",
+  "sepolia": {
+    "chainKey": 1,
+    "source": "0x26b83c601609DDdBC78CEe99825b84f74741837A",
+    "imposter": "0x3513B2da2b823f084610a2797a7Cc8052b87b093",
+    "gas": {
+      "source": "190920",
+      "imposter": "87359"
+    }
+  },
+  "cc3": {
+    "asc": "0x26b83c601609DDdBC78CEe99825b84f74741837A",
+    "gas": {
+      "asc": "1203400",
+      "authorize": "86324"
+    }
+  }
+}

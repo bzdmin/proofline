@@ -1,0 +1,143 @@
+{
+  "startedAt": "2026-09-01T13:50:32.859Z",
+  "chainKey": 1,
+  "phases": {
+    "sepolia": {
+      "happy": {
+        "txHash": "0x47fea6037392015b99b578008ba3737ddf699aacd2d61e3c50c758172f5e5644",
+        "block": 11613020,
+        "status": 1,
+        "gasUsed": "28289"
+      },
+      "batch3": {
+        "txHash": "0xb230a019efedebd2543efdcbd475c285e7febfd2a31534355265dc5de023f79a",
+        "block": 11613021,
+        "status": 1,
+        "gasUsed": "32535"
+      },
+      "imposter": {
+        "txHash": "0x7fafc76ac6f0fe7cbfcaf34e3d2cdced2bbb686c4cea238256cb12314b9f4d24",
+        "block": 11613022,
+        "status": 1,
+        "gasUsed": "23296"
+      },
+      "revertAfterEmit": {
+        "txHash": "0x2ff03bda82c18a72b42358a47707cf5dc772c96c8b0d63a116c5bf0932e73cff",
+        "block": 11613023,
+        "status": 0,
+        "gasUsed": "25349",
+        "reverted": true
+      },
+      "relayTarget": {
+        "txHash": "0xe60e2683c699f9f48ba62c951a7c25fcc87a495d9b74726cd1e8ad90e19885cd",
+        "block": 11613025,
+        "status": 1,
+        "gasUsed": "28277"
+      }
+    },
+    "proofs": {
+      "happy": {
+        "ms": 669,
+        "headerNumber": 11613020,
+        "txIndex": 131,
+        "siblings": 8,
+        "roots": 1
+      },
+      "batch3": {
+        "ms": 260,
+        "headerNumber": 11613021,
+        "txIndex": 81,
+        "siblings": 7,
+        "roots": 10
+      },
+      "imposter": {
+        "ms": 244,
+        "headerNumber": 11613022,
+        "txIndex": 79,
+        "siblings": 8,
+        "roots": 9
+      },
+      "revertAfterEmit": {
+        "ms": 296,
+        "headerNumber": 11613023,
+        "txIndex": 62,
+        "siblings": 7,
+        "roots": 8
+      },
+      "relayTarget": {
+        "ms": 269,
+        "headerNumber": 11613025,
+        "txIndex": 129,
+        "siblings": 8,
+        "roots": 6
+      }
+    }
+  },
+  "answers": {
+    "Q2_attestationLatency": {
+      "targetHeight": 11613025,
+      "waitedSeconds": 522.1,
+      "waitedMinutes": 8.7,
+      "pollAttempts": 2,
+      "transientErrors": 1,
+      "note": "wall clock from highest tx mined to that height attested; single sample",
+      "error": null
+    },
+    "Q1_Q3_happyPath": {
+      "ok": true,
+      "gasUsed": "126854",
+      "accepted": 1,
+      "gates": [
+        "1:replay",
+        "2:verifyAndEmit",
+        "3:txType",
+        "4:receiptStatus",
+        "5:logsFound",
+        "6:sourceAuthorized"
+      ],
+      "txHash": "0x9b7b9fc894a9dfae1d9442bb220826e1c71d17709c18d32d2cdb304d757ac47d"
+    },
+    "Q6_replay": {
+      "ok": false,
+      "reason": "AlreadyProcessed(0xa6949cfad87897b18909fb48b9c6d4a5b6e1d71cb4847bc55f4aa8fa4081be09)"
+    },
+    "Q6_batchLogs": {
+      "ok": true,
+      "gasUsed": "138950",
+      "accepted": 3,
+      "gates": [
+        "1:replay",
+        "2:verifyAndEmit",
+        "3:txType",
+        "4:receiptStatus",
+        "5:logsFound",
+        "6:sourceAuthorized"
+      ],
+      "txHash": "0x121b675451103c223eb3fecc06afe2c4ced4bc82bb1d0797cd4a367a37b4940c"
+    },
+    "Q5_unauthorizedSource": {
+      "ok": false,
+      "reason": "UnauthorizedSource(0x3513B2da2b823f084610a2797a7Cc8052b87b093, 0x26b83c601609DDdBC78CEe99825b84f74741837A)"
+    },
+    "Q7_receiptStatus": {
+      "ok": false,
+      "reason": "TxDidNotSucceed(0)"
+    },
+    "Q4_permissionlessRelay": {
+      "ok": true,
+      "gasUsed": "129094",
+      "accepted": 1,
+      "gates": [
+        "1:replay",
+        "2:verifyAndEmit",
+        "3:txType",
+        "4:receiptStatus",
+        "5:logsFound",
+        "6:sourceAuthorized"
+      ],
+      "txHash": "0x43d1101a650e75cc9248c9329ed71af95a79b34b47504cb3e8f9756f662e1592",
+      "note": "fresh unconsumed proof, submitted by an address unrelated to deployer/owner/source. Success proves relay is genuinely permissionless."
+    }
+  },
+  "finishedAt": "2026-09-01T14:01:16.150Z"
+}
