@@ -3,12 +3,74 @@
 **ProofLine turns verified economic events on Ethereum into reusable credit state on
 Creditcoin.**
 
-**ProofLine is the reference application. `CreditFile` is the primitive.**
+ProofLine is the reference application. `CreditFile` is the primitive.
+
+---
+
+## Judge path
+
+Eight steps, about five minutes, no wallet and no API key. Everything you see is read live
+from deployed contracts.
+
+```bash
+git clone https://github.com/bzdmin/proofline.git && cd proofline
+npm install          # Attestcoin SDK and contracts
+forge test           # 118 tests, including real captured Attestcoin proofs
+node ui/serve.mjs    # then open http://localhost:4173
+```
+
+`forge-std` is vendored, so a plain clone is enough. No `--recursive`, no submodule init.
+
+Then, in the interface:
+
+1. **Read the tier.** TRUSTED, 80% advance, 12% APR. This borrower earned it.
+2. **Click "Why these terms?"** Every condition behind the tier, read from the credit file.
+3. **Read the capacity line.** 80% of the largest settlement ever *proven* - being paid is
+   what earns capacity, not invoicing.
+4. **Click any settlement** in the verified history.
+5. **Follow the evidence chain**: Ethereum transaction, attested block and precompile-derived
+   `txIndex`, the six verification gates, the authorized source, the credit file write.
+6. **Open the Ethereum transaction.** Real mUSD moved, on Sepolia, in public.
+7. **Compare the three numbers**: capacity, approved line, available to draw. They are
+   deliberately not the same number.
+8. **Check the second consumer.** `CreditAccess` waives the security deposit reading `tier`
+   alone - no Treasury import, no debt, no invoice knowledge.
+
+Verify any of it without trusting us:
+
+```bash
+cast call 0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a \
+  "getTerms(address)" 0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA \
+  --rpc-url https://rpc.cc3-testnet.creditcoin.network
+```
+
+**118 tests passing. Live Sepolia to Attestcoin to Creditcoin CC3, with capital drawn and
+repaid on-chain.**
+
+---
+
+## The one chain to follow
+
+```
+Ethereum economic event  ->  Attestcoin proof  ->  persistent CreditFile state
+                         ->  underwriting terms  ->  independent application consumption
+```
+
+And what that produced, live:
+
+```
+5 proven settlements  ->  TRUSTED  ->  80% advance  ->  $9,600 earned capacity
+                      ->  $12,000 receivable  ->  $6,300 borrowed
+                      ->  $3,150 repaid  ->  available credit recovers
+```
+
+---
+
+## Architecture
 
 `CreditFile` is a proof-backed credit-state layer any Creditcoin application can read. The
 invoice contract is one source of economic evidence. `Treasury` is the first capital
-consumer. `CreditAccess` is a second, independent one. Everything else exists to prove those
-three things belong together.
+consumer. `CreditAccess` is a second, independent one.
 
 ```
 Ethereum Sepolia
@@ -33,8 +95,9 @@ Ethereum Sepolia
 
 ## What is actually live
 
-Five real settlements on Ethereum Sepolia, each moving real value between independently
-registered counterparties, each proven through Attestcoin and verified on Creditcoin.
+Five real settlements on Ethereum Sepolia, each moving mUSD between distinct registered
+counterparties, then proven through Attestcoin and verified on Creditcoin. No credit state
+was seeded: every tier change came from the proven settlement history.
 
 ```
 #1  buyerA  $12,000   →  STANDARD   60% advance / 16% APR
@@ -52,6 +115,12 @@ Then the earned line was actually used:
 | Receivable outstanding | TRUSTED | 9,600 | 9,600 | 9,600 | 0 |
 | Borrowed 6,300 | TRUSTED | 9,600 | 9,600 | 3,300 | 6,300 |
 | Repaid 3,150 | TRUSTED | 9,600 | 9,600 | 6,449.999 | 3,150.001 |
+
+**`CreditFile` determines earned credit terms from verified history. Consumers apply their
+own debt and utilisation state when calculating available credit.** `getTerms()` answers what
+the history has earned; `getTermsWithDebt()` answers what a consumer holding debt can
+actually draw. That is why a bare `getTerms()` call reports full drawable while Treasury,
+which holds the loan, reports less.
 
 **The first row is the whole architecture in one line.** Earned standing of 9,600 with
 nothing currently drawable - a state that cannot even be expressed if capacity, the approved
@@ -117,17 +186,7 @@ test passed while proving nothing; the actual payer was unchecked, allowing coun
 diversity to be manufactured; and one claim in this repo about reverted-transaction logs was
 an inference we later disproved and corrected in place.
 
-## Run it
-
-```bash
-npm install                     # Attestcoin SDK and contracts
-forge test                      # 118 tests, incl. real captured Attestcoin proofs
-node ui/serve.mjs               # read the live credit file in a browser
-```
-
-`forge-std` is vendored, so a plain `git clone` is enough - no submodule init.
-
-Full pipeline against your own testnet keys:
+## Run the full pipeline against your own keys
 
 ```bash
 cp .env.example .env            # fill PRIVATE_KEY and RELAYER_PRIVATE_KEY
