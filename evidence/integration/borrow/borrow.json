@@ -1,0 +1,108 @@
+{
+  "startedAt": "2026-09-01T18:45:21.675Z",
+  "borrower": "0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA",
+  "steps": [
+    {
+      "label": "BEFORE — earned credit, nothing to draw against",
+      "tier": "TRUSTED",
+      "advanceBps": 8000,
+      "aprBps": 1200,
+      "capacity": 9600,
+      "limit": 9600,
+      "drawable": 0,
+      "debt": 0,
+      "outstandingReceivables": 0,
+      "settled": 5,
+      "counterparties": 3,
+      "maxSettled": 12000,
+      "depositBps": 0,
+      "treasuryLiquidity": 500000
+    },
+    {
+      "label": "AFTER receivable proven — line now usable",
+      "tier": "TRUSTED",
+      "advanceBps": 8000,
+      "aprBps": 1200,
+      "capacity": 9600,
+      "limit": 9600,
+      "drawable": 9600,
+      "debt": 0,
+      "outstandingReceivables": 12000,
+      "settled": 5,
+      "counterparties": 3,
+      "maxSettled": 12000,
+      "depositBps": 0,
+      "treasuryLiquidity": 500000
+    },
+    {
+      "label": "AFTER BORROWING",
+      "tier": "TRUSTED",
+      "advanceBps": 8000,
+      "aprBps": 1200,
+      "capacity": 9600,
+      "limit": 9600,
+      "drawable": 3300,
+      "debt": 6300,
+      "outstandingReceivables": 12000,
+      "settled": 5,
+      "counterparties": 3,
+      "maxSettled": 12000,
+      "depositBps": 0,
+      "treasuryLiquidity": 493700
+    },
+    {
+      "label": "AFTER PARTIAL REPAYMENT",
+      "tier": "TRUSTED",
+      "advanceBps": 8000,
+      "aprBps": 1200,
+      "capacity": 9600,
+      "limit": 9600,
+      "drawable": 6449.999281,
+      "debt": 3150.000719,
+      "outstandingReceivables": 12000,
+      "settled": 5,
+      "counterparties": 3,
+      "maxSettled": 12000,
+      "depositBps": 0,
+      "treasuryLiquidity": 496850
+    }
+  ],
+  "newInvoice": {
+    "id": 6,
+    "amount": 12000,
+    "buyer": "0x7Ff3548fBEC57653cAC9C4f18E8e118D4cd13590",
+    "issueTx": "0xbcd63bf4347cd9403db46888cb3ee22e12bcc0a2ff583a3c253b5310c51ab327",
+    "block": 11614440
+  },
+  "issuanceProof": {
+    "state": "VERIFIED",
+    "cc3Tx": "0x87996e4184a66a95f925a10b1c885182f3448d6801eec0a20c8097398fd98ca9",
+    "gasUsed": "311342",
+    "attestationMinutes": 7.8
+  },
+  "borrowTx": {
+    "hash": "0xd3174e51076cb837f1a7fd41631d6f8eb57a5f069af0055dea1a19dbb206b39d",
+    "amount": 6300,
+    "gasUsed": "171528"
+  },
+  "assertions": {
+    "debtIncreased": true,
+    "drawableFellByDraw": true,
+    "capacityUnchanged": true,
+    "limitUnchanged": true,
+    "tierUnchanged": true,
+    "depositUnchanged": true,
+    "capitalActuallyMoved": true
+  },
+  "repayTx": {
+    "hash": "0x3cf490de1ce46b27b22439e7f148c6cdaff78027608f9bc6fcca08c7c4ccb019",
+    "amount": 3150,
+    "gasUsed": "78148"
+  },
+  "repayAssertions": {
+    "debtRoughlyHalved": true,
+    "drawableRecovered": true,
+    "capacityStillUnchanged": true
+  },
+  "finishedAt": "2026-09-01T18:54:47.561Z"
+}
