@@ -50,8 +50,8 @@
   pre{font-family:"JetBrains Mono",monospace;font-size:10pt;line-height:1.6;color:var(--muted);margin:0}
   pre b{color:var(--accent);font-weight:600}
   .ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)} .acc{color:var(--accent)}
-  ul{margin:0;padding-left:5mm;font-size:11.5pt;color:var(--muted);line-height:1.65}
-  li{margin-bottom:2mm} li::marker{color:var(--faint)}
+  ul{margin:0;padding-left:5mm;font-size:11pt;color:var(--muted);line-height:1.55}
+  li{margin-bottom:1.6mm} li::marker{color:var(--faint)}
   li b{color:var(--ink)}
 </style></head><body>
 
@@ -65,7 +65,7 @@
     Creditcoin verify that evidence. ProofLine turns verified events into persistent credit
     state that independent applications can consume.</p>
   </div>
-  <div class="foot">Live on Ethereum Sepolia &amp; Creditcoin CC3 &middot; 118 tests &middot; every claim reproducible from the repo</div>
+  <div class="foot">Live on Ethereum Sepolia &amp; Creditcoin CC3 &middot; 118 tests &middot; every material claim reproducible from the repo</div>
 </div>
 
 <!-- 2 ------------------------------------------------------------------ -->
@@ -74,11 +74,11 @@
   <h2>Economic behaviour is provable.<br>Creditworthiness is not portable.</h2>
   <div class="grow">
     <p>A business earns on Ethereum. That history is public, permanent and cryptographically
-    real - and completely unusable as credit anywhere else.</p>
+    real - but it is not portable as independently verifiable credit state on another chain.</p>
     <p>Bridging it means trusting an operator. Re-stating it means trusting a database. Both
     replace the one property that made the history worth having.</p>
-    <p style="color:var(--ink)"><strong>The question is not how to move the data. It is how to
-    make a credit decision that is impossible to make without the proof.</strong></p>
+    <p style="color:var(--ink)"><strong>The question is not how to copy the history.
+    It is how to make the credit decision depend on proof.</strong></p>
   </div>
   <div class="foot">Remove the proof layer from ProofLine and the credit file cannot change at all</div>
 </div>
@@ -89,8 +89,9 @@
   <h2>Attestcoin proves inclusion.<br>It does not prove truth.</h2>
   <div class="grow cols">
     <div>
-      <p>A proof establishes that an authorised contract emitted a log in a transaction that
-      succeeded. It says nothing about whether the log's claim is <em>true</em>.</p>
+      <p>A proof establishes that a log was included in a transaction. ProofLine then verifies
+      successful execution, event semantics and source authorisation. None of that establishes
+      whether the log's claim is <em>true</em>.</p>
       <p>So the source contract has to make a false claim unreachable. <span class="mono acc">InvoicePaid</span>
       cannot exist unless the measured ERC-20 balance delta equals the invoice amount.
       <span class="mono acc">InvoiceLate</span> cannot exist before the due date.</p>
@@ -150,8 +151,9 @@
       <tr class="hi"><td>#5</td><td>buyer B</td><td>$9,000</td><td class="t ok"><strong>TRUSTED</strong></td><td><strong>80%</strong></td><td><strong>12%</strong></td><td><strong>0%</strong></td></tr>
     </tbody>
   </table>
-  <p style="margin-top:6mm">Every row is a real Sepolia transaction moving real value between
-  independently registered counterparties, proven through Attestcoin. Nothing was seeded.
+  <p style="margin-top:6mm">Every row is a real Sepolia transaction moving mUSD between
+  distinct registered counterparties, then proven through Attestcoin. No credit state was
+  seeded: every tier change came from the proven settlement history.
   <strong>Capacity rose from 7,200 to 9,600 while the largest settlement stayed at 12,000</strong>
   - every increase came from a rate earned by history, never from a bigger invoice.</p>
   <div class="foot">Attestation 7.96 min, one attempt, covering all eight events across a 10-block span</div>
@@ -180,8 +182,8 @@
 
 <!-- 7 ------------------------------------------------------------------ -->
 <div class="slide"><div class="n">07</div>
-  <div class="eyebrow">Why this is different</div>
-  <h2>CreditFile is the product</h2>
+  <div class="eyebrow">The distinction</div>
+  <h2>Why this is infrastructure,<br>not another lending app</h2>
   <div class="cols3 grow" style="align-content:start">
     <div class="card"><div class="k">Reusable</div><div class="v acc">2</div>
       <div class="s">Independent consumers over one credit file. Treasury lends; CreditAccess
@@ -211,7 +213,6 @@
         <li><b>321,498 gas</b> mean production ingest, 8 samples</li>
         <li><b>244-669 ms</b> proof construction once attested</li>
         <li><b>Permissionless relay works</b> - the worker is convenience, not trust</li>
-        <li>Continuity roots vary <b>1-10</b> across six blocks - the expiry mechanism</li>
       </ul>
       <div class="k eyebrow" style="margin:6mm 0 3mm">Found, fixed, recorded</div>
       <ul>
@@ -219,25 +220,28 @@
         <li>Accounting silently <b>aliased its input</b></li>
         <li>A gate-ordering test <b>passed while proving nothing</b></li>
         <li>Unchecked payer allowed <b>manufactured counterparties</b></li>
-        <li>One of our own claims was an inference - <b>disproved and corrected in place</b></li>
+        <li>One of our claims was an inference - <b>disproved, corrected in place</b></li>
       </ul>
     </div>
     <div>
       <div class="k eyebrow" style="margin-bottom:3mm">Stated plainly</div>
       <ul>
-        <li><b>Sybil resistance is not solved.</b> Five controls raise the cost; three funded
-        addresses can still manufacture history. Production needs counterparty attestations
-        and stake-at-risk.</li>
-        <li><b>Repayment is unsecured.</b> Writability is in audit, so the receivable cannot be
-        seized. Enforcement is the credit file - deliberate, and Creditcoin's own thesis.</li>
-        <li><b>Batch proving tested, not relied upon.</b> getBatchProof returned success with an empty proof set on our path; the single-proof path works for the same transactions. Recorded in evidence/G0-B.</li>
-        <li><b>Tier thresholds are our policy</b>, not a Creditcoin standard. The reusable part
-        is the shape: verified history → deterministic function → terms.</li>
+        <li><b>Sybil resistance remains a production limitation.</b> Current controls reduce
+        self-dealing but do not establish independent counterparty identity.</li>
+        <li><b>Repayment is unsecured.</b> Writability is in audit, so enforcement is
+        credit-state based rather than collateral seizure. Deliberate, and Creditcoin's thesis.</li>
+        <li><b>Tier thresholds are our policy</b>, not a Creditcoin standard. The reusable
+        part is the shape: verified history → deterministic function → terms.</li>
       </ul>
-      <div class="card" style="margin-top:6mm">
-        <div class="s" style="color:var(--ink)">A credit primitive other Creditcoin
-        applications build on - with two of them already shipped, and every claim
-        checkable with <span class="mono">cast call</span>.</div>
+      <div class="k eyebrow" style="margin:6mm 0 3mm">Why Creditcoin wants this</div>
+      <p style="font-size:11.5pt;margin-bottom:3mm">CreditFile gives Creditcoin applications a
+      common, verifiable credit primitive instead of every application building its own
+      cross-chain evidence pipeline.</p>
+      <div class="card">
+<pre style="font-size:9pt;line-height:1.45">verified economic activity → richer CreditFile
+        → more applications → more Creditcoin demand</pre>
+        <div class="s" style="margin-top:2.5mm;color:var(--ink)">Every new source of verified
+        history strengthens the same credit layer. Every new application can consume it.</div>
       </div>
     </div>
   </div>
