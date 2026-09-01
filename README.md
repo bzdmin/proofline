@@ -136,8 +136,10 @@ Requires Foundry `v1.2.3` (the version the Attestcoin examples pin) and Node 20+
 
 ## Limitations, stated plainly
 
-- **Batch proving is unmeasured.** Nothing depends on it; the history was established
-  sequentially.
+- **Batch proving tested, not relied upon.** `getBatchProof` returned success with an empty
+  proof set for our already-attested transactions, so `verifyBatch` was not exercisable. The
+  single-proof path works for the same hashes. Recorded with a control in
+  [`evidence/G0-B/`](evidence/G0-B/); the history was established sequentially.
 - **Sybil resistance is not solved.** Five controls raise the cost of self-dealing; a
   determined operator with three funded addresses can still manufacture history. Production
   needs counterparty attestations and stake-at-risk.

@@ -1,0 +1,60 @@
+{
+  "ranAt": "2026-09-01T23:06:23.204Z",
+  "chainKey": 1,
+  "candidates": {
+    "count": 8,
+    "blockSpan": {
+      "from": 11614243,
+      "to": 11614252,
+      "span": 9
+    }
+  },
+  "documented": {
+    "maxBatchSize": 10,
+    "maxBatchRange": 1000
+  },
+  "probes": [
+    {
+      "label": "getBatchProof(2)",
+      "requested": 2,
+      "ok": true,
+      "ms": 7696,
+      "fromHeader": 11614243,
+      "toHeader": 11614245,
+      "proofsReturned": 0,
+      "distinctHeights": 0,
+      "continuityRoots": 58,
+      "error": null
+    },
+    {
+      "label": "getBatchProof(8) - ours",
+      "requested": 8,
+      "ok": true,
+      "ms": 823,
+      "fromHeader": 11614243,
+      "toHeader": 11614252,
+      "proofsReturned": 0,
+      "distinctHeights": 0,
+      "continuityRoots": 58,
+      "error": null
+    },
+    {
+      "label": "getBatchProof(10) - max",
+      "requested": 10,
+      "ok": true,
+      "ms": 1027,
+      "fromHeader": 11614243,
+      "toHeader": 11614252,
+      "proofsReturned": 0,
+      "distinctHeights": 0,
+      "continuityRoots": 58,
+      "error": null
+    }
+  ],
+  "overLimit": {
+    "requested": 11,
+    "accepted": true,
+    "raw": "[{\"success\":true,\"data\":{\"chainKey\":1,\"fromHeader\":11614243,\"toHeader\":11614252,\"continuityProof\":{\"lowerEndpointDigest\":\"0x031cc14f25d4e81175f241f02157840c70f27540026f817dd7523ec7ed4b8e5a\",\"roots\":[\"0x847c05e5a8e612951ba4ae98a61babd6d9c4f32f36ccaa06a70edbd0edaf0c01\",\"0x5f3d3911ca2fee4adbee3bc6a9af2"
+  },
+  "verdict": "getBatchProof works on our path"
+}

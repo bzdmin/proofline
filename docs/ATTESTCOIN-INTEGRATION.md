@@ -194,10 +194,15 @@ setter, so the system retains exactly one privileged call: `setAuthorizedSource`
 
 ## 8. Known limitations, stated plainly
 
-- **Batch proving is unmeasured.** `getBatchProof` documents a limit of 10 proofs within
-  1000 blocks. We did not verify it on our path. Nothing in ProofLine depends on it; the
-  verified history was established sequentially. Our eight history events span 10 blocks and
-  would be a valid batch candidate.
+- **Batch proving tested, not relied upon. [MEAS]** `getBatchProof` returned
+  `success: true` for 2, 8, 10 and 11 of our already-attested history transactions, with a
+  correct header range and a 58-root continuity proof - but an **empty `merkleProofs`
+  object** every time, so no `txBytes` and no Merkle path for any transaction. `verifyBatch`
+  was therefore not exercisable and no contract was deployed for it. A control in the same
+  process shows `getProof` succeeding for the identical hash. We are not claiming the
+  endpoint is broken; we are recording what it returned for us on 2026-09-02, with a control.
+  Full detail and raw output: [`evidence/G0-B/`](../evidence/G0-B/). The verified history was
+  established through the single-proof path, which is fully measured.
 - **Sybil resistance is not solved.** Five controls raise the cost of self-dealing - payer
   registration, buyer ≠ seller, minimum qualifying amount, per-borrower exposure cap, and a
   three-counterparty requirement for the top tier - but a determined operator with three
