@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ProofLine — verified credit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+  :root{
+    --ground:#0E1017; --surface:#161925; --surface-2:#1D2130;
+    --ink:#E4E7F0; --muted:#969DB3; --faint:#767D93;
+    --line:#272C3B; --line-strong:#3A4157;
+    --accent:#8CA0FF; --accent-soft:#1C2140;
+    --ok:#3FC099; --ok-soft:#122E28;
+    --warn:#E29457; --warn-soft:#33231A;
+    --bad:#F4788A; --bad-soft:#361A22;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:"Source Serif 4",Georgia,serif;font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px 80px}
+  h1,h2,h3,.mono,.eyebrow,.chip,th{font-family:Archivo,Helvetica,Arial,sans-serif}
+  .mono,code,.num{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header{padding:40px 0 22px;border-bottom:1px solid var(--line);margin-bottom:34px;
+    display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+  header h1{margin:6px 0 0;font-size:30px;letter-spacing:-.02em}
+  .addr{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--faint)}
+
+  /* ---- hero: who, what, why, what now ---- */
+  .hero{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+    padding:28px 30px;margin-bottom:18px}
+  .tier{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+  .tier .name{font-family:Archivo;font-size:40px;font-weight:700;letter-spacing:-.02em}
+  .tier .rates{font-family:"JetBrains Mono",monospace;font-size:15px;color:var(--muted)}
+  .t-TRUSTED{color:var(--ok)} .t-GOOD{color:var(--accent)} .t-STANDARD{color:var(--ink)}
+  .t-NEW{color:var(--muted)} .t-WATCH{color:var(--warn)} .t-FROZEN{color:var(--bad)}
+
+  .why{margin-top:18px;padding-top:18px;border-top:1px solid var(--line);
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px}
+  .why div span{display:block}
+  .why .k{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+    font-family:Archivo;font-weight:700}
+  .why .v{font-family:"JetBrains Mono",monospace;font-size:19px;margin-top:4px}
+
+  /* ---- the three numbers, never collapsed ---- */
+  .three{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:18px}
+  .cell{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px 20px}
+  .cell.debt{border-color:var(--warn)}
+  .cell .k{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+    font-family:Archivo;font-weight:700}
+  .cell .v{font-family:"JetBrains Mono",monospace;font-size:25px;margin-top:6px}
+  .cell .sub{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.45}
+
+  .cols{display:grid;grid-template-columns:1.7fr 1fr;gap:18px;align-items:start}
+  @media(max-width:860px){.cols{grid-template-columns:1fr}}
+
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .panel h2{margin:0;padding:16px 20px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--faint);border-bottom:1px solid var(--line);font-weight:700}
+
+  /* ---- verified history ---- */
+  .ev{padding:14px 20px;border-bottom:1px solid var(--line);cursor:pointer;
+    display:grid;grid-template-columns:70px 1fr auto;gap:14px;align-items:center;
+    transition:background .12s}
+  .ev:last-child{border-bottom:none}
+  .ev:hover{background:var(--surface-2)}
+  .ev.sel{background:var(--accent-soft)}
+  .ev .id{font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--faint)}
+  .ev .what{font-size:14.5px}
+  .ev .what small{display:block;color:var(--muted);font-size:12px;font-family:"JetBrains Mono",monospace}
+  .ev .amt{font-family:"JetBrains Mono",monospace;font-size:14px;text-align:right}
+  .chip{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    padding:2px 7px;border-radius:3px;margin-left:6px;vertical-align:1px}
+  .c-ok{background:var(--ok-soft);color:var(--ok)}
+  .c-warn{background:var(--warn-soft);color:var(--warn)}
+  .c-bad{background:var(--bad-soft);color:var(--bad)}
+  .c-dim{background:var(--surface-2);color:var(--muted)}
+
+  /* ---- evidence chain ---- */
+  .chain{padding:18px 20px}
+  .chain .step{display:grid;grid-template-columns:22px 1fr;gap:12px;padding-bottom:16px;position:relative}
+  .chain .step:not(:last-child)::before{content:"";position:absolute;left:10px;top:20px;bottom:0;
+    width:1px;background:var(--line-strong)}
+  .chain .dot{width:21px;height:21px;border-radius:50%;border:1.5px solid var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--accent);
+    background:var(--surface);z-index:1;font-family:Archivo;font-weight:700}
+  .chain .lbl{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+    font-family:Archivo;font-weight:700}
+  .chain .val{font-family:"JetBrains Mono",monospace;font-size:12px;margin-top:3px;word-break:break-all}
+  .chain .note{font-size:12.5px;color:var(--muted);margin-top:3px}
+
+  /* ---- pipeline ---- */
+  .pipe{padding:6px 20px 18px}
+  .pstep{display:flex;align-items:center;gap:11px;padding:9px 0;font-size:13.5px}
+  .pstep .dot{width:9px;height:9px;border-radius:50%;background:var(--line-strong);flex:none}
+  .pstep.done .dot{background:var(--ok)}
+  .pstep.done{color:var(--ink)}
+  .pstep.idle{color:var(--faint)}
+  .pstep .t{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--faint)}
+
+  .note-box{padding:14px 20px;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
+  .note-box b{color:var(--ink)}
+  footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);
+    font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--faint)}
+  .loading{padding:40px 20px;text-align:center;color:var(--faint);font-family:"JetBrains Mono",monospace;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <div class="eyebrow">Creditcoin CC3 · live</div>
+    <h1>ProofLine</h1>
+  </div>
+  <div style="text-align:right">
+    <div class="eyebrow">Borrower</div>
+    <div class="addr" id="borrower">—</div>
+  </div>
+</header>
+
+<div id="app"><div class="loading">reading Creditcoin…</div></div>
+
+<footer id="foot"></footer>
+</div>
+
+<script src="./vendor/ethers.umd.min.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
