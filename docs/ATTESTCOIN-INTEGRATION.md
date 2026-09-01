@@ -1,6 +1,6 @@
 # Attestcoin Protocol Integration Summary
 
-**ProofLine** — verified Ethereum economic events become reusable Creditcoin credit state.
+**ProofLine** - verified Ethereum economic events become reusable Creditcoin credit state.
 
 Every claim below is reproducible from this repository. Where we were wrong during
 development, the correction is recorded rather than removed.
@@ -9,9 +9,9 @@ development, the correction is recorded rather than removed.
 
 | Tag | Meaning |
 |---|---|
-| **[DOC]** | Attestcoin documented behaviour — quoted from the protocol docs |
-| **[MEAS]** | ProofLine measured behaviour — observed on live chains, with transaction hashes |
-| **[DESIGN]** | ProofLine design decision — our choice, and reversible by anyone building differently |
+| **[DOC]** | Attestcoin documented behaviour - quoted from the protocol docs |
+| **[MEAS]** | ProofLine measured behaviour - observed on live chains, with transaction hashes |
+| **[DESIGN]** | ProofLine design decision - our choice, and reversible by anyone building differently |
 
 ---
 
@@ -36,7 +36,7 @@ Receivable.sol      →     attestation       →     ASCReceiver.sol
 
 `CreditFile` has exactly one writer: `ASCReceiver`. `ASCReceiver` writes only after a proof
 verifies on the precompile at `0x…0FD2`. **Remove Attestcoin and the credit file cannot
-change at all** — not "the UI breaks", not "the worker stops fetching". The financial state
+change at all** - not "the UI breaks", not "the worker stops fetching". The financial state
 transition becomes impossible.
 
 ## 2. The six verification gates
@@ -54,7 +54,7 @@ information does not exist until after verification.
 | 6 | Emitter | `log.address_ == authorizedSource[chainKey]` | **[DESIGN]** |
 
 **Gate 1 uses a proof-derived identity.** `txIndex` comes from
-`VERIFIER.calculateTxIndex(merkleProof)` — computed by the precompile from the proof itself.
+`VERIFIER.calculateTxIndex(merkleProof)` - computed by the precompile from the proof itself.
 An earlier revision of our design keyed replay on a caller-supplied `txHash` and `logIndex`.
 That was exploitable: one valid proof submitted twice under two different claimed hashes
 would pass both times, double-crediting the file from a single real settlement. Discovered
@@ -75,21 +75,21 @@ None of the following is documented by Attestcoin. All of it was measured by us 
 
 | Measurement | Value | Consequence for ProofLine |
 |---|---|---|
-| End-to-end attestation | **7.96–8.7 min** | Demo cannot prove a fresh event live; the UI is genuinely asynchronous |
+| End-to-end attestation | **7.96-8.7 min** | Demo cannot prove a fresh event live; the UI is genuinely asynchronous |
 | Attestation cadence | ~10-block steps, not continuous | Pending states name the height being waited on |
-| Proof construction, once attested | **244–669 ms** | All latency is attestation; fixtures make iteration instant |
+| Proof construction, once attested | **244-669 ms** | All latency is attestation; fixtures make iteration instant |
 | Protocol-only ingest (spike) | **126,854 gas** | Verification itself is cheap |
-| **Production ingest (mean of 8)** | **321,498 gas** | The real figure — includes the credit file write |
+| **Production ingest (mean of 8)** | **321,498 gas** | The real figure - includes the credit file write |
 | Marginal gas per extra event in one proof | **~6,000** | Fan-out is ~3× cheaper than per-log submission |
 | Permissionless relay | **works** | Our worker is convenience, not a trust assumption |
-| Continuity roots per proof | 1, 10, 9, 8, 6 across six consecutive blocks | Size tracks checkpoint distance — the expiry mechanism; gas is not constant |
+| Continuity roots per proof | 1, 10, 9, 8, 6 across six consecutive blocks | Size tracks checkpoint distance - the expiry mechanism; gas is not constant |
 | Prover reliability | one `ETIMEDOUT` at 281 s | Transport failure must not be classified as proof rejection |
 
 Full three-layer write-up with transaction hashes: [`evidence/G0-A/README.md`](../evidence/G0-A/README.md).
 
 ## 3a. The complete economic lifecycle, live [MEAS]
 
-Credit is not only earned here — it is used. Every row below is a live read from the
+Credit is not only earned here - it is used. Every row below is a live read from the
 deployed contracts, captured in [`evidence/integration/borrow/borrow.json`](../evidence/integration/borrow/borrow.json).
 
 | State | Tier | Capacity | Line | Available | Debt |
@@ -103,7 +103,7 @@ Three things this establishes.
 
 **The first row is only representable because the three numbers are kept apart.** Earned
 standing of 9,600 with nothing currently drawable. Collapse them into a single "credit
-limit" and that state cannot be expressed — which is precisely the defect that once zeroed a
+limit" and that state cannot be expressed - which is precisely the defect that once zeroed a
 borrower's line at the moment they proved a perfect payment.
 
 **Tier, capacity and line never moved.** Only `available` and `debt` responded to borrowing.
@@ -130,12 +130,12 @@ During the spike we asserted that a reverted Ethereum transaction's logs **remai
 to the decoder, and described `receiptStatus` as the sole barrier against a manufactured
 credit history.
 
-**That was wrong.** It was an inference, not a measurement — gate 4 fires before gate 5, so
+**That was wrong.** It was an inference, not a measurement - gate 4 fires before gate 5, so
 the live run stopped before ever looking for logs. Decoding the captured vector directly
 shows the reverted receipt carries **zero** logs, per standard EVM semantics.
 
-What is true: a reverted transaction **is** included and **is** provable through Attestcoin —
-the proof builds and verifies normally — but it carries no logs, so gates 4 and 5 reject it
+What is true: a reverted transaction **is** included and **is** provable through Attestcoin -
+the proof builds and verifies normally - but it carries no logs, so gates 4 and 5 reject it
 independently. Gate 4 is retained because it is a documented protocol MUST, because the
 rejection reason must be unambiguous, and because credit-file integrity should not rest on
 an emergent property of EVM log semantics.
@@ -153,7 +153,7 @@ All three stop a team that follows the tutorial verbatim. Recorded in
 |---|---|---|
 | `@gluwa/usc-contracts/contracts/decoding/EvmV1Decoder.sol` | `contracts/write-ability/common/EvmV1Decoder.sol` | source file not found |
 | `pragma solidity ^0.8.23` | decoder requires `^0.8.28` | no matching solc |
-| — | `verifyAndEmit` + locals overflow the stack | requires `via_ir` |
+| - | `verifyAndEmit` + locals overflow the stack | requires `via_ir` |
 
 Also worth noting for other builders: `verifySingle` is the **JavaScript** SDK helper. The
 Solidity surface is `verifyAndEmit` on the precompile, taking the encoded transaction plus
@@ -171,7 +171,7 @@ about economic reality is enforced by `Receivable.sol`'s own `require` statement
   rejected; so is a token that moves nothing at all.
 - `InvoiceLate` is unreachable before `dueDate`.
 - `InvoiceDefaulted` is unreachable before `dueDate + GRACE`.
-- The **actual payer** must be a registered counterparty, not merely the nominated buyer —
+- The **actual payer** must be a registered counterparty, not merely the nominated buyer -
   otherwise counterparty diversity could be manufactured from fresh addresses.
 
 Attestcoin therefore proves that the source contract reached a state its own invariants made
@@ -198,14 +198,14 @@ setter, so the system retains exactly one privileged call: `setAuthorizedSource`
   1000 blocks. We did not verify it on our path. Nothing in ProofLine depends on it; the
   verified history was established sequentially. Our eight history events span 10 blocks and
   would be a valid batch candidate.
-- **Sybil resistance is not solved.** Five controls raise the cost of self-dealing — payer
+- **Sybil resistance is not solved.** Five controls raise the cost of self-dealing - payer
   registration, buyer ≠ seller, minimum qualifying amount, per-borrower exposure cap, and a
-  three-counterparty requirement for the top tier — but a determined operator with three
+  three-counterparty requirement for the top tier - but a determined operator with three
   funded addresses can still manufacture history. Production needs counterparty attestations
   and stake-at-risk. We are not claiming otherwise.
 - **Repayment is unsecured.** Writability is in audit, so proceeds on Ethereum cannot be
   routed to repayment on Creditcoin and the receivable cannot be seized. Enforcement is the
-  credit file: a proven default freezes the borrower permanently. This is deliberate —
+  credit file: a proven default freezes the borrower permanently. This is deliberate -
   ProofLine prices unsecured credit from verified behaviour rather than seizing collateral.
 - **Mainnet (chainKey 3) is not integrated.** Supported by the protocol, out of scope here.
 
@@ -220,5 +220,5 @@ npx serve ui                   # read the live credit file
 ```
 
 `evidence/` contains the G0-A protocol study, the captured proof fixtures, the integration
-round trip with its rejection paths, and the verified credit history — each with transaction
+round trip with its rejection paths, and the verified credit history - each with transaction
 hashes, so no claim here has to be taken on trust.

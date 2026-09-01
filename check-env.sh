@@ -34,17 +34,17 @@ fi
 echo ""
 echo "=== relayer wallet  (CC3 only, for Q4) ==="
 if [ -z "${RELAYER_PRIVATE_KEY:-}" ] || [ "$RELAYER_PRIVATE_KEY" = "0x" ]; then
-  echo "  not set — Q1-Q3 fine, Q4 blocked"
+  echo "  not set - Q1-Q3 fine, Q4 blocked"
 else
   B=$(cast wallet address --private-key "$RELAYER_PRIVATE_KEY" 2>/dev/null || echo INVALID)
   echo "  address      $B"
-  if [ "$B" = "${A:-}" ]; then echo "  ^ SAME as main wallet — Q4 needs an unrelated address"; fail=1; fi
+  if [ "$B" = "${A:-}" ]; then echo "  ^ SAME as main wallet - Q4 needs an unrelated address"; fail=1; fi
   if [ "$B" != "INVALID" ]; then
     rc=$(cast balance "$B" --rpc-url "$CC3_RPC_URL" 2>/dev/null || echo 0)
     echo "  cc3     CTC  $(cast from-wei "$rc")"
-    [ "$rc" = "0" ] && echo "  ^ no CTC yet — Q4 blocked"
+    [ "$rc" = "0" ] && echo "  ^ no CTC yet - Q4 blocked"
   fi
 fi
 
 echo ""
-[ "$fail" = "0" ] && echo "READY for G0-A." || echo "NOT READY — see above."
+[ "$fail" = "0" ] && echo "READY for G0-A." || echo "NOT READY - see above."

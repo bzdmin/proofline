@@ -59,7 +59,7 @@ async function snap(label) {
 const out = { startedAt: new Date().toISOString(), borrower: B, steps: [] };
 const push = (s) => { out.steps.push(s); writeFileSync(`${DIR}/borrow.json`, JSON.stringify(out, null, 2)); };
 
-push(await snap('BEFORE — earned credit, nothing to draw against'));
+push(await snap('BEFORE - earned credit, nothing to draw against'));
 
 // ------------------------------------------------------- one new receivable, unsettled
 const buyerC = JSON.parse(readFileSync('evidence/integration/history/emitted.json','utf8')).buyers.C;
@@ -67,7 +67,7 @@ const AMOUNT = 12_000n * M;
 const due = BigInt(Math.floor(Date.now()/1000) + 7200);
 const { t: it, r: ir } = await tx('issueInvoice', () => rec.issueInvoice(buyerC, E.MUSD_SEPOLIA, AMOUNT, due));
 const id = rec.interface.parseLog(ir.logs.find(l => { try { return rec.interface.parseLog(l)?.name==='InvoiceIssued'; } catch { return false; } })).args.id;
-console.log(`\ninvoice #${id} issued for ${u(AMOUNT).toLocaleString()} to buyerC — deliberately left unsettled`);
+console.log(`\ninvoice #${id} issued for ${u(AMOUNT).toLocaleString()} to buyerC - deliberately left unsettled`);
 out.newInvoice = { id: Number(id), amount: u(AMOUNT), buyer: buyerC, issueTx: it.hash, block: ir.blockNumber };
 
 console.log('proving InvoiceIssued...');
@@ -76,7 +76,7 @@ out.issuanceProof = { state: proof.state, cc3Tx: proof.cc3Tx, gasUsed: proof.gas
                       attestationMinutes: proof.attestationMinutes };
 if (proof.state !== 'VERIFIED') { console.log('proof failed:', proof.reason); process.exit(1); }
 
-const afterIssue = await snap('AFTER receivable proven — line now usable');
+const afterIssue = await snap('AFTER receivable proven - line now usable');
 push(afterIssue);
 
 // ------------------------------------------------------- draw

@@ -4,14 +4,14 @@ pragma solidity ^0.8.28;
 import {Test, console} from "forge-std/Test.sol";
 import {EvmV1Decoder} from "@gluwa/usc-contracts/contracts/write-ability/common/EvmV1Decoder.sol";
 
-/// @title ProtocolVectors — the real EvmV1Decoder against real proofs captured in G0-A.
+/// @title ProtocolVectors - the real EvmV1Decoder against real proofs captured in G0-A.
 ///
 /// @notice This is the PROTOCOL EVIDENCE layer. No mocks, no synthesised bytes: every
 ///         vector is an `encodedTransaction` returned by the live Attestcoin prover for a
 ///         transaction that actually happened on Ethereum Sepolia on 2026-09-01.
 ///
 ///         These tests exist to lock in what G0-A discovered, so a later refactor cannot
-///         quietly erase a finding. They assert protocol behaviour only — nothing here
+///         quietly erase a finding. They assert protocol behaviour only - nothing here
 ///         touches a ProofLine contract.
 contract ProtocolVectorsTest is Test {
     // keccak256("SpikePing(uint256,address,uint256)")
@@ -41,11 +41,11 @@ contract ProtocolVectorsTest is Test {
     /// transaction's logs remained visible to the decoder. They do not.
     ///
     /// A reverted transaction is INCLUDED in the block and IS provable through
-    /// Attestcoin — but its logs are discarded, per standard EVM semantics. So the
+    /// Attestcoin - but its logs are discarded, per standard EVM semantics. So the
     /// receipt carries status 0 and an empty log array.
     ///
     /// Consequence: gate 4 (receiptStatus) and gate 5 (logsFound) BOTH reject it
-    /// independently. Gate 4 is defence in depth and a documented protocol MUST — it
+    /// independently. Gate 4 is defence in depth and a documented protocol MUST - it
     /// is not the sole barrier, and this repo must not claim that it is.
     function test_revertedTransactionCarriesNoLogs() public view {
         EvmV1Decoder.ReceiptFields memory r =
@@ -61,7 +61,7 @@ contract ProtocolVectorsTest is Test {
 
     /// Why gate 4 stays despite gate 5 also catching this: the rejection reason must be
     /// unambiguous. NoMatchingLogs means "wrong event type, or nothing here, or it
-    /// reverted" — three very different situations. TxDidNotSucceed means one thing.
+    /// reverted" - three very different situations. TxDidNotSucceed means one thing.
     /// We also decline to rest credit-file integrity on an emergent property of EVM log
     /// semantics when the protocol documentation explicitly requires an explicit check.
     function test_gate4AndGate5AreIndependentDefences() public view {
@@ -143,7 +143,7 @@ contract ProtocolVectorsTest is Test {
         }
     }
 
-    /// Gas used is recoverable from the receipt — worth knowing we have it, since the
+    /// Gas used is recoverable from the receipt - worth knowing we have it, since the
     /// borrowing-base logic never needs it but the evidence layer might.
     function test_receiptExposesGasUsed() public view {
         EvmV1Decoder.ReceiptFields memory r =

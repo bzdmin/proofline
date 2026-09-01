@@ -3,7 +3,7 @@
 **ProofLine turns verified economic events on Ethereum into reusable credit state on
 Creditcoin.**
 
-The product is `CreditFile` — a proof-backed credit primitive that any Creditcoin
+The product is `CreditFile` - a proof-backed credit primitive that any Creditcoin
 application can read. The invoice contract is our source of economic evidence. `Treasury` is
 the first capital consumer. `CreditAccess` is a second, independent one. Everything else
 exists to prove those three things belong together.
@@ -52,7 +52,7 @@ Then the earned line was actually used:
 | Repaid 3,150 | TRUSTED | 9,600 | 9,600 | 6,449.999 | 3,150.001 |
 
 **The first row is the whole architecture in one line.** Earned standing of 9,600 with
-nothing currently drawable — a state that cannot even be expressed if capacity, the approved
+nothing currently drawable - a state that cannot even be expressed if capacity, the approved
 line and available-to-draw are collapsed into a single number.
 
 Tier, capacity and line never moved during borrowing. Only availability and debt did.
@@ -66,7 +66,7 @@ Neither imports the other. Neither computes a tier. Neither can write to `Credit
 
 One proven Ethereum settlement moved both: Treasury's advance rate went 70% → 80% and its
 APR 14% → 12%, while CreditAccess waived a 40% security deposit entirely. `CreditAccess`
-reads `tier` and nothing else — no debt, no drawable, no invoice knowledge.
+reads `tier` and nothing else - no debt, no drawable, no invoice knowledge.
 
 That is the claim `test_oneSettlementMovesBothConsumers` executes, and the deployed
 contracts demonstrate.
@@ -93,7 +93,7 @@ cast call 0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a \
 ## Evidence
 
 `evidence/` is the part we would want a protocol engineer to read first. It separates
-**documented** protocol behaviour, **measured** behaviour, and **our design decisions** —
+**documented** protocol behaviour, **measured** behaviour, and **our design decisions** -
 and records where we were wrong.
 
 | Path | Contents |
@@ -105,8 +105,8 @@ and records where we were wrong.
 | [`evidence/integration/borrow/`](evidence/integration/borrow/) | Borrow and repayment, ten assertions |
 | [`docs/ATTESTCOIN-INTEGRATION.md`](docs/ATTESTCOIN-INTEGRATION.md) | **Attestcoin Protocol Integration Summary** |
 
-**Measured, not assumed:** attestation takes 7.96–8.7 minutes; production ingest averages
-321,498 gas over 8 ingests; proof construction after attestation is 244–669 ms; permissionless
+**Measured, not assumed:** attestation takes 7.96-8.7 minutes; production ingest averages
+321,498 gas over 8 ingests; proof construction after attestation is 244-669 ms; permissionless
 relay works. None of these figures is documented by the protocol.
 
 **Found during development, fixed, and recorded:** our original replay key was spoofable by
@@ -128,7 +128,7 @@ Full pipeline against your own testnet keys:
 cp .env.example .env            # fill PRIVATE_KEY and RELAYER_PRIVATE_KEY
 node script/deploy.mjs          # both networks
 node script/history-emit.mjs    # real economic facts on Sepolia
-node script/history-prove.mjs   # prove them (resumable — expect ~8 min attestation)
+node script/history-prove.mjs   # prove them (resumable - expect ~8 min attestation)
 node script/borrow-demo.mjs     # draw against the earned line
 ```
 
@@ -143,7 +143,7 @@ Requires Foundry `v1.2.3` (the version the Attestcoin examples pin) and Node 20+
   needs counterparty attestations and stake-at-risk.
 - **Repayment is unsecured.** Writability is in audit, so proceeds on Ethereum cannot be
   routed to repayment and the receivable cannot be seized. Enforcement is the credit file: a
-  proven default freezes the borrower permanently. This is deliberate — ProofLine prices
+  proven default freezes the borrower permanently. This is deliberate - ProofLine prices
   unsecured credit from verified behaviour rather than seizing collateral.
 - **Tier thresholds are ProofLine's policy, not a Creditcoin standard.** "Five settlements
   across three counterparties" is one lender's opinion. The reusable part is the shape:

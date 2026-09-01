@@ -1,4 +1,4 @@
-// G0-B — batching. Measures OUR path rather than trusting the documented limits.
+// G0-B - batching. Measures OUR path rather than trusting the documented limits.
 //
 // Asks: how many proofs does getBatchProof actually accept? what block range? what does
 // verifyBatch cost? does a multi-tx batch fan out correctly? what happens when one proof
@@ -23,7 +23,7 @@ const save = () => writeFileSync('evidence/G0-B/results.json', JSON.stringify(ou
 // ------------------------------------------------------------------ phase 1
 // 12 transactions: deliberately MORE than the documented max batch of 10.
 const N = 12;
-log(`=== PHASE 1 — fire ${N} Sepolia transactions (documented max batch is 10) ===`);
+log(`=== PHASE 1 - fire ${N} Sepolia transactions (documented max batch is 10) ===`);
 const txs = [];
 for (let i = 0; i < N; i++) {
   const tx = await source.ping(BigInt(100_000 + i));
@@ -38,7 +38,7 @@ out.findings.sourceTxs = { count: N, blockSpan: span, txs };
 save();
 
 // ------------------------------------------------------------------ phase 2
-log('\n=== PHASE 2 — wait for attestation ===');
+log('\n=== PHASE 2 - wait for attestation ===');
 const builder = new proofProvider.service.ProofBuilder(CHAINKEY, E.PROVER_API_URL, 120_000);
 const target = Math.max(...blocks);
 const t0 = Date.now();
@@ -56,7 +56,7 @@ save();
 if (waitErr) { log('cannot continue without attestation'); process.exit(1); }
 
 // ------------------------------------------------------------------ phase 3
-log('\n=== PHASE 3 — probe the real batch limit ===');
+log('\n=== PHASE 3 - probe the real batch limit ===');
 const hashes = txs.map(t => t.txHash);
 const probe = async (n, label) => {
   const t = Date.now();
@@ -96,4 +96,4 @@ try {
 
 out.finishedAt = new Date().toISOString();
 save();
-log('\n=== done — evidence/G0-B/results.json ===');
+log('\n=== done - evidence/G0-B/results.json ===');

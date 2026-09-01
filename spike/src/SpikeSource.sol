@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.23;
 
-/// @title SpikeSource — throwaway G0-A source contract for Ethereum Sepolia.
+/// @title SpikeSource - throwaway G0-A source contract for Ethereum Sepolia.
 /// @notice Deliberately minimal. Shares NO code with Receivable.sol. Its only job is
 ///         to emit provable logs in the shapes G0-A needs, including the awkward ones.
 contract SpikeSource {

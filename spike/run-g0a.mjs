@@ -28,7 +28,7 @@ const log = (...a) => console.log(...a);
 const save = () => writeFileSync('evidence/G0-A/results.json', JSON.stringify(results, null, 2));
 
 // ---------------------------------------------------------------- phase 1
-log('=== PHASE 1 — fire all Sepolia transactions ===');
+log('=== PHASE 1 - fire all Sepolia transactions ===');
 const sent = {};
 async function fire(label, promise, expectRevert = false) {
   try {
@@ -59,7 +59,7 @@ log(`\n  highest block to attest: ${maxBlock}`);
 save();
 
 // ---------------------------------------------------------------- phase 2
-log('\n=== PHASE 2 — wait for attestation (Q2: latency) ===');
+log('\n=== PHASE 2 - wait for attestation (Q2: latency) ===');
 const builder = new proofProvider.service.ProofBuilder(CHAINKEY, E.PROVER_API_URL, 120_000);
 const t0 = Date.now();
 const DEADLINE_MS = 25 * 60 * 1000;
@@ -89,7 +89,7 @@ results.answers.Q2_attestationLatency = {
 save();
 
 // ---------------------------------------------------------------- phase 3
-log('\n=== PHASE 3 — build proofs and submit ===');
+log('\n=== PHASE 3 - build proofs and submit ===');
 mkdirSync('evidence/G0-A/fixtures', { recursive: true });
 const proofs = {};
 
@@ -110,7 +110,7 @@ save();
 async function submit(label, signer, fixtureLabel) {
   let fx;
   try { fx = JSON.parse(readFileSync(`evidence/G0-A/fixtures/${fixtureLabel}.json`, 'utf8')).proof; }
-  catch { log(`  ${label.padEnd(22)} SKIPPED — no fixture (${fixtureLabel})`); return { ok:false, reason:'no fixture captured' }; }
+  catch { log(`  ${label.padEnd(22)} SKIPPED - no fixture (${fixtureLabel})`); return { ok:false, reason:'no fixture captured' }; }
   const c = new ethers.Contract(E.SPIKE_ASC_ADDRESS, ascAbi, signer);
   const args = [ BigInt(CHAINKEY), BigInt(fx.headerNumber), fx.txBytes,
                  fx.merkleProof.root, fx.merkleProof.siblings,
@@ -156,4 +156,4 @@ if (cc3Relay) {
 
 results.finishedAt = new Date().toISOString();
 save();
-log('\n=== done — evidence/G0-A/results.json ===');
+log('\n=== done - evidence/G0-A/results.json ===');

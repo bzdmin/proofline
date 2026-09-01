@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-/// @title ProofLine shared types — Interface Specification v2.
+/// @title ProofLine shared types - Interface Specification v2.
 /// @notice Imported by every contract on both networks so the Sepolia emitter and the
 ///         Creditcoin decoder cannot drift. Nothing here is invoice-specific except the
 ///         source contract's own event names: the credit layer speaks in obligations.
@@ -26,12 +26,12 @@ enum Tier { NEW, STANDARD, GOOD, TRUSTED, WATCH, FROZEN }
 // ---------------------------------------------------------------- records
 
 /// One accepted proof-backed fact. The same object is the audit trail, the underwriting
-/// input, and the row the interface renders — so those three cannot drift apart.
+/// input, and the row the interface renders - so those three cannot drift apart.
 struct CreditEvent {
     uint64          chainKey;      // uint64: matches the precompile, not uint32
     uint64          blockHeight;
     uint64          txIndex;       // derived by the precompile from the merkle proof
-    uint32          logIndex;      // position in the receipt. Audit data ONLY — never replay identity
+    uint32          logIndex;      // position in the receipt. Audit data ONLY - never replay identity
     CreditEventType eventType;
     address         sourceContract;
     address         borrower;      // the seller; same address on both chains

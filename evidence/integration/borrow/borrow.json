@@ -3,7 +3,7 @@
   "borrower": "0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA",
   "steps": [
     {
-      "label": "BEFORE — earned credit, nothing to draw against",
+      "label": "BEFORE - earned credit, nothing to draw against",
       "tier": "TRUSTED",
       "advanceBps": 8000,
       "aprBps": 1200,
@@ -19,7 +19,7 @@
       "treasuryLiquidity": 500000
     },
     {
-      "label": "AFTER receivable proven — line now usable",
+      "label": "AFTER receivable proven - line now usable",
       "tier": "TRUSTED",
       "advanceBps": 8000,
       "aprBps": 1200,

@@ -74,7 +74,7 @@
   <h2>Economic behaviour is provable.<br>Creditworthiness is not portable.</h2>
   <div class="grow">
     <p>A business earns on Ethereum. That history is public, permanent and cryptographically
-    real &mdash; and completely unusable as credit anywhere else.</p>
+    real - and completely unusable as credit anywhere else.</p>
     <p>Bridging it means trusting an operator. Re-stating it means trusting a database. Both
     replace the one property that made the history worth having.</p>
     <p style="color:var(--ink)"><strong>The question is not how to move the data. It is how to
@@ -153,7 +153,7 @@
   <p style="margin-top:6mm">Every row is a real Sepolia transaction moving real value between
   independently registered counterparties, proven through Attestcoin. Nothing was seeded.
   <strong>Capacity rose from 7,200 to 9,600 while the largest settlement stayed at 12,000</strong>
-  &mdash; every increase came from a rate earned by history, never from a bigger invoice.</p>
+  - every increase came from a rate earned by history, never from a bigger invoice.</p>
   <div class="foot">Attestation 7.96 min, one attempt, covering all eight events across a 10-block span</div>
 </div>
 
@@ -171,7 +171,7 @@
     </tbody>
   </table>
   <p style="margin-top:6mm"><strong>The first row is the architecture in one line.</strong>
-  Earned standing of 9,600 with nothing currently drawable &mdash; a state that cannot be
+  Earned standing of 9,600 with nothing currently drawable - a state that cannot be
   expressed at all if the three numbers are collapsed into one "credit limit".</p>
   <p>Tier, capacity and line never moved. Only availability and debt responded to borrowing.
   The <span class="mono">.001</span> is real accrued interest, left unrounded.</p>
@@ -188,14 +188,14 @@
       waives security deposits. Neither imports the other, neither computes a tier, neither
       can write.</div></div>
     <div class="card"><div class="k">Load-bearing</div><div class="v ok">1</div>
-      <div class="s">One writer. Delete Attestcoin and the credit file is immutable &mdash;
+      <div class="s">One writer. Delete Attestcoin and the credit file is immutable -
       not degraded, not stale. The financial state transition becomes impossible.</div></div>
     <div class="card"><div class="k">Stateful</div><div class="v warn">10</div>
       <div class="s">Credit is persistent state, not a one-shot reaction to a proof. History
       compounds; delinquency tightens terms immediately; a proven default freezes permanently.</div></div>
   </div>
   <p style="margin-top:2mm">One proven settlement moved Treasury from 70%/14% to 80%/12% and
-  waived CreditAccess's 40% deposit &mdash; through a credit file that imports neither
+  waived CreditAccess's 40% deposit - through a credit file that imports neither
   application. <strong>The invoice contract is our source of evidence, not the product.</strong></p>
   <div class="foot">Any Creditcoin application can read getCreditFile / getCreditEvents / getTerms</div>
 </div>
@@ -207,11 +207,11 @@
     <div>
       <div class="k eyebrow" style="margin-bottom:3mm">Measured, not assumed</div>
       <ul>
-        <li><b>7.96&ndash;8.7 min</b> end-to-end attestation</li>
+        <li><b>7.96-8.7 min</b> end-to-end attestation</li>
         <li><b>321,498 gas</b> mean production ingest, 8 samples</li>
-        <li><b>244&ndash;669 ms</b> proof construction once attested</li>
-        <li><b>Permissionless relay works</b> &mdash; the worker is convenience, not trust</li>
-        <li>Continuity roots vary <b>1&ndash;10</b> across six blocks &mdash; the expiry mechanism</li>
+        <li><b>244-669 ms</b> proof construction once attested</li>
+        <li><b>Permissionless relay works</b> - the worker is convenience, not trust</li>
+        <li>Continuity roots vary <b>1-10</b> across six blocks - the expiry mechanism</li>
       </ul>
       <div class="k eyebrow" style="margin:6mm 0 3mm">Found, fixed, recorded</div>
       <ul>
@@ -219,7 +219,7 @@
         <li>Accounting silently <b>aliased its input</b></li>
         <li>A gate-ordering test <b>passed while proving nothing</b></li>
         <li>Unchecked payer allowed <b>manufactured counterparties</b></li>
-        <li>One of our own claims was an inference &mdash; <b>disproved and corrected in place</b></li>
+        <li>One of our own claims was an inference - <b>disproved and corrected in place</b></li>
       </ul>
     </div>
     <div>
@@ -229,19 +229,19 @@
         addresses can still manufacture history. Production needs counterparty attestations
         and stake-at-risk.</li>
         <li><b>Repayment is unsecured.</b> Writability is in audit, so the receivable cannot be
-        seized. Enforcement is the credit file &mdash; deliberate, and Creditcoin's own thesis.</li>
+        seized. Enforcement is the credit file - deliberate, and Creditcoin's own thesis.</li>
         <li><b>Batch proving is unmeasured.</b> Nothing depends on it.</li>
         <li><b>Tier thresholds are our policy</b>, not a Creditcoin standard. The reusable part
         is the shape: verified history → deterministic function → terms.</li>
       </ul>
       <div class="card" style="margin-top:6mm">
         <div class="s" style="color:var(--ink)">A credit primitive other Creditcoin
-        applications build on &mdash; with two of them already shipped, and every claim
+        applications build on - with two of them already shipped, and every claim
         checkable with <span class="mono">cast call</span>.</div>
       </div>
     </div>
   </div>
-  <div class="foot">118 tests &middot; evidence/ separates documented, measured and designed &middot; github.com/&mdash; ProofLine</div>
+  <div class="foot">118 tests &middot; evidence/ separates documented, measured and designed &middot; github.com/bzdmin/proofline</div>
 </div>
 
 </body></html>

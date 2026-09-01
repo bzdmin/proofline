@@ -1,4 +1,4 @@
-# G0-A — single proof, end to end
+# G0-A - single proof, end to end
 
 **Status:** ✅ **GATE PASSED**
 **Date:** 2026-09-01
@@ -9,9 +9,9 @@ answered against live networks on the first complete run.
 
 Every entry below separates three things that must never be blended:
 
-- **OFFICIAL** — what the protocol documentation promises.
-- **MEASURED** — what the networks actually did, with transaction hashes.
-- **DECISION** — what ProofLine does in response.
+- **OFFICIAL** - what the protocol documentation promises.
+- **MEASURED** - what the networks actually did, with transaction hashes.
+- **DECISION** - what ProofLine does in response.
 
 ---
 
@@ -39,7 +39,7 @@ Throwaway. They share no code with the ProofLine contracts and exist only to be 
 
 ---
 
-## Q1 — Does a fresh Sepolia event produce a valid proof CC3 accepts?
+## Q1 - Does a fresh Sepolia event produce a valid proof CC3 accepts?
 
 **OFFICIAL:** An ASC verifies proofs synchronously by calling the Block Prover precompile at
 `0x…0FD2` via `verifyAndEmit`.
@@ -52,7 +52,7 @@ One `SpikeAccepted` event emitted, carrying the decoded id, sender and amount.
 
 ---
 
-## Q2 — What is the real end-to-end attestation latency?
+## Q2 - What is the real end-to-end attestation latency?
 
 **OFFICIAL:** Not documented. No figure appears anywhere in the Attestcoin docs.
 
@@ -67,7 +67,7 @@ Attested height advanced in **~10-block steps**, not continuously:
 
 An earlier run measured attested height 37 blocks behind Sepolia head at the moment of polling.
 
-Proof *construction*, once a height is attested, is fast: **244–669 ms**. The 8.7 minutes is
+Proof *construction*, once a height is attested, is fast: **244-669 ms**. The 8.7 minutes is
 entirely attestation lag, not proving cost.
 
 **DECISION:** Three consequences.
@@ -75,13 +75,13 @@ entirely attestation lag, not proving cost.
 1. The demo cannot prove a fresh event live inside four minutes. The verified-credit-history
    approach is confirmed, not merely convenient.
 2. The UI pipeline must be genuinely asynchronous, with real pending states naming the height
-   being waited on — attestation visibly lags, so pretending otherwise would be a lie the
+   being waited on - attestation visibly lags, so pretending otherwise would be a lie the
    protocol itself contradicts.
 3. Fixtures are captured on first success so development iterates in milliseconds, not minutes.
 
 ---
 
-## Q3 — What does verification cost on CC3?
+## Q3 - What does verification cost on CC3?
 
 **OFFICIAL:** A gas-costs page exists but gives no figure for this path.
 
@@ -92,7 +92,7 @@ entirely attestation lag, not proving cost.
 | 1 log | 126,854 | 126,854 |
 | 3 logs (one tx) | 138,950 | 46,317 |
 
-Two additional events cost **12,096 gas** — about 6,000 each, against ~127,000 for the first.
+Two additional events cost **12,096 gas** - about 6,000 each, against ~127,000 for the first.
 Essentially all the cost is proof verification; decoding extra logs is nearly free.
 
 **DECISION:** Same-transaction underwriting has ample block budget; the risk that verification
@@ -101,12 +101,12 @@ would crowd out the credit calculation does not materialise. It also makes the f
 
 ---
 
-## Q4 — Is proof relay permissionless?
+## Q4 - Is proof relay permissionless?
 
 **OFFICIAL:** Not stated explicitly.
 
-**MEASURED:** Yes. `0x8468d2eB6cB8CE29D756EFD2B733a9d002F3FbE1` — an address that is not the
-deployer, not the ASC owner, and unrelated to the source contract — submitted a fresh, unconsumed
+**MEASURED:** Yes. `0x8468d2eB6cB8CE29D756EFD2B733a9d002F3FbE1` - an address that is not the
+deployer, not the ASC owner, and unrelated to the source contract - submitted a fresh, unconsumed
 proof and it fully succeeded. CC3 tx `0x43d1101a650e75cc…`, 129,094 gas, all six gates passed.
 
 **DECISION:** The ProofLine worker is convenience infrastructure, not a trust assumption. If it
@@ -115,13 +115,13 @@ property we get from the protocol rather than one we built.
 
 ---
 
-## Q5 — Is an unauthorized source rejected?
+## Q5 - Is an unauthorized source rejected?
 
 **OFFICIAL:** The loan-flow tutorial warns that without an emitter check, anyone can deploy a
 contract emitting the same event and prove it fraudulently.
 
 **MEASURED:** Rejected. `SpikeImposter` emitted a byte-identical `SpikePing` from a different
-address. The proof was valid, verification passed, the receipt decoded, and the log was found —
+address. The proof was valid, verification passed, the receipt decoded, and the log was found -
 then gate 6 rejected it:
 
 ```
@@ -129,25 +129,25 @@ UnauthorizedSource(0x3513B2da2b823f084610a2797a7Cc8052b87b093,
                    0x26b83c601609DDdBC78CEe99825b84f74741837A)
 ```
 
-**DECISION:** Emitter authorisation is the last gate, not the first — the emitter address only
+**DECISION:** Emitter authorisation is the last gate, not the first - the emitter address only
 exists after the receipt is decoded, which requires verification first. Our original spec had
 this backwards.
 
 ---
 
-## Q6 — What is the replay behaviour?
+## Q6 - What is the replay behaviour?
 
 **OFFICIAL:** `ASCBase` computes a query id as
 `keccak256(chainKey, blockHeight, txIndex)` where `txIndex` comes from
-`VERIFIER.calculateTxIndex(merkleProof)` — derived from the proof, never supplied by the caller.
+`VERIFIER.calculateTxIndex(merkleProof)` - derived from the proof, never supplied by the caller.
 
 **MEASURED (a):** Resubmitting the identical proof was rejected with
 `AlreadyProcessed(0xa6949cfad87897b1…)`.
 
-**MEASURED (b):** `pingBatch(3)` — one transaction, three logs — produced **one** submission and
+**MEASURED (b):** `pingBatch(3)` - one transaction, three logs - produced **one** submission and
 **three** accepted events. CC3 tx `0x121b675451103c22…`, 138,950 gas.
 
-**DECISION — architecture change.** ProofLine's frozen spec keyed replay on
+**DECISION - architecture change.** ProofLine's frozen spec keyed replay on
 `(chainKey, txHash, logIndex)` with both supplied by the caller and neither verified against the
 proof. That is **exploitable**: submit one valid proof twice under two different claimed
 `txHash` values and both pass, double-crediting the credit file from a single real settlement.
@@ -162,10 +162,10 @@ one Ethereum transaction → one proof → one verified receipt → N matching l
 
 ---
 
-## Q7 — Does the proof establish that the transaction succeeded?
+## Q7 - Does the proof establish that the transaction succeeded?
 
 **OFFICIAL:** "A dApp's ASC **MUST** check the 'status' field of the transaction to ensure
-security." — Attestcoin Smart Contracts documentation.
+security." - Attestcoin Smart Contracts documentation.
 
 **MEASURED (live):** `pingThenRevert` emitted `SpikePing` and then reverted. Sepolia tx
 `0x2ff03bda82c18a72…`, block 11613023, **receiptStatus 0**.
@@ -181,7 +181,7 @@ pipeline reached gate 4 and stopped there with `TxDidNotSucceed(0)`.
 | happy | 1 | 1 |
 | batch3 | 1 | 3 |
 
-> ### Correction — 2026-09-01
+> ### Correction - 2026-09-01
 >
 > An earlier version of this document claimed the reverted transaction's log **remained
 > visible** to the decoder, and called `receiptStatus` the only barrier against a
@@ -189,21 +189,21 @@ pipeline reached gate 4 and stopped there with `TxDidNotSucceed(0)`.
 >
 > It was an inference, not a measurement. Gate 4 fires before gate 5, so the live run
 > stopped before ever looking for logs; the presence of logs was assumed, not observed.
-> Decoding the captured vector directly shows the receipt carries **zero** logs — standard
+> Decoding the captured vector directly shows the receipt carries **zero** logs - standard
 > EVM semantics, where reverted execution discards its logs.
 >
 > Recorded rather than quietly edited, because the distinction between what we measured and
 > what we inferred is the whole point of this directory.
 
 **What is actually true:** a reverted transaction is included in the block and **is provable
-through Attestcoin** — the proof builds and verifies normally. What it cannot carry is logs.
+through Attestcoin** - the proof builds and verifies normally. What it cannot carry is logs.
 So gates 4 and 5 reject it **independently**.
 
 **DECISION:** Gate 4 stays, for reasons that survive the correction.
 
 1. It is a documented protocol **MUST**, not our judgement call.
 2. The rejection reason must be unambiguous. `NoMatchingLogs` means "wrong event type, or
-   nothing here, or it reverted" — three very different situations. `TxDidNotSucceed` means
+   nothing here, or it reverted" - three very different situations. `TxDidNotSucceed` means
    one thing, which matters when a judge is reading a failed submission on screen.
 3. We decline to rest credit-file integrity on an emergent property of EVM log semantics
    when the protocol asks for an explicit check. Defence in depth is cheap; the check costs
@@ -220,13 +220,13 @@ captured vector.
 mark, mid-wait. An earlier run died outright on a 30-second HTTP timeout and reported it as an
 attestation failure.
 
-**RESPONSE:** Resilient polling — 120s request timeout, retry on transport errors, 25-minute
+**RESPONSE:** Resilient polling - 120s request timeout, retry on transport errors, 25-minute
 overall deadline. The retry absorbed the timeout and the wait completed normally.
 
 **IMPLICATION:** The worker must distinguish three states that all look like "it didn't work":
 network or prover unavailability, an attestation that has not happened yet, and a proof that is
 genuinely invalid. Only the third is a rejection. Conflating them would have had us report a
-working protocol as broken — which is exactly what the first run did.
+working protocol as broken - which is exactly what the first run did.
 
 ### Continuity proof size varies with checkpoint distance
 
@@ -240,7 +240,7 @@ working protocol as broken — which is exactly what the first run did.
 | revertAfterEmit | 11613023 | 62 | 7 | **8** |
 | relayTarget | 11613025 | 129 | 8 | **6** |
 
-Root count is not a function of block height alone — it reflects distance from the attestation
+Root count is not a function of block height alone - it reflects distance from the attestation
 checkpoint the proof chains back to.
 
 **IMPLICATION:** This is the mechanism behind proof expiry. As checkpoints advance, the
@@ -256,7 +256,7 @@ All five proofs captured in `fixtures/`. Decoder and payload iteration no longer
 minutes per cycle.
 
 **Boundary:** a fixture proves the decode path indefinitely. It does **not** prove CC3 would
-accept that proof today — continuity checkpoints advance. Fixture tests and live verification
+accept that proof today - continuity checkpoints advance. Fixture tests and live verification
 are labelled separately, and an expired fixture is never presented as evidence of on-chain
 acceptance.
 
@@ -264,8 +264,8 @@ acceptance.
 
 ## Outcome
 
-- [x] **GATE PASSED** — proof verified on CC3. Proceed.
-- [ ] GATE FAILED — skip CTC.
+- [x] **GATE PASSED** - proof verified on CC3. Proceed.
+- [ ] GATE FAILED - skip CTC.
 
 **Four corrections the protocol requires**, each now backed by a transaction rather than a
 reading of the docs:

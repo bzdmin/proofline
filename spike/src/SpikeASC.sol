@@ -24,7 +24,7 @@ interface INativeQueryVerifier {
     function calculateTxIndex(MerkleProof calldata merkleProof) external view returns (uint64);
 }
 
-/// @title SpikeASC — throwaway G0-A receiver on Creditcoin CC3.
+/// @title SpikeASC - throwaway G0-A receiver on Creditcoin CC3.
 /// @notice Instrumented copy of the official ASCBase pipeline. Every gate emits, so a
 ///         failed submission tells us WHICH gate rejected it rather than just reverting.
 ///         Shares no code with ASCReceiver.sol. This exists to be measured, then deleted.
@@ -96,11 +96,11 @@ contract SpikeASC {
         (bytes32 queryId, uint64 txIndex) =
             computeQueryId(chainKey, blockHeight, merkleRoot, siblings);
 
-        // GATE 1 — replay. Derived key, so a spoofed txHash cannot bypass it.
+        // GATE 1 - replay. Derived key, so a spoofed txHash cannot bypass it.
         if (processedQueries[queryId]) revert AlreadyProcessed(queryId);
         emit GatePassed(queryId, 1, "replay");
 
-        // GATE 2 — proof verification via the precompile.
+        // GATE 2 - proof verification via the precompile.
         {
             INativeQueryVerifier.MerkleProof memory mp =
                 INativeQueryVerifier.MerkleProof({root: merkleRoot, siblings: siblings});
@@ -118,24 +118,24 @@ contract SpikeASC {
         // Mark AFTER verification, matching ASCBase: a bad proof must not burn the key.
         processedQueries[queryId] = true;
 
-        // GATE 3 — transaction type.
+        // GATE 3 - transaction type.
         uint8 txType = EvmV1Decoder.getTransactionType(encodedTransaction);
         if (!EvmV1Decoder.isValidTransactionType(txType)) revert BadTxType(txType);
         emit GatePassed(queryId, 3, "txType");
 
-        // GATE 4 — receipt status. Required by Attestcoin ASC security guidance.
+        // GATE 4 - receipt status. Required by Attestcoin ASC security guidance.
         EvmV1Decoder.ReceiptFields memory receipt =
             EvmV1Decoder.decodeReceiptFields(encodedTransaction);
         if (receipt.receiptStatus != 1) revert TxDidNotSucceed(receipt.receiptStatus);
         emit GatePassed(queryId, 4, "receiptStatus");
 
-        // GATE 5 — locate our logs. One transaction can carry many.
+        // GATE 5 - locate our logs. One transaction can carry many.
         EvmV1Decoder.LogEntry[] memory logs =
             EvmV1Decoder.getLogsByEventSignature(receipt, SPIKE_PING_SIG);
         if (logs.length == 0) revert NoMatchingLogs();
         emit GatePassed(queryId, 5, "logsFound");
 
-        // GATE 6 — every log must come from the authorized emitter.
+        // GATE 6 - every log must come from the authorized emitter.
         address expected = authorizedSource[chainKey];
         for (uint256 i = 0; i < logs.length; i++) {
             if (logs[i].address_ != expected) {

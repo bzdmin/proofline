@@ -9,7 +9,7 @@ const ETYPE = ['ObligationCreated', 'ObligationSettled', 'ObligationOverdue', 'O
 const ETYPE_LABEL = ['Invoice issued', 'Settled', 'Marked overdue', 'Defaulted'];
 
 const usd = (x) => '$' + Number(x / 1000000n).toLocaleString();
-const short = (h) => h ? h.slice(0, 10) + '…' + h.slice(-6) : '—';
+const short = (h) => h ? h.slice(0, 10) + '…' + h.slice(-6) : ' - ';
 
 let CFG, ABIS, state = { selected: 0 };
 
@@ -103,7 +103,7 @@ function render(d) {
           <div class="pipe" id="pipe"></div>
           <div class="note-box">
             Attestation measured at <b>7.96 min</b> on this history. The delay is a protocol
-            characteristic, not a loading spinner &mdash; the interface shows it rather than
+            characteristic, not a loading spinner - the interface shows it rather than
             pretending verification is synchronous.
           </div>
         </div>
@@ -148,7 +148,7 @@ function renderChain(e) {
 
   document.getElementById('chain').innerHTML = `<div class="chain">
     ${step(1, 'Ethereum transaction',
-        sepTx ? `<a href="${CFG.sepoliaExplorer}/tx/${sepTx}" target="_blank">${short(sepTx)}</a>` : '—',
+        sepTx ? `<a href="${CFG.sepoliaExplorer}/tx/${sepTx}" target="_blank">${short(sepTx)}</a>` : ' - ',
         'Real mUSD moved. The source contract could not have emitted this otherwise.')}
     ${step(2, 'Attested block', `height ${e.blockHeight} · tx index ${e.txIndex}`,
         'txIndex derived by the precompile from the Merkle proof, not supplied by the caller.')}

@@ -3,11 +3,11 @@ pragma solidity ^0.8.28;
 
 import {File, Tier} from "./Types.sol";
 
-/// @title UnderwritingLib — ProofLine's credit policy.
+/// @title UnderwritingLib - ProofLine's credit policy.
 ///
 /// @notice Deterministic and transparent. Every function is `internal pure`, so the library
 ///         inlines into CreditFile at compile time: four deployed contracts, no extra address
-///         to wire, no cross-contract call — while the policy stays in its own readable,
+///         to wire, no cross-contract call - while the policy stays in its own readable,
 ///         independently testable file. It is the first thing a reviewer should open.
 ///
 ///         The policy reads a File and returns terms. It never reads storage, never reads
@@ -44,7 +44,7 @@ library UnderwritingLib {
     ///
     /// Rungs below TRUSTED carry no on-time condition of their own: anything under 80% has
     /// already been caught by the WATCH check above them, so restating the floor would be
-    /// redundant. `recentLate` deliberately does not exist — it would need "recent" defined
+    /// redundant. `recentLate` deliberately does not exist - it would need "recent" defined
     /// and a rolling window stored, where openDelinquencies and the ratio give the same
     /// behaviour with no bookkeeping.
     function tierOf(File memory f) internal pure returns (Tier) {
@@ -84,7 +84,7 @@ library UnderwritingLib {
     /// The throttle is gated on currentLimit rather than settled so it is independent of the
     /// order in which counters move: with no previous limit there is nothing to throttle
     /// against, and the first settlement must not be capped. `min` never blocks a decrease,
-    /// so a tier drop lands on the same block — smoothing on the way down would be a bug.
+    /// so a tier drop lands on the same block - smoothing on the way down would be a bug.
     function limitOf(File memory f, uint256 capacity) internal pure returns (uint256 lim) {
         lim = capacity;
         if (lim > MAX_EXPOSURE_PER_BORROWER) lim = MAX_EXPOSURE_PER_BORROWER;

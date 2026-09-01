@@ -3,11 +3,11 @@ pragma solidity ^0.8.28;
 
 import {INativeQueryVerifier} from "../../src/Types.sol";
 
-/// @title MockVerifier — stand-in for the Attestcoin precompile at 0x...0FD2.
+/// @title MockVerifier - stand-in for the Attestcoin precompile at 0x...0FD2.
 /// @notice The precompile is native and does not exist in a Foundry EVM, so gate-level
 ///         unit tests etch this at that address instead.
 ///
-///         IMPORTANT — this mock proves NOTHING about the protocol. It exists to make our
+///         IMPORTANT - this mock proves NOTHING about the protocol. It exists to make our
 ///         six gates deterministically testable. The real-network evidence lives in
 ///         evidence/G0-A/, and the two must never be conflated:
 ///

@@ -4,13 +4,13 @@ pragma solidity ^0.8.28;
 import {File, CreditEvent, CreditEventType} from "./Types.sol";
 import {UnderwritingLib} from "./UnderwritingLib.sol";
 
-/// @title AccountingLib — the credit file as a pure state transition.
+/// @title AccountingLib - the credit file as a pure state transition.
 ///
 /// @notice `applyEvent` takes a File and a verified event and returns the next File. It reads
 ///         no storage, so the whole accounting model is deterministic and fuzzable.
 ///
-///         Two questions genuinely need set membership — is this counterparty new, and has
-///         this obligation already been counted — so CreditFile resolves them against its
+///         Two questions genuinely need set membership - is this counterparty new, and has
+///         this obligation already been counted - so CreditFile resolves them against its
 ///         mappings and passes the answers in. The arithmetic stays pure; the sets stay
 ///         where sets belong.
 ///
@@ -28,7 +28,7 @@ library AccountingLib {
     /// Returns a NEW File. Does not mutate the input.
     ///
     /// `File memory` is a reference type in Solidity, so a version that mutated in place
-    /// would silently alias for any caller holding the prior state — branching two outcomes
+    /// would silently alias for any caller holding the prior state - branching two outcomes
     /// from one file would corrupt both. Caught by test_theDownsideFork. The copy costs a
     /// little gas and buys a function that behaves the way its signature reads.
     function applyEvent(
@@ -77,7 +77,7 @@ library AccountingLib {
             }
 
         } else if (e.eventType == CreditEventType.ObligationOverdue) {
-            // Not a settlement outcome — live delinquency. The receivable is still
+            // Not a settlement outcome - live delinquency. The receivable is still
             // outstanding and can still settle either way.
             f.openDelinquencies += 1;
 

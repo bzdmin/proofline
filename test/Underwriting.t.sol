@@ -5,11 +5,11 @@ import {Test} from "forge-std/Test.sol";
 import {UnderwritingLib as U} from "../src/UnderwritingLib.sol";
 import {File, Terms, Tier} from "../src/Types.sol";
 
-/// @title Underwriting — the credit policy as executable specification.
+/// @title Underwriting - the credit policy as executable specification.
 ///
 /// @notice Pure functions over a File. No Attestcoin, no storage, no mocks: every case here
-///         is deterministic. Assertions are on externally meaningful outcomes — tier, rate,
-///         capacity, limit, drawable — never on internal variables, so the suite survives a
+///         is deterministic. Assertions are on externally meaningful outcomes - tier, rate,
+///         capacity, limit, drawable - never on internal variables, so the suite survives a
 ///         refactor of how the library computes them.
 contract UnderwritingTest is Test {
     uint256 constant M = 1e6; // mUSD has 6 decimals
