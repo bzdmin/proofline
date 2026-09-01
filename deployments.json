@@ -1,0 +1,23 @@
+{
+  "deployedAt": "2026-09-01T15:45:33.393Z",
+  "deployer": "0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA",
+  "sepolia": {
+    "chainKey": 1,
+    "mUSD": "0x1Fd9658993573E73AE439c1BeDd902c2E5142153",
+    "Receivable": "0x047F1cdAC2A9007188b2A8B9ffB5Ce171B88EF7c",
+    "grace": 600
+  },
+  "cc3": {
+    "CreditFile": "0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a",
+    "ASCReceiver": "0x968E2BFEe40982EDB0595be7B9e0E73933d87170",
+    "mUSD": "0x90A95bb62DEB47BF0614d274e7A526797168f907",
+    "Treasury": "0x0cb2A0162ed7D5eE8fEf48A9AcE12fAdcbd24e40",
+    "CreditAccess": "0x49DdB1b11a953BcD9894F2816878aa1a50DAb869"
+  },
+  "eventSignatures": {
+    "InvoiceIssued": "0x09d555faeff2a61faa46ab5093918c4f0470ded857da3cac11058c87cc72b1ad",
+    "InvoicePaid": "0x0156fb6def6bdf0735ac0387fd6464d28f62109ed633fdc1263738079170d1d3",
+    "InvoiceLate": "0x11ed2ad5a489bc8c479207eccb5bca54f08740a2d9a2d01ff836959bad912c94",
+    "InvoiceDefaulted": "0x250ef66bc5865f26c9577ee667d573dce33e9280691c84a65e7743e0d71a017f"
+  }
+}

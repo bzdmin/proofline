@@ -1,0 +1,28 @@
+{
+  "label": "BEFORE ANY PROOF",
+  "at": "2026-09-01T16:13:10.004Z",
+  "borrower": "0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA",
+  "creditFile": {
+    "settled": 0,
+    "onTime": 0,
+    "defaults": 0,
+    "openDelinquencies": 0,
+    "counterparties": 0,
+    "verifiedVolume": 0,
+    "outstandingReceivables": 0,
+    "maxSettledAmount": 0,
+    "currentLimit": 0,
+    "recordedEvents": 0
+  },
+  "treasuryTerms": {
+    "tier": "NEW",
+    "advanceBps": 5000,
+    "aprBps": 1800,
+    "capacity": 0,
+    "limit": 0,
+    "drawable": 0
+  },
+  "creditAccess": {
+    "requiredDepositBps": 10000
+  }
+}

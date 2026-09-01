@@ -1,0 +1,30 @@
+{
+  "startedAt": "2026-09-01T15:46:34.905Z",
+  "steps": [
+    {
+      "BEFORE ANY PROOF": {
+        "settled": 0,
+        "onTime": 0,
+        "outstanding": "0",
+        "maxSettled": "0",
+        "counterparties": 0,
+        "tier": "NEW",
+        "advanceBps": 5000,
+        "aprBps": 1800,
+        "capacity": "0",
+        "limit": "0",
+        "drawable": "0",
+        "creditAccessDepositBps": 10000
+      }
+    },
+    {
+      "sepolia": {
+        "invoiceId": 1,
+        "amount": "12,000",
+        "issueTx": "0x145a97b70929ab144369240471158ecff2155e2d99378ac79f8fcce4da257051",
+        "payTx": "0x6d909c470c9be3fc0226ce05e00d770b6eaa62ba6b35ee78bf2e71c30b0b64e3",
+        "valueMoved": "12,000"
+      }
+    }
+  ]
+}

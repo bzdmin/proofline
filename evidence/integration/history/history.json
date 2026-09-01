@@ -1,0 +1,103 @@
+{
+  "completedAt": "2026-09-01T18:18:20.446Z",
+  "borrower": "0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA",
+  "buyers": {
+    "A": "0x8468d2eB6cB8CE29D756EFD2B733a9d002F3FbE1",
+    "B": "0xa8e704E9Aad73E46f63D038f30af7273A96dfc26",
+    "C": "0x7Ff3548fBEC57653cAC9C4f18E8e118D4cd13590"
+  },
+  "note": "Settlement #1 is evidence/integration/run-001. Settlements #2-#5 are here.",
+  "attestation": {
+    "ok": true,
+    "minutes": 7.96,
+    "attempts": 1,
+    "transientErrors": 0
+  },
+  "ingestGas": {
+    "count": 8,
+    "total": 2571981,
+    "mean": 321498
+  },
+  "progression": [
+    {
+      "label": "after settlement of invoice #2",
+      "settled": 2,
+      "onTime": 2,
+      "counterparties": 2,
+      "outstanding": 0,
+      "maxSettled": 12000,
+      "verifiedVolume": 20000,
+      "tier": "STANDARD",
+      "advanceBps": 6000,
+      "aprBps": 1600,
+      "capacity": 7200,
+      "limit": 7200,
+      "drawable": 0,
+      "depositBps": 7500
+    },
+    {
+      "label": "after settlement of invoice #3",
+      "settled": 3,
+      "onTime": 3,
+      "counterparties": 3,
+      "outstanding": 0,
+      "maxSettled": 12000,
+      "verifiedVolume": 30000,
+      "tier": "GOOD",
+      "advanceBps": 7000,
+      "aprBps": 1400,
+      "capacity": 8400,
+      "limit": 8400,
+      "drawable": 0,
+      "depositBps": 4000
+    },
+    {
+      "label": "after settlement of invoice #4",
+      "settled": 4,
+      "onTime": 4,
+      "counterparties": 3,
+      "outstanding": 0,
+      "maxSettled": 12000,
+      "verifiedVolume": 37000,
+      "tier": "GOOD",
+      "advanceBps": 7000,
+      "aprBps": 1400,
+      "capacity": 8400,
+      "limit": 8400,
+      "drawable": 0,
+      "depositBps": 4000
+    },
+    {
+      "label": "after settlement of invoice #5",
+      "settled": 5,
+      "onTime": 5,
+      "counterparties": 3,
+      "outstanding": 0,
+      "maxSettled": 12000,
+      "verifiedVolume": 46000,
+      "tier": "TRUSTED",
+      "advanceBps": 8000,
+      "aprBps": 1200,
+      "capacity": 9600,
+      "limit": 9600,
+      "drawable": 0,
+      "depositBps": 0
+    }
+  ],
+  "final": {
+    "label": "FINAL",
+    "settled": 5,
+    "onTime": 5,
+    "counterparties": 3,
+    "outstanding": 0,
+    "maxSettled": 12000,
+    "verifiedVolume": 46000,
+    "tier": "TRUSTED",
+    "advanceBps": 8000,
+    "aprBps": 1200,
+    "capacity": 9600,
+    "limit": 9600,
+    "drawable": 0,
+    "depositBps": 0
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "attempt": {
+    "at": "2026-09-01T16:16:19.561Z",
+    "state": "REJECTED",
+    "msg": "InvoiceDefaulted: AlreadyProcessed(0x86693c190805b5cba74ccffecf64ee725310eadbb2aa18112c722c584c54c13f)",
+    "txHash": "0x6d909c470c9be3fc0226ce05e00d770b6eaa62ba6b35ee78bf2e71c30b0b64e3",
+    "eventName": "InvoiceDefaulted",
+    "reason": "AlreadyProcessed(0x86693c190805b5cba74ccffecf64ee725310eadbb2aa18112c722c584c54c13f)"
+  },
+  "stateAfter": {
+    "label": "AFTER FALSE-EVENT ATTEMPT",
+    "at": "2026-09-01T16:16:20.500Z",
+    "borrower": "0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA",
+    "creditFile": {
+      "settled": 1,
+      "onTime": 1,
+      "defaults": 0,
+      "openDelinquencies": 0,
+      "counterparties": 1,
+      "verifiedVolume": 12000,
+      "outstandingReceivables": 0,
+      "maxSettledAmount": 12000,
+      "currentLimit": 7200,
+      "recordedEvents": 2
+    },
+    "treasuryTerms": {
+      "tier": "STANDARD",
+      "advanceBps": 6000,
+      "aprBps": 1600,
+      "capacity": 7200,
+      "limit": 7200,
+      "drawable": 0
+    },
+    "creditAccess": {
+      "requiredDepositBps": 7500
+    }
+  },
+  "downstreamUnchanged": true
+}

@@ -1,0 +1,46 @@
+{
+  "proof": {
+    "at": "2026-09-01T16:14:02.857Z",
+    "state": "VERIFIED",
+    "msg": "InvoicePaid: 1 credit event(s), gas 411575",
+    "txHash": "0x6d909c470c9be3fc0226ce05e00d770b6eaa62ba6b35ee78bf2e71c30b0b64e3",
+    "eventName": "InvoicePaid",
+    "chainKey": 1,
+    "blockHeight": 11613587,
+    "txIndex": 100,
+    "proofBuildMs": 2287,
+    "attestationMinutes": 0.11,
+    "transientErrors": 0,
+    "cc3Tx": "0xccfa6c553cc889463918fbdc5ecfbd71aae915ab73ef0cb687ccfae50d51c875",
+    "gasUsed": "411575",
+    "creditEventsCreated": 1
+  },
+  "state": {
+    "label": "AFTER InvoicePaid PROVEN",
+    "at": "2026-09-01T16:14:04.294Z",
+    "borrower": "0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA",
+    "creditFile": {
+      "settled": 1,
+      "onTime": 1,
+      "defaults": 0,
+      "openDelinquencies": 0,
+      "counterparties": 1,
+      "verifiedVolume": 12000,
+      "outstandingReceivables": 0,
+      "maxSettledAmount": 12000,
+      "currentLimit": 7200,
+      "recordedEvents": 2
+    },
+    "treasuryTerms": {
+      "tier": "STANDARD",
+      "advanceBps": 6000,
+      "aprBps": 1600,
+      "capacity": 7200,
+      "limit": 7200,
+      "drawable": 0
+    },
+    "creditAccess": {
+      "requiredDepositBps": 7500
+    }
+  }
+}

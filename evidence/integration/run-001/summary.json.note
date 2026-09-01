@@ -1,0 +1,13 @@
+DEFECT FOUND DURING run-001 (fixed immediately after)
+
+The worker's withRetry helper retried ALL failures, including contract reverts.
+A deterministic AlreadyProcessed revert was therefore logged twice as PROVER_RETRY
+before being correctly classified REJECTED.
+
+Final classification was right; the intermediate log lines in this run are wrong.
+They are left in place rather than edited, since this directory records what
+happened. run-002 onward uses the corrected classifier, which rethrows a revert
+immediately instead of retrying it.
+
+This is the exact conflation the state machine exists to prevent, reintroduced by
+the retry wrapper added to fix a different problem.

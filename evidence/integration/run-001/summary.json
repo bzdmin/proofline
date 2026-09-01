@@ -1,0 +1,47 @@
+{
+  "run": "run-001",
+  "finishedAt": "2026-09-01T16:16:20.501Z",
+  "sepolia": {
+    "invoiceId": 1,
+    "amount": "12,000",
+    "issueTx": "0x145a97b70929ab144369240471158ecff2155e2d99378ac79f8fcce4da257051",
+    "payTx": "0x6d909c470c9be3fc0226ce05e00d770b6eaa62ba6b35ee78bf2e71c30b0b64e3",
+    "valueMoved": "12,000"
+  },
+  "transitions": [
+    {
+      "step": "InvoiceIssued",
+      "state": "VERIFIED",
+      "creditEvents": 1,
+      "cc3Tx": "0x416cea919578dc6d76a7d53557c386c07cffab9c667868a263ea6fbc04cd79a8"
+    },
+    {
+      "step": "InvoicePaid",
+      "state": "VERIFIED",
+      "creditEvents": 1,
+      "cc3Tx": "0xccfa6c553cc889463918fbdc5ecfbd71aae915ab73ef0cb687ccfae50d51c875"
+    }
+  ],
+  "rejections": [
+    {
+      "step": "replay",
+      "state": "REJECTED",
+      "reason": "AlreadyProcessed(0x86693c190805b5cba74ccffecf64ee725310eadbb2aa18112c722c584c54c13f)",
+      "downstreamUnchanged": true
+    },
+    {
+      "step": "fake-event",
+      "state": "REJECTED",
+      "reason": "AlreadyProcessed(0x86693c190805b5cba74ccffecf64ee725310eadbb2aa18112c722c584c54c13f)",
+      "downstreamUnchanged": true
+    }
+  ],
+  "finalTerms": {
+    "tier": "STANDARD",
+    "advanceBps": 6000,
+    "aprBps": 1600,
+    "capacity": 7200,
+    "limit": 7200,
+    "drawable": 0
+  }
+}

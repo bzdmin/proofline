@@ -1,0 +1,88 @@
+{
+  "emittedAt": "2026-09-01T18:07:26.962Z",
+  "note": "settlement #1 is evidence/integration/run-001 - not repeated here",
+  "buyers": {
+    "A": "0x8468d2eB6cB8CE29D756EFD2B733a9d002F3FbE1",
+    "B": "0xa8e704E9Aad73E46f63D038f30af7273A96dfc26",
+    "C": "0x7Ff3548fBEC57653cAC9C4f18E8e118D4cd13590"
+  },
+  "blockSpan": {
+    "from": 11614243,
+    "to": 11614252,
+    "span": 9
+  },
+  "events": [
+    {
+      "seq": 1,
+      "invoiceId": 2,
+      "event": "InvoiceIssued",
+      "txHash": "0x1266945c4781eaa1d6cbe6405775e0811bef243032b300f99d946bd451530ed4",
+      "block": 11614243,
+      "buyer": "B",
+      "amount": 8000
+    },
+    {
+      "seq": 2,
+      "invoiceId": 2,
+      "event": "InvoicePaid",
+      "txHash": "0x396e50e5770fb1762fc16ed1f0f9e486af04094cd676374394ae82f38bf4b59d",
+      "block": 11614245,
+      "buyer": "B",
+      "amount": 8000
+    },
+    {
+      "seq": 3,
+      "invoiceId": 3,
+      "event": "InvoiceIssued",
+      "txHash": "0x71e6344f61fba55af790d67a13966dcf7d2a55e9a11d562672b6b50939428708",
+      "block": 11614246,
+      "buyer": "C",
+      "amount": 10000
+    },
+    {
+      "seq": 4,
+      "invoiceId": 3,
+      "event": "InvoicePaid",
+      "txHash": "0xebe0c17aa12009daa19397eff35948e260878e95da655b0059773b8d4afaed4c",
+      "block": 11614247,
+      "buyer": "C",
+      "amount": 10000
+    },
+    {
+      "seq": 5,
+      "invoiceId": 4,
+      "event": "InvoiceIssued",
+      "txHash": "0x7e77d9394b00bf9d4249c79b08b9f6f183ff7e39738de460e8ee5bbd62f564c8",
+      "block": 11614248,
+      "buyer": "A",
+      "amount": 7000
+    },
+    {
+      "seq": 6,
+      "invoiceId": 4,
+      "event": "InvoicePaid",
+      "txHash": "0x4a17e498091f926c61a72cce0e9cbdb57d788ae7850db13c1e24f48d356f1c73",
+      "block": 11614249,
+      "buyer": "A",
+      "amount": 7000
+    },
+    {
+      "seq": 7,
+      "invoiceId": 5,
+      "event": "InvoiceIssued",
+      "txHash": "0xa067515aca5a625021cd19478b6492bb94ac04b39738ed96cb102633a3d92637",
+      "block": 11614250,
+      "buyer": "B",
+      "amount": 9000
+    },
+    {
+      "seq": 8,
+      "invoiceId": 5,
+      "event": "InvoicePaid",
+      "txHash": "0x3141fd1f4815eceec4120bdfda162c95bf3bc608a8d49d0a79a8306ea98da102",
+      "block": 11614252,
+      "buyer": "B",
+      "amount": 9000
+    }
+  ]
+}
