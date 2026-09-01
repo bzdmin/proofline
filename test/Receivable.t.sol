@@ -178,6 +178,28 @@ contract ReceivableTest is Test {
         assertEq(nominated, buyerA, "nomination still recoverable from issuance");
     }
 
+    /// The payer must be registered too. Without this, counterparty diversity - the anti-Sybil
+    /// control behind the TRUSTED tier - can be manufactured from fresh addresses for free.
+    function test_unregisteredPayerRejected() public {
+        uint256 id = _issue(10_000 * M);
+        address stranger = address(0xC0FFEE);
+        usd.mint(stranger, 100_000 * M);
+        vm.prank(stranger); usd.approve(address(r), type(uint256).max);
+
+        vm.prank(stranger);
+        vm.expectRevert(abi.encodeWithSelector(Receivable.BuyerNotRegistered.selector, stranger));
+        r.payInvoice(id);
+        assertTrue(r.stateOf(id) == InvoiceState.Open);
+    }
+
+    /// A registered third party settling on the nominated buyer's behalf remains legitimate.
+    function test_registeredThirdPartyMayPay() public {
+        uint256 id = _issue(10_000 * M);
+        vm.prank(buyerB);           // registered, but not the nominated buyer
+        r.payInvoice(id);
+        assertTrue(r.stateOf(id) == InvoiceState.Paid);
+    }
+
     // ------------------------------------------------------- temporal guards
 
     function test_markLateBeforeDueDateReverts() public {

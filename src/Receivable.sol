@@ -110,6 +110,11 @@ contract Receivable {
             revert WrongState(inv.state);
         }
         if (msg.sender == inv.seller) revert SelfPayment();
+        // The PAYER must be registered, not merely the nominated buyer. The credit file
+        // counts whoever actually moved the money, so leaving the payer unchecked would let
+        // a seller manufacture counterparty diversity from fresh unregistered addresses -
+        // defeating the TRUSTED gate's three-counterparty requirement at zero cost.
+        if (!registeredBuyer[msg.sender]) revert BuyerNotRegistered(msg.sender);
 
         uint256 before = IERC20(inv.token).balanceOf(address(this));
         IERC20(inv.token).transferFrom(msg.sender, address(this), inv.amount);
