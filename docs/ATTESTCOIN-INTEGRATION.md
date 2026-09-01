@@ -217,6 +217,7 @@ setter, so the system retains exactly one privileged call: `setAuthorizedSource`
 ## 9. Reproducing this
 
 ```bash
+npm install                    # Attestcoin SDK and contracts
 forge test                     # 118 tests, incl. real captured Attestcoin proofs
 node script/deploy.mjs         # both networks
 node script/history-emit.mjs   # real economic facts on Sepolia

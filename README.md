@@ -120,9 +120,12 @@ an inference we later disproved and corrected in place.
 ## Run it
 
 ```bash
+npm install                     # Attestcoin SDK and contracts
 forge test                      # 118 tests, incl. real captured Attestcoin proofs
 node ui/serve.mjs               # read the live credit file in a browser
 ```
+
+`forge-std` is vendored, so a plain `git clone` is enough - no submodule init.
 
 Full pipeline against your own testnet keys:
 
