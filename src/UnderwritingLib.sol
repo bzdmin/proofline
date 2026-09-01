@@ -14,6 +14,21 @@ import {File, Tier} from "./Types.sol";
 ///         time, and never depends on who is calling. Given the same history it always
 ///         produces the same credit decision, which is the property that makes a proof-backed
 ///         credit file worth having.
+///         ---------------------------------------------------------------------------
+///         POLICY, NOT PROTOCOL.
+///
+///         Everything below is *ProofLine's initial underwriting policy*, not a Creditcoin
+///         standard and not part of the primitive. "Five settlements across three
+///         counterparties" is a threshold we chose for a testnet demonstration; a different
+///         lender consuming the same CreditFile would reasonably choose differently.
+///
+///         The reusable part is the separation:
+///             verified event history  ->  deterministic function  ->  terms
+///
+///         The primitive is CreditFile plus that shape. This library is one instantiation
+///         of it. Any consumer may read the raw File and price it however it likes; nothing
+///         in the architecture requires agreement with these numbers.
+///         ---------------------------------------------------------------------------
 library UnderwritingLib {
     uint256 internal constant MIN_QUALIFYING_AMOUNT      =  1_000e6;
     uint256 internal constant MAX_EXPOSURE_PER_BORROWER  = 25_000e6;
