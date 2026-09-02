@@ -1,3 +1,5 @@
+<img src="docs/assets/proofline-logo.png" alt="ProofLine" width="180">
+
 # ProofLine
 
 **ProofLine turns verified economic events on Ethereum into reusable credit state on
