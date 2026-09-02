@@ -202,11 +202,16 @@ Requires Foundry `v1.2.3` (the version the Attestcoin examples pin) and Node 20+
 
 ## Limitations, stated plainly
 
-- **Ethereum mainnet is measured, not integrated.** ProofLine's six gates were run against a
-  real mainnet transaction emitted by a contract we do not control, and all six passed
-  ([`evidence/mainnet/`](evidence/mainnet/)). Mainnet is **not** a source for the credit file
-  and cannot be without redeploying the primitive, since `CreditFile.receiver` is immutable.
-  The verified history is Sepolia only, and that is disclosed above.
+- **Ethereum mainnet: the verification boundary has been exercised, the credit file has not.**
+  ProofLine's six gates were run against a real mainnet transaction emitted by a contract we
+  do not control, and all six passed ([`evidence/mainnet/`](evidence/mainnet/)). **The
+  production `CreditFile` currently ingests the configured Sepolia source only.**
+
+  That is a deliberate invariant rather than a missing feature: `CreditFile` has exactly one
+  authoritative writer, fixed at construction. We kept the production credit state immutable
+  and auditable rather than adding a second writer late in the build, and tested mainnet at
+  the verification boundary instead of contaminating the production evidence. The same
+  primitive extends through a future governed ingress design.
 - **Batch proving tested, not relied upon.** `getBatchProof` returned success with an empty
   proof set for our already-attested transactions, so `verifyBatch` was not exercisable. The
   single-proof path works for the same hashes. Recorded with a control in
