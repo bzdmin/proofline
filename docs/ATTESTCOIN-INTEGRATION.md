@@ -212,7 +212,16 @@ setter, so the system retains exactly one privileged call: `setAuthorizedSource`
   routed to repayment on Creditcoin and the receivable cannot be seized. Enforcement is the
   credit file: a proven default freezes the borrower permanently. This is deliberate -
   ProofLine prices unsecured credit from verified behaviour rather than seizing collateral.
-- **Mainnet (chainKey 3) is not integrated.** Supported by the protocol, out of scope here.
+- **Mainnet (chainKey 3) is measured, not integrated. [MEAS]** The six gates were run against
+  a real mainnet transaction - USDT `0xb7f01725...`, emitted by a contract we do not control,
+  on a chain we deployed nothing to - and **all six passed**, verified on CC3 as
+  `0xe97997b3...` for 125,398 gas against Sepolia's 126,854. The pipeline is chain-agnostic in
+  fact. It is **not** a source for the credit file: `CreditFile.receiver` is immutable, so
+  adding one means redeploying the primitive and invalidating every hash in this document.
+  A first attempt was correctly rejected with `UnauthorizedSource` because the transaction was
+  a DEX swap whose first `Transfer` came from WETH rather than the token we authorised - source
+  authorisation working against real-world data. Full detail:
+  [`evidence/mainnet/`](../evidence/mainnet/).
 
 ## 9. Reproducing this
 

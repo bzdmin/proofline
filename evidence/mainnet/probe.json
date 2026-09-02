@@ -1,0 +1,39 @@
+{
+  "ranAt": "2026-09-02T00:13:04.321Z",
+  "chainKey": 3,
+  "attestedHeight": 25885902,
+  "headAtRun": 25885942,
+  "lagBlocks": 40,
+  "target": {
+    "hash": "0xb7f01725a99b599a47f62a53bb82f20ad46aa17f441e301ed7f0ea6c4aa50f32",
+    "block": 25885902,
+    "emitter": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "transferLogs": 1,
+    "from": "0x000000000000000000000000c164295b5064cfd7183b414357f25870e1d383c0",
+    "to": "0x000000000000000000000000654de8a1b6f2b2f8de8c32b7b5b50d401d3fc897"
+  },
+  "proof": {
+    "ms": 656,
+    "headerNumber": 25885902,
+    "txIndex": 1,
+    "siblings": 8,
+    "continuityRoots": 9
+  },
+  "probe": "0x739b5F73BB145C74e739B3F03647b82d7AbD925F",
+  "result": {
+    "verified": true,
+    "cc3Tx": "0xe97997b3653cdd4c4cbd59d009e9b3ce0dbe300ed5d9ee2fda25f81e175eb0f3",
+    "gasUsed": "125398",
+    "gates": [
+      "1:replay",
+      "2:verifyAndEmit",
+      "3:txType",
+      "4:receiptStatus",
+      "5:logsFound",
+      "6:sourceAuthorized"
+    ],
+    "emitter": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "logCount": 1
+  },
+  "verdict": "Ethereum mainnet transaction verified on Creditcoin through the same six gates"
+}

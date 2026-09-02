@@ -174,6 +174,8 @@ and records where we were wrong.
 | [`evidence/integration/run-001/`](evidence/integration/run-001/) | First end-to-end round trip, with both rejection paths asserting zero downstream mutation |
 | [`evidence/integration/history/`](evidence/integration/history/) | The five settlements and the tier progression |
 | [`evidence/integration/borrow/`](evidence/integration/borrow/) | Borrow and repayment, ten assertions |
+| [`evidence/mainnet/`](evidence/mainnet/) | Six gates run against a real Ethereum mainnet transaction |
+| [`evidence/G0-B/`](evidence/G0-B/) | Batch proving tested on our path, with a control |
 | [`docs/ATTESTCOIN-INTEGRATION.md`](docs/ATTESTCOIN-INTEGRATION.md) | **Attestcoin Protocol Integration Summary** |
 
 **Measured, not assumed:** attestation takes 7.96-8.7 minutes; production ingest averages
@@ -200,6 +202,11 @@ Requires Foundry `v1.2.3` (the version the Attestcoin examples pin) and Node 20+
 
 ## Limitations, stated plainly
 
+- **Ethereum mainnet is measured, not integrated.** ProofLine's six gates were run against a
+  real mainnet transaction emitted by a contract we do not control, and all six passed
+  ([`evidence/mainnet/`](evidence/mainnet/)). Mainnet is **not** a source for the credit file
+  and cannot be without redeploying the primitive, since `CreditFile.receiver` is immutable.
+  The verified history is Sepolia only, and that is disclosed above.
 - **Batch proving tested, not relied upon.** `getBatchProof` returned success with an empty
   proof set for our already-attested transactions, so `verifyBatch` was not exercisable. The
   single-proof path works for the same hashes. Recorded with a control in
