@@ -25,4 +25,8 @@ server.on('error', (e) => {
     process.exit(1);
   }
 });
-server.listen(port, () => console.log(`ProofLine ui on http://localhost:${port}`));
+server.listen(port, () => {
+  console.log(`ProofLine ui on http://localhost:${port}`);
+  console.log('  read-only. no wallet, no test tokens, no deployment, no API key.');
+  console.log('  reads the deployed Sepolia and Creditcoin CC3 contracts live.');
+});

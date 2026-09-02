@@ -21,10 +21,12 @@ npm install
 node ui/serve.mjs
 ```
 
-The server prints the URL. On a free machine that is:
+The server prints the URL and what the page is:
 
 ```
 ProofLine ui on http://localhost:4173
+  read-only. no wallet, no test tokens, no deployment, no API key.
+  reads the deployed Sepolia and Creditcoin CC3 contracts live.
 ```
 
 If something already holds that port it steps to the next one and prints that instead. **Open
