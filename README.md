@@ -7,41 +7,64 @@ ProofLine is the reference application. `CreditFile` is the primitive.
 
 ---
 
-## Judge path
+## Run the DApp
 
-Eight steps, about five minutes, no wallet and no API key. Everything you see is read live
-from deployed contracts.
+The DApp connects to the **already-deployed** testnet contracts. No wallet, no test tokens,
+no deployment, no API key and no environment variables are required to inspect the live
+state.
 
 ```bash
 git clone https://github.com/bzdmin/proofline.git && cd proofline
-npm install          # Attestcoin SDK and contracts
-forge test           # 118 tests, including real captured Attestcoin proofs
-node ui/serve.mjs    # then open http://localhost:4173
+npm install
+node ui/serve.mjs
+```
+
+The server prints the URL. On a free machine that is:
+
+```
+ProofLine ui on http://localhost:4173
+```
+
+If something already holds that port it steps to the next one and prints that instead. **Open
+whichever URL it printed.**
+
+### Judge path
+
+Roughly five minutes, entirely read-only.
+
+1. **See the live credit state.** TRUSTED, 80% advance, 12% APR.
+2. **Click "Why these terms?"** Five settlements, three counterparties, 100% on-time, zero
+   delinquencies, zero defaults, $12,000 largest proven settlement.
+3. **Read the derivation.** 80% of $12,000 = $9,600 capacity. Being paid earns capacity;
+   issuing an invoice does not.
+4. **Click a settlement** in the verified history.
+5. **Follow the evidence chain.** Ethereum transaction, attested block and
+   precompile-derived `txIndex`, the six verification gates, the authorised source, the
+   credit file write. The Ethereum link opens on Etherscan.
+6. **Compare the two groups.** *Earned from verified history / CreditFile* against *This
+   consumer / Treasury*. The first depends only on what has been proven; the second is
+   Treasury's own state.
+7. **Open the CreditAccess panel.** An independent application reading the same credit file
+   through `tier` alone, with no Treasury import and no invoice knowledge.
+
+You are not asked to connect a wallet or send a transaction. The state-changing lifecycle -
+five settlements, a $6,300 draw and a $3,150 repayment - already happened on-chain and is
+recorded with transaction hashes in [`evidence/`](evidence/).
+
+---
+
+## Verify the implementation
+
+```bash
+forge test          # 118 tests, including real captured Attestcoin proofs
 ```
 
 `forge-std` is vendored, so a plain clone is enough. No `--recursive`, no submodule init.
 
-Then, in the interface:
-
-1. **Read the tier.** TRUSTED, 80% advance, 12% APR. This borrower earned it.
-2. **Click "Why these terms?"** Every condition behind the tier, read from the credit file.
-3. **Read the capacity line.** 80% of the largest settlement ever *proven* - being paid is
-   what earns capacity, not invoicing.
-4. **Click any settlement** in the verified history.
-5. **Follow the evidence chain**: Ethereum transaction, attested block and precompile-derived
-   `txIndex`, the six verification gates, the authorized source, the credit file write.
-6. **Open the Ethereum transaction.** Real mUSD moved, on Sepolia, in public.
-7. **Compare the three numbers**: capacity, approved line, available to draw. They are
-   deliberately not the same number.
-8. **Check the second consumer.** `CreditAccess` waives the security deposit reading `tier`
-   alone - no Treasury import, no debt, no invoice knowledge.
-
-Verify any of it without trusting us:
+Verify any number in this README directly against the chain:
 
 ```bash
-cast call 0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a \
-  "getTerms(address)" 0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA \
-  --rpc-url https://rpc.cc3-testnet.creditcoin.network
+cast call 0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a "getTerms(address)" 0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA --rpc-url https://rpc.cc3-testnet.creditcoin.network
 ```
 
 **118 tests passing. Live Sepolia to Attestcoin to Creditcoin CC3, with capital drawn and
@@ -156,7 +179,7 @@ contracts demonstrate.
 Verify any claim in this README without trusting us:
 
 ```bash
-cast call 0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a \
+cast call 0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a "getTerms(address)" 0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA --rpc-url https://rpc.cc3-testnet.creditcoin.network
   "getTerms(address)" 0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA \
   --rpc-url https://rpc.cc3-testnet.creditcoin.network
 ```
