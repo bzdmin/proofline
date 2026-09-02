@@ -28,10 +28,12 @@ Ethereum transaction -> attested block and derived txIndex -> the six verificati
 
 ## Deliberate choices
 
-- **The three numbers are never collapsed.** Capacity is what history earned; the approved
-  line is what underwriting authorized; available-to-draw is what today's receivables
-  support less debt. Merging them is the bug that once zeroed a borrower's line at the
-  moment they proved a perfect payment.
+- **The numbers are grouped by which contract owns them.** Capacity and approved line sit
+  under *Earned from verified history - CreditFile*; available and debt sit under *This
+  consumer - Treasury*, in a dashed border. Four equal tiles read as four versions of
+  "credit limit"; grouped, the architectural boundary is visible without reading a caption.
+  Merging them is also the bug that once zeroed a borrower's line at the moment they proved
+  a perfect payment.
 - **The pipeline shows the real 7.96 minute attestation delay** rather than a spinner.
 - **Failure states are visible**: prover retry, proof expired, rejected. A credit product
   that only ever displays successful proofs looks fake.

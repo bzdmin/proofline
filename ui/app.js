@@ -56,21 +56,36 @@ function render(d) {
       </div>
     </div>
 
-    <div class="three">
-      <div class="cell">
-        <div class="k">Capacity</div><div class="v">${usd(terms.capacity)}</div>
-        <div class="sub">What verified history has earned. ${Number(terms.advanceBps)/100}% of the largest settlement ever proven. Survives being paid.</div>
+    <div class="groups">
+      <div class="group">
+        <div class="glabel">Earned from verified history <b>&middot; CreditFile</b></div>
+        <div class="gcells">
+          <div class="cell">
+            <div class="k">Capacity</div><div class="v">${usd(terms.capacity)}</div>
+            <div class="sub">${Number(terms.advanceBps)/100}% of the largest settlement ever proven. Survives being paid.</div>
+          </div>
+          <div class="cell">
+            <div class="k">Approved line</div><div class="v">${usd(terms.limit)}</div>
+            <div class="sub">Capacity after the exposure ceiling and the per-settlement throttle.</div>
+          </div>
+        </div>
+        <div class="gnote">Depends only on what has been proven. No consumer can change it.</div>
       </div>
-      <div class="cell">
-        <div class="k">Approved line</div><div class="v">${usd(terms.limit)}</div>
-        <div class="sub">Capacity after the exposure ceiling and the per-settlement throttle.</div>
+
+      <div class="group consumer">
+        <div class="glabel">This consumer <b>&middot; Treasury</b></div>
+        <div class="gcells">
+          <div class="cell">
+            <div class="k">Available to draw</div><div class="v">${usd(terms.drawable)}</div>
+            <div class="sub">${file.outstandingReceivables === 0n ? 'No receivables outstanding.' : usd(file.outstandingReceivables) + ' outstanding'}${debt > 0n ? ', less debt.' : '.'}</div>
+          </div>
+          <div class="cell${debt > 0n ? ' debt' : ''}">
+            <div class="k">Debt</div><div class="v">${usd(debt)}</div>
+            <div class="sub">${debt > 0n ? 'Drawn from Treasury, plus accrued interest.' : 'Nothing drawn.'}</div>
+          </div>
+        </div>
+        <div class="gnote">Treasury's own state. CreditAccess reads the same file and holds none of this.</div>
       </div>
-      <div class="cell">
-        <div class="k">Available to draw</div><div class="v">${usd(terms.drawable)}</div>
-        <div class="sub">What current receivables support today, less debt. ${file.outstandingReceivables === 0n ? 'No receivables outstanding.' : usd(file.outstandingReceivables) + ' outstanding.'}</div>
-      </div>
-      ${debt > 0n ? `<div class="cell debt"><div class="k">Debt</div><div class="v">${usd(debt)}</div>
-        <div class="sub">Drawn from Treasury, plus accrued interest.</div></div>` : ''}
     </div>
 
     <div class="cols">
