@@ -110,8 +110,8 @@ borrower's line at the moment they proved a perfect payment.
 Standing is earned from verified history; liquidity tracks current receivables and debt.
 
 **The fractional remainder is real interest.** Repaying exactly 3,150 left 3,150.000719
-outstanding (3,150.001 in the table), because interest accrued between the draw and the
-repayment. It is kept deliberately: it is evidence that repayment interacts with live debt
+outstanding at the repayment block (3,150.001 in the table), because interest accrued between
+the draw and the repayment. Debt keeps accruing after that, so a live read shows more. It is kept deliberately: it is evidence that repayment interacts with live debt
 accounting rather than a mocked balance.
 
 Transactions: issue `0xbcd63bf4…` (verified in 7.8 min, 311,342 gas) · borrow `0xd3174e51…`

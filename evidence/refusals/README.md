@@ -2,8 +2,9 @@
 
 Both were sent to the production `ASCReceiver`
 ([`0x968E2BFE...`](https://creditcoin-testnet.blockscout.com/address/0x968E2BFEe40982EDB0595be7B9e0E73933d87170?tab=contract))
-by the relayer, an ordinary address with no role in the contracts. Both reverted, so neither
-changed any state: `CreditFile` held 11 events before and 11 after.
+by the relayer, an ordinary address with no role in the contracts. Both reverted before any
+`CreditFile` state change: `CreditFile` held 11 events before and 11 after. The only cost was the
+relayer's gas.
 
 Each case was dry-run first. The script (`script/refusals.mjs`) broadcast a transaction only when
 the dry run returned the expected error, then sent it with a fixed gas limit so that the

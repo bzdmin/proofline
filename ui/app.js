@@ -106,7 +106,7 @@ function render() {
       <div class="addr">${esc(CFG.borrower)}</div>
       <div class="tier">
         <span class="name t-${tier}">${tier}</span>
-        <span class="rates">${pct(t.advanceBps)} advance &middot; ${pct(t.aprBps)} APR</span>
+        <span class="rates">${pct(t.advanceBps)} advance &middot; ${pct(t.aprBps)} APR &middot; ${money(t.capacity)} earned capacity</span>
         <button class="btn" id="whybtn" aria-expanded="${state.why}" aria-controls="whybox">Why these terms?</button>
       </div>
       <div id="whybox" class="whybox" ${state.why ? '' : 'hidden'}>${whyHtml(d)}</div>
@@ -147,7 +147,8 @@ function render() {
             <div class="cell"><div class="k">Available</div><div class="v">${m(t.drawable)}</div></div>
             <div class="cell${BigInt(d.debt) > 0n ? ' debt' : ''}"><div class="k">Debt</div><div class="v">${m(d.debt)}</div></div>
           </div>
-          <div class="gnote">Calculated by Treasury from its own debt and receivable state.</div>
+          <div class="gnote">Calculated by Treasury from its own debt and receivable state. Debt accrues
+            at ${pct(t.aprBps)} APR, so it rises and availability falls between reads.</div>
         </div>
       </div>
       <p class="rule">Borrowing changes availability, not earned capacity.</p>
@@ -178,12 +179,13 @@ function render() {
         <div class="pad">
           <div class="eyebrow">Deposit requirement it derives</div>
           <div class="big">${pct(d.depositBps)}</div>
+          <div class="note">${tier} &rarr; ${pct(d.depositBps)} under CreditAccess's own policy</div>
           <p class="note">CreditAccess reads CreditFile state and derives its own deposit requirement:
             75% at STANDARD, 40% at GOOD, 0% at TRUSTED. It reads <code>tier</code> only and does not
             import Treasury. <b>No CreditAccess agreement was opened in this demonstration.</b></p>
         </div>
-        <div class="foot-note">The same CreditFile state can be consumed independently, without
-          giving the consumer ownership of the underlying credit history.</div>
+        <div class="foot-note">The same CreditFile state can be consumed by separate applications,
+          without giving any of them ownership of the underlying credit history.</div>
       </div>
 
       <div class="panel">
@@ -207,8 +209,8 @@ function render() {
               <a href="${CFG.sepoliaExplorer}/tx/0x606d7a6d17ee168fcec7134aff26e8d97f7f0372c92b315064df3458af17d99f" target="_blank" rel="noopener">source tx</a></div>
           </div>
         </div>
-        <div class="foot-note">Both were mined on the production receiver and reverted. A reverted
-          transaction writes nothing, so neither changed CreditFile.
+        <div class="foot-note">Both were mined on the production receiver and reverted before any
+          CreditFile state change, so neither changed CreditFile.
           <a href="${REPO}evidence/refusals/README.md" target="_blank" rel="noopener">record</a></div>
       </div>
     </section>
@@ -219,11 +221,13 @@ function render() {
         <div class="pad">
           <div class="eyebrow">Supplier payment terms it decides${d.desk ? ', read live' : ', as recorded'}</div>
           <div class="big">${deskTerms(d.desk || CFG.netTermsDesk.decision)}</div>
-          <p class="note">Deployed on ${CFG.netTermsDesk.deployedOn} by a fresh address with no role in
-            any ProofLine contract. It imports nothing from ProofLine: it reads the public
-            <code>getCreditFile()</code> and applies its own rules, including a verified-volume test
-            ProofLine's tiers do not have. CreditFile's code and event count were identical before
-            and after. <b>No permission, no allowlist, no contract change.</b></p>
+          <p class="lead" style="margin:10px 0 6px">Deployed later. Fresh address. No permission. Same CreditFile.</p>
+          <p class="note">Deployed on ${CFG.netTermsDesk.deployedOn}, ten days after CreditFile, by an
+            address with no role in any ProofLine contract. It imports nothing from ProofLine: it reads
+            the public <code>getCreditFile()</code> and applies its own rules, including a
+            verified-volume test ProofLine's tiers do not have. No allowlist entry, no contract change:
+            CreditFile's code and event count were identical before and after.
+            <b>The application arrived later. The credit state did not need to change.</b></p>
           <div class="links">
             <span>Contract</span><a href="${CFG.cc3Explorer}/address/${CFG.NetTermsDesk}?tab=contract" target="_blank" rel="noopener">${short(CFG.NetTermsDesk)}</a>
             <span>Deploy</span><a href="${CFG.cc3Explorer}/tx/${CFG.netTermsDesk.deployTx}" target="_blank" rel="noopener">${short(CFG.netTermsDesk.deployTx)}</a>
@@ -285,9 +289,9 @@ function whyHtml(d) {
     ${row('On-time rate (90% or more)', onTime + '%', onTime >= 90)}
     ${row('Verified defaults', num(f.defaults), num(f.defaults) === 0)}
     ${row('Open delinquencies', num(f.openDelinquencies), num(f.openDelinquencies) === 0)}
-    <p class="note" style="margin:12px 0 0"><b>Capacity ${money(t.capacity)}</b> is ${pct(t.advanceBps)} of
-      ${money(f.maxSettledAmount)}, the largest settlement verified. Not the largest invoice issued:
-      being paid is what earns capacity.</p>`;
+    <p class="note" style="margin:12px 0 0"><b>Capacity is ${money(t.capacity)}</b>, ${pct(t.advanceBps)}
+      of the largest verified settlement, ${money(f.maxSettledAmount)}. Not the largest invoice
+      issued. Being paid is what earns capacity.</p>`;
 }
 
 const deskTerms = (x) => num(x.netDays) ? `net ${num(x.netDays)} days` : 'cash in advance';
@@ -332,7 +336,7 @@ function renderReceipt() {
 
   $('rc').innerHTML = `
     <div class="rstep">
-      <div class="lbl">Source <b>&middot; Ethereum Sepolia</b></div>
+      <div class="lbl">01 Source <b>&middot; Ethereum Sepolia</b></div>
       <div class="val">${src}</div>
       <div class="n">Ethereum source transaction. Block ${num(e.blockHeight).toLocaleString('en-US')},
         transaction index ${num(e.txIndex)}, as derived by the precompile from the proof and stored
@@ -340,14 +344,14 @@ function renderReceipt() {
     </div>
     <div class="arrow" aria-hidden="true">&darr;</div>
     <div class="rstep">
-      <div class="lbl">Verification <b>&middot; Creditcoin CC3</b></div>
+      <div class="lbl">02 Verification <b>&middot; Creditcoin CC3</b></div>
       <div class="val">${ver}</div>
       <div class="n">Creditcoin verification transaction. ASCReceiver ran six gates: replay,
         verifyAndEmit, txType, receiptStatus, logs found, authorized source.${r ? ` ${num(r.gasUsed).toLocaleString('en-US')} gas.` : ''}</div>
     </div>
     <div class="arrow" aria-hidden="true">&darr;</div>
     <div class="rstep">
-      <div class="lbl">State <b>&middot; CreditFile</b></div>
+      <div class="lbl">03 State <b>&middot; CreditFile</b></div>
       <div class="val">${ETYPE[num(e.eventType)]} &middot; ${money(e.amount)} &middot; invoice #${e.obligationId}</div>
       <div class="n">CreditFile state change, written only by ASCReceiver in the same transaction
         as verification.</div>

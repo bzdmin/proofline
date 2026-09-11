@@ -2,7 +2,7 @@
 
 # ProofLine
 
-## A credit file only a verified proof can write, and any app can read.
+## Any app can read the credit file. Only verified proofs can change it.
 
 **[Open the live DApp](https://bzdmin.github.io/proofline/)** &middot; read-only, no wallet,
 reads Creditcoin as the page draws it.
@@ -11,7 +11,7 @@ ProofLine turns verified economic events on Ethereum into persistent credit stat
 Creditcoin.
 
 Attestcoin verifies the source evidence. `CreditFile` persists the resulting credit history.
-Independent applications consume that state without owning or rewriting the underlying
+Separate applications consume that state without owning or rewriting the underlying
 history.
 
 The reference application demonstrates the complete lifecycle:
@@ -28,7 +28,7 @@ Ethereum source event
   -> Attestcoin verification
   -> CreditFile state
   -> deterministic underwriting
-  -> independent consumer
+  -> separate consumer contracts
 ```
 
 `CreditFile` has exactly one writer, and it writes only after a proof verifies.
@@ -117,12 +117,15 @@ of 9,600 with nothing currently drawable. Collapse capacity, approved line and a
 single number and that state cannot be expressed. The remainder after repaying exactly 3,150
 is interest accrued between the draw and the repayment, in mUSD's six-decimal units.
 
-Every row can be re-read from Creditcoin at its own block. The DApp does this for each change.
+Every row is the state at that transaction's own block, and can be re-read from Creditcoin
+there; the DApp does this for each change. Debt keeps accruing at 12% APR after the repayment,
+so the live page shows more debt and less availability than the last row, by exactly the
+interest accrued since.
 
 ## Two rejections, two different gates, both on-chain
 
-Both were sent to the production `ASCReceiver` by an ordinary relayer and mined. Each reverted,
-so neither changed `CreditFile`. The receiver's source is verified, so Blockscout decodes each
+Both were sent to the production `ASCReceiver` by an ordinary relayer and mined. Each reverted
+before any `CreditFile` state change, so neither changed `CreditFile`. The receiver's source is verified, so Blockscout decodes each
 transaction.
 
 **Replay-protected event substitution.** The InvoicePaid transaction already verified for
@@ -164,7 +167,7 @@ no allowlist entry and no contract change. ([evidence](evidence/third-app/))
 
 ### Two consumers built alongside it
 
-`Treasury` and `CreditAccess` are two unrelated applications reading the same credit file.
+`Treasury` and `CreditAccess` are two separate consumer contracts reading the same credit file.
 Neither imports the other. Neither computes a tier. Neither can write to it.
 
 One verified settlement moved Treasury's advance rate from 70% to 80% and its APR from 14% to
@@ -174,8 +177,8 @@ One verified settlement moved Treasury's advance rate from 70% to 80% and its AP
 state and derives its own deposit requirement from `tier` alone, with no debt, no drawable and
 no invoice knowledge. No `CreditAccess` agreement was opened.
 
-The same `CreditFile` state can be consumed independently without giving the consumer
-ownership of the underlying credit history. `test_oneSettlementMovesBothConsumers` executes
+The same `CreditFile` state can be consumed by separate applications without giving any of
+them ownership of the underlying credit history. `test_oneSettlementMovesBothConsumers` executes
 this.
 
 ## Build on CreditFile

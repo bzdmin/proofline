@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ProofLine: verified payments, reusable credit</title>
-<meta name="description" content="Verified payments on Ethereum become persistent credit state on Creditcoin that independent applications can read. Read-only, no wallet.">
+<meta name="description" content="Any app can read the credit file. Only verified proofs can change it. Verified economic events on Ethereum become persistent credit state on Creditcoin. Read-only, no wallet.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230E1017'/%3E%3Cpath d='M8 22 L14 14 L19 18 L25 9' stroke='%233FC099' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +34,7 @@
   a:hover{text-decoration:underline}
   b,strong{font-weight:600}
 
-  header{padding:22px 0 16px;border-bottom:1px solid var(--line);
+  header{padding:16px 0 12px;border-bottom:1px solid var(--line);
     display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
   .brand{font-family:var(--sans);font-size:19px;font-weight:700;letter-spacing:-.01em;margin-top:2px}
   .status{font-family:var(--mono);font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -44,10 +44,10 @@
   .pill.warn{background:var(--warn-soft);color:var(--warn)}
 
   /* ---- thesis: what this is, before any number ---- */
-  .thesis{padding:40px 0 30px}
-  .thesis h1{margin:0;font-size:clamp(26px,4.4vw,40px);line-height:1.15;letter-spacing:-.02em;max-width:22ch}
-  .thesis .sub{margin:14px 0 0;font-size:18px;color:var(--muted);max-width:60ch}
-  .thesis .terms{margin:16px 0 0;font-family:var(--mono);font-size:12px;color:var(--faint)}
+  .thesis{padding:24px 0 16px}
+  .thesis h1{margin:0;font-size:clamp(24px,3.4vw,34px);line-height:1.15;letter-spacing:-.02em;max-width:30ch}
+  .thesis .sub{margin:10px 0 0;font-size:16.5px;color:var(--muted);max-width:66ch}
+  .thesis .terms{margin:10px 0 0;font-family:var(--mono);font-size:12px;color:var(--faint)}
 
   .banner{border:1px solid var(--warn);background:var(--warn-soft);color:var(--ink);border-radius:8px;
     padding:12px 16px;margin-bottom:18px;font-size:14px}
@@ -191,10 +191,10 @@
   .closing{padding:16px 24px;border-top:1px solid var(--line);font-family:var(--sans);font-size:16px;font-weight:600}
 
   /* ---- the model: one file, many readers ---- */
-  .model{margin:6px 0 30px}
-  .model .lead{margin-bottom:14px}
+  .model{margin:0 0 20px}
+  .model .lead{margin-bottom:10px}
   .flow{display:grid;grid-template-columns:1fr 22px 1fr 22px 1.25fr 22px 1.35fr;align-items:stretch;gap:0}
-  .node{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+  .node{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 13px}
   .node.core{border-color:var(--accent);background:var(--accent-soft)}
   .node .k{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
   .node.core .k{color:var(--accent)}
@@ -240,9 +240,9 @@
 </header>
 
 <section class="thesis">
-  <h1>A credit file only a verified proof can write, and any app can read.</h1>
-  <p class="sub">Verified payments on Ethereum become persistent credit state on Creditcoin that
-    independent applications can consume.</p>
+  <h1>Any app can read the credit file. Only verified proofs can change it.</h1>
+  <p class="sub">Verified economic events on Ethereum become persistent credit state on Creditcoin
+    that separate applications can consume.</p>
   <p class="terms">No wallet. No signing. No state changes. Figures are read from Creditcoin as this page draws them.</p>
 </section>
 

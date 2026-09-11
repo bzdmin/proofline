@@ -3,8 +3,8 @@
 //
 // Gas estimation would stop both before broadcast, which is how the worker normally sees a
 // rejection. Here each call is first dry-run to confirm the exact error, then sent with a
-// fixed gas limit and allowed to revert on-chain. A reverted transaction writes nothing, so
-// neither case can change CreditFile.
+// fixed gas limit and allowed to revert on-chain. A revert rolls back every storage write the
+// call made, so neither case can change CreditFile.
 //
 //   1. Replay-protected event substitution: the already-verified InvoicePaid transaction,
 //      resubmitted as InvoiceDefaulted. Expected: AlreadyProcessed, at gate 1.
@@ -109,7 +109,7 @@ mkdirSync('evidence/refusals', { recursive: true });
 writeFileSync('evidence/refusals/refusals.json', JSON.stringify({
   recordedAt: new Date().toISOString(),
   receiver: E.ASCRECEIVER_ADDRESS,
-  note: 'Each case was dry-run first and broadcast only when the dry run returned the expected error. Both transactions reverted on-chain, so neither changed any state.',
+  note: 'Each case was dry-run first and broadcast only when the dry run returned the expected error. Both transactions reverted on-chain before any CreditFile state change, so neither changed CreditFile.',
   cases: results,
 }, null, 2) + '\n');
 console.log('\nwrote evidence/refusals/refusals.json');

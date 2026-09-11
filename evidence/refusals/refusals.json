@@ -1,7 +1,7 @@
 {
   "recordedAt": "2026-09-11T13:16:47.528Z",
   "receiver": "0x968E2BFEe40982EDB0595be7B9e0E73933d87170",
-  "note": "Each case was dry-run first and broadcast only when the dry run returned the expected error. Both transactions reverted on-chain, so neither changed any state.",
+  "note": "Each case was dry-run first and broadcast only when the dry run returned the expected error. Both transactions reverted on-chain before any CreditFile state change, so neither changed CreditFile.",
   "cases": [
     {
       "case": "Replay-protected event substitution",
