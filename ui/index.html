@@ -12,36 +12,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-  /* Palette taken from the logo: navy #041B2F (the P), green #32BB76 (the check), white ground.
-     Navy is the brand and marks selection and the CreditFile itself; green marks what is
-     verified; amber is debt and caution; red is refusal. Dark mode deepens the same navy. */
+  /* One deliberate look: charcoal, warm white and neutral greys, with the logo's green as the
+     only colour that carries meaning. Green is live, verified or earned; amber is debt and
+     caution; red is refusal. Structure stays neutral so it never competes with the evidence. */
   :root{
-    color-scheme:light;
-    --ground:#F4F6F9; --surface:#FFFFFF; --surface-2:#EDF1F5;
-    --ink:#041B2F; --muted:#44576B; --faint:#66788C;
-    --line:#DCE3EA; --line-strong:#B7C3CF;
-    --brand:#041B2F; --on-brand:#FFFFFF;
-    --accent:#041B2F; --accent-soft:#E4EBF3;
-    --proof:#32BB76; --link:#11804A;
-    --ok:#11804A; --ok-soft:#E2F5EA;
-    --warn:#A65A00; --warn-soft:#FFF0DC;
-    --bad:#B8263F; --bad-soft:#FBE7EB;
+    color-scheme:dark;
+    --ground:#090A0C; --surface:#111315; --surface-2:#17191C;
+    --ink:#F3F1EC; --muted:#A5A39D; --faint:#7D7F7C;
+    --line:#25282C; --line-strong:#3A3D42;
+    --accent:#F3F1EC; --accent-soft:#1C1E21;
+    --proof:#35D07F;
+    --ok:#35D07F; --ok-soft:#0F2A1C;
+    --warn:#D6A05A; --warn-soft:#2A2114;
+    --bad:#E46B72; --bad-soft:#2B1517;
     --sans:Archivo,Helvetica,Arial,sans-serif;
     --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{
-      color-scheme:dark;
-      --ground:#031423; --surface:#06203A; --surface-2:#0A2946;
-      --ink:#E8EEF6; --muted:#9CB0C6; --faint:#768BA3;
-      --line:#12314F; --line-strong:#214668;
-      --brand:#0D3558; --on-brand:#E8EEF6;
-      --accent:#E8EEF6; --accent-soft:#0E3050;
-      --proof:#32BB76; --link:#5FD49A;
-      --ok:#4FCF8E; --ok-soft:#0B3326;
-      --warn:#F0A04B; --warn-soft:#3A2410;
-      --bad:#F27A8F; --bad-soft:#3A1522;
-    }
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--ground);color:var(--ink);
@@ -52,15 +37,16 @@
   .mono,code{font-family:var(--mono)}
   code{font-size:.9em;color:var(--ink);background:var(--surface-2);padding:1px 5px;border-radius:3px}
   .eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
-  a{color:var(--link);text-decoration:none}
-  a:hover{text-decoration:underline}
+  a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line-strong);
+    text-underline-offset:3px;text-decoration-thickness:1px}
+  a:hover{color:var(--proof);text-decoration-color:var(--proof)}
   b,strong{font-weight:600}
 
   header{padding:16px 0 12px;border-bottom:1px solid var(--line);
     display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:9px;margin-top:4px;color:var(--ink);
     font-family:var(--sans);font-size:19px;font-weight:700;letter-spacing:.07em}
-  .brand:hover{text-decoration:none}
+  .brand,.brand:hover{text-decoration:none;color:var(--ink)}
   .brand img{width:30px;height:30px;display:block}
   .brand b{color:var(--proof);font-weight:700}
   .status{font-family:var(--mono);font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -78,8 +64,8 @@
   .banner{border:1px solid var(--warn);background:var(--warn-soft);color:var(--ink);border-radius:8px;
     padding:12px 16px;margin-bottom:18px;font-size:14px}
 
-  .card{background:var(--surface);border:1px solid var(--line);border-radius:8px}
-  .sec{margin-top:34px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:4px}
+  .sec{margin-top:44px}
   .sec > .eyebrow{margin-bottom:10px;display:block}
   .lead{font-family:var(--sans);font-size:clamp(17px,2.4vw,21px);font-weight:600;letter-spacing:-.01em;margin:0 0 14px}
 
@@ -91,7 +77,7 @@
   .tier .rates{font-family:var(--mono);font-size:14.5px;color:var(--muted)}
   .t-TRUSTED{color:var(--ok)} .t-GOOD{color:var(--accent)} .t-STANDARD{color:var(--ink)}
   .t-NEW{color:var(--muted)} .t-WATCH{color:var(--warn)} .t-FROZEN{color:var(--bad)}
-  .btn{background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);border-radius:5px;
+  .btn{background:transparent;color:var(--ink);border:1px solid var(--line-strong);border-radius:3px;
     padding:6px 12px;cursor:pointer;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
   .btn:hover,.btn[aria-expanded="true"]{background:var(--accent);color:var(--ground)}
   .tier .btn{margin-left:auto}
@@ -118,12 +104,12 @@
   /* ---- the numbers, grouped by who owns them ---- */
   .groups{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   @media(max-width:760px){.groups{grid-template-columns:1fr}}
-  .group{border:1px solid var(--line);border-radius:8px;padding:14px 16px 12px}
+  .group{border:1px solid var(--line);border-radius:4px;padding:14px 16px 12px}
   .group.consumer{border-style:dashed}
   .glabel{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
-  .glabel b{color:var(--accent)} .group.consumer .glabel b{color:var(--warn)}
+  .glabel b{color:var(--ink)} .group.consumer .glabel b{color:var(--ink)}
   .gcells{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .cell{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+  .cell{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:16px 18px}
   .cell.debt{border-color:var(--warn)}
   .cell .k{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-family:var(--sans);font-weight:700}
   .cell .v{font-family:var(--mono);font-size:clamp(19px,2.6vw,25px);margin-top:6px;white-space:nowrap}
@@ -154,7 +140,7 @@
   .frame .why{font-size:14px;color:var(--muted);margin:0 0 14px}
   .fcells{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   @media(max-width:620px){.fcells{grid-template-columns:1fr 1fr}}
-  .fc{border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+  .fc{border:1px solid var(--line);border-radius:3px;padding:10px 12px}
   .fc.chg{border-color:var(--accent);background:var(--accent-soft)}
   .fc .k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-family:var(--sans);font-weight:700}
   .fc .v{font-family:var(--mono);font-size:17px;margin-top:3px;white-space:nowrap}
@@ -169,7 +155,7 @@
   @media(max-width:860px){.cols{grid-template-columns:1fr}}
   .cols.even{grid-template-columns:1fr 1fr}
   @media(max-width:860px){.cols.even{grid-template-columns:1fr}}
-  .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden}
   .panel h2{margin:0;padding:14px 20px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--line);font-weight:700}
   .ev{all:unset;box-sizing:border-box;width:100%;padding:12px 20px;border-bottom:1px solid var(--line);cursor:pointer;
     display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
@@ -180,11 +166,11 @@
   .ev .what{font-size:14.5px}
   .ev .what small{display:block;color:var(--muted);font-size:11.5px;font-family:var(--mono)}
   .ev .amt{font-family:var(--mono);font-size:14px;text-align:right}
-  .chip{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-left:6px;vertical-align:1px}
-  .c-ok{background:var(--ok-soft);color:var(--ok)} .c-warn{background:var(--warn-soft);color:var(--warn)}
-  .c-bad{background:var(--bad-soft);color:var(--bad)} .c-dim{background:var(--surface-2);color:var(--muted)}
+  .chip{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-left:9px;vertical-align:1px}
+  .c-ok{color:var(--ok)} .c-warn{color:var(--warn)}
+  .c-bad{color:var(--bad)} .c-dim{color:var(--faint)}
   .rc{padding:18px 20px}
-  .rstep{border:1px solid var(--line);border-radius:6px;padding:11px 13px}
+  .rstep{border:1px solid var(--line);border-radius:3px;padding:11px 13px}
   .rstep .lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-family:var(--sans);font-weight:700}
   .rstep .lbl b{color:var(--muted);font-weight:700}
   .rstep .val{font-family:var(--mono);font-size:12.5px;margin-top:4px;word-break:break-all}
@@ -220,14 +206,13 @@
   .model{margin:0 0 20px}
   .model .lead{margin-bottom:10px}
   .flow{display:grid;grid-template-columns:1fr 22px 1fr 22px 1.25fr 22px 1.35fr;align-items:stretch;gap:0}
-  .node{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 13px}
-  .node.core{border-color:var(--brand);background:var(--brand);color:var(--on-brand)}
-  .node.core code{background:rgba(255,255,255,.12);color:var(--on-brand)}
+  .node{border-top:1px solid var(--line-strong);padding:11px 4px 0 0}
+  .node.core{border-top:2px solid var(--proof);padding-top:10px}
   .node .k{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
   .node.core .k{color:var(--proof)}
   .node .d{font-size:13.5px;line-height:1.4;margin-top:4px}
   .node code{display:inline-block;margin-top:6px;font-size:11px}
-  .arr{display:flex;align-items:center;justify-content:center;color:var(--line-strong);font-size:15px}
+  .arr{display:flex;align-items:flex-start;justify-content:center;padding-top:14px;color:var(--faint);font-size:14px}
   .arr::before{content:"\2192"}
   @media(max-width:860px){
     .flow{grid-template-columns:1fr}
@@ -262,10 +247,7 @@
   <div>
     <div class="eyebrow">Creditcoin CC3 testnet &middot; read-only</div>
     <a class="brand" href="./" aria-label="ProofLine">
-      <picture>
-        <source srcset="assets/mark-dark.png" media="(prefers-color-scheme: dark)">
-        <img src="assets/mark-light.png" alt="">
-      </picture>
+      <img src="assets/mark-dark.png" alt="">
       <span>PROOF<b>LINE</b></span>
     </a>
   </div>
