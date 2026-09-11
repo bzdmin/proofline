@@ -37,7 +37,8 @@ Every number can be reproduced independently:
    availability.
 6. **Receipts**: any event as its Ethereum source transaction, its Creditcoin verification
    transaction, and the CreditFile state change.
-7. **The verification boundary**: two recorded rejections at two different gates.
+7. **The verification boundary**: two rejections mined on the production receiver, at two
+   different gates.
 
 ## Deliberate choices
 

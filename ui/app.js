@@ -190,22 +190,24 @@ function render() {
           <div class="refused">REFUSED</div>
           <div class="case">
             <h3>Replay-protected event substitution</h3>
-            <p>The same source transaction was submitted as a different event type. Rejected before
-              event decoding: its proof-derived identity had already been processed.</p>
+            <p>The verified payment for invoice #1 was resubmitted as a default. Rejected at gate 1,
+              before event decoding: its proof-derived identity had already been processed.</p>
             <div class="res">Result: AlreadyProcessed
-              <a href="${REPO}evidence/integration/run-001/04-rejection-fake-event.json.note" target="_blank" rel="noopener">record</a>
+              <a href="${CFG.cc3Explorer}/tx/0xf36fdb0bc22f64c69cc509f0a40eab9ac2534fe2ef01363df62662a6324b8cf1" target="_blank" rel="noopener">Creditcoin tx</a>
               <a href="${CFG.sepoliaExplorer}/tx/${RECEIPTS['1:1:1'].source}" target="_blank" rel="noopener">source tx</a></div>
           </div>
           <div class="case">
             <h3>Unauthorized source</h3>
-            <p>A real Ethereum mainnet transaction contained an event from an unauthorized emitter
-              (WETH, where USDC was authorized).</p>
+            <p>A real Circle USDC transfer on Sepolia, validly proven. The proof verified; gate 6
+              refused it because USDC is not the authorized source.</p>
             <div class="res">Result: UnauthorizedSource
-              <a href="${REPO}evidence/mainnet/README.md" target="_blank" rel="noopener">record</a></div>
+              <a href="${CFG.cc3Explorer}/tx/0x209317f636d38d45a205b4dde4685d1628d14f340028651ff968fbd289efd94e" target="_blank" rel="noopener">Creditcoin tx</a>
+              <a href="${CFG.sepoliaExplorer}/tx/0x606d7a6d17ee168fcec7134aff26e8d97f7f0372c92b315064df3458af17d99f" target="_blank" rel="noopener">source tx</a></div>
           </div>
         </div>
-        <div class="foot-note">These are recorded rejection cases, caught at gas estimation and never
-          mined. Neither changes CreditFile.</div>
+        <div class="foot-note">Both were mined on the production receiver and reverted. A reverted
+          transaction writes nothing, so neither changed CreditFile.
+          <a href="${REPO}evidence/refusals/README.md" target="_blank" rel="noopener">record</a></div>
       </div>
     </section>
 

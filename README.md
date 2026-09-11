@@ -2,7 +2,7 @@
 
 # ProofLine
 
-## Verified economic history becomes reusable credit.
+## A credit file only a verified proof can write, and any app can read.
 
 **[Open the live DApp](https://bzdmin.github.io/proofline/)** &middot; read-only, no wallet,
 reads Creditcoin as the page draws it.
@@ -76,7 +76,8 @@ node ui/serve.mjs
    at that change's own block and reports whether every figure still matches.
 5. **Receipts.** Any event, as three things you can open independently: the Ethereum source
    transaction, the Creditcoin verification transaction, and the CreditFile state change.
-6. **Verification boundary.** Two recorded rejections, each at a different gate.
+6. **Verification boundary.** Two rejections mined on the production receiver, each at a
+   different gate, each one click from Blockscout.
 7. **CreditAccess.** A second consumer deriving its own terms from the same file.
 
 ## What happened on-chain
@@ -116,21 +117,28 @@ is interest accrued between the draw and the repayment, in mUSD's six-decimal un
 
 Every row can be re-read from Creditcoin at its own block. The DApp does this for each change.
 
-## Two rejections, two different gates
+## Two rejections, two different gates, both on-chain
 
-**Replay-protected event substitution.** The same Ethereum transaction was resubmitted with a
-different event type. The receiver rejected it with `AlreadyProcessed` before event decoding,
-because the proof-derived transaction identity had already been processed. A processed proof
-cannot be reused to reinterpret its source transaction as a different event.
-[Record](evidence/integration/run-001/04-rejection-fake-event.json.note)
+Both were sent to the production `ASCReceiver` by an ordinary relayer and mined. Each reverted,
+so neither changed `CreditFile`. The receiver's source is verified, so Blockscout decodes each
+transaction.
 
-**Unauthorized source.** A real Ethereum mainnet transaction contained an event from an
-unauthorized emitter, WETH where USDC was authorized. Gates 1 through 5 passed, including
-`verifyAndEmit`, and the source authorization gate rejected it with `UnauthorizedSource`.
-[Record](evidence/mainnet/README.md)
+**Replay-protected event substitution.** The InvoicePaid transaction already verified for
+invoice #1 was resubmitted as `InvoiceDefaulted`. The receiver rejected it at gate 1 with
+`AlreadyProcessed`, before any event decoding, because the replay key is derived from the proof
+and not from the event the caller names. A processed proof cannot be reused to reinterpret its
+source transaction as a different event.
+[`0xf36fdb0b...`](https://creditcoin-testnet.blockscout.com/tx/0xf36fdb0bc22f64c69cc509f0a40eab9ac2534fe2ef01363df62662a6324b8cf1)
 
-These are recorded rejection cases, caught at gas estimation and never mined. Neither changes
-`CreditFile`.
+**Unauthorized source.** A real Circle USDC transfer on Sepolia, from a contract ProofLine did
+not deploy, was proven and submitted. The proof verified: gates 1 through 5 passed, including
+`verifyAndEmit`. Gate 6 rejected it with `UnauthorizedSource`, because USDC is not the authorized
+source. The same gate also refused a real Ethereum mainnet swap during the mainnet probe
+([record](evidence/mainnet/README.md)).
+[`0x209317f6...`](https://creditcoin-testnet.blockscout.com/tx/0x209317f636d38d45a205b4dde4685d1628d14f340028651ff968fbd289efd94e)
+
+Each was dry-run first and broadcast only when the dry run returned the expected error
+([`evidence/refusals/`](evidence/refusals/)).
 
 ## Why CreditFile is reusable infrastructure
 
@@ -168,14 +176,19 @@ Ethereum Sepolia
 
 ## Deployed
 
-| Network | Contract | Address |
-|---|---|---|
-| Sepolia | `Receivable` | [`0x047F1cdA...`](https://sepolia.etherscan.io/address/0x047F1cdAC2A9007188b2A8B9ffB5Ce171B88EF7c) |
-| Sepolia | `mUSD` | `0x1Fd9658993573E73AE439c1BeDd902c2E5142153` |
-| CC3 | `ASCReceiver` | [`0x968E2BFE...`](https://creditcoin-testnet.blockscout.com/address/0x968E2BFEe40982EDB0595be7B9e0E73933d87170) |
-| CC3 | `CreditFile` | [`0xAEF3D1b9...`](https://creditcoin-testnet.blockscout.com/address/0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a) |
-| CC3 | `Treasury` | `0x0cb2A0162ed7D5eE8fEf48A9AcE12fAdcbd24e40` |
-| CC3 | `CreditAccess` | `0x49DdB1b11a953BcD9894F2816878aa1a50DAb869` |
+| Network | Contract | Address | Source |
+|---|---|---|---|
+| Sepolia | `Receivable` | [`0x047F1cdA...`](https://eth-sepolia.blockscout.com/address/0x047F1cdAC2A9007188b2A8B9ffB5Ce171B88EF7c?tab=contract) | verified |
+| Sepolia | `mUSD` | [`0x1Fd96589...`](https://eth-sepolia.blockscout.com/address/0x1Fd9658993573E73AE439c1BeDd902c2E5142153?tab=contract) | verified |
+| CC3 | `ASCReceiver` | [`0x968E2BFE...`](https://creditcoin-testnet.blockscout.com/address/0x968E2BFEe40982EDB0595be7B9e0E73933d87170?tab=contract) | verified |
+| CC3 | `CreditFile` | [`0xAEF3D1b9...`](https://creditcoin-testnet.blockscout.com/address/0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a?tab=contract) | verified |
+| CC3 | `Treasury` | [`0x0cb2A016...`](https://creditcoin-testnet.blockscout.com/address/0x0cb2A0162ed7D5eE8fEf48A9AcE12fAdcbd24e40?tab=contract) | verified |
+| CC3 | `CreditAccess` | [`0x49DdB1b1...`](https://creditcoin-testnet.blockscout.com/address/0x49DdB1b11a953BcD9894F2816878aa1a50DAb869?tab=contract) | verified |
+| CC3 | `mUSD` | [`0x90A95bb6...`](https://creditcoin-testnet.blockscout.com/address/0x90A95bb62DEB47BF0614d274e7A526797168f907?tab=contract) | verified |
+
+Every contract's source is verified on Blockscout. Blockscout lists the five ProofLine contracts
+as partial matches: their deployed code is byte-identical to this repository's build, and only
+the embedded metadata hash differs, because doc comments were edited after deployment.
 
 ## Verify it yourself
 
@@ -218,6 +231,7 @@ ones the precompile derived and `CreditFile` stored.
 | [`evidence/integration/history/`](evidence/integration/history/) | The five settlements and the tier progression |
 | [`evidence/integration/borrow/`](evidence/integration/borrow/) | Borrow and repayment, ten assertions |
 | [`evidence/mainnet/`](evidence/mainnet/) | Six gates run against a real Ethereum mainnet transaction, and the unauthorized-source rejection |
+| [`evidence/refusals/`](evidence/refusals/) | Two rejections mined on the production receiver: replay-protected event substitution and an unauthorized source |
 | [`evidence/G0-B/`](evidence/G0-B/) | Batch proving tested on our path, with a control |
 | [`ui/data/receipts.json`](ui/data/receipts.json) | Every CreditFile event mapped to its Ethereum and Creditcoin transactions |
 | [`docs/ATTESTCOIN-INTEGRATION.md`](docs/ATTESTCOIN-INTEGRATION.md) | **Attestcoin Protocol Integration Summary** |
