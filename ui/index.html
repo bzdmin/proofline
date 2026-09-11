@@ -3,23 +3,45 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ProofLine: verified payments, reusable credit</title>
+<title>ProofLine: verified history, earned credit</title>
 <meta name="description" content="Any app can read the credit file. Only verified proofs can change it. Verified economic events on Ethereum become persistent credit state on Creditcoin. Read-only, no wallet.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230E1017'/%3E%3Cpath d='M8 22 L14 14 L19 18 L25 9' stroke='%233FC099' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/icon-64.png">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
+  /* Palette taken from the logo: navy #041B2F (the P), green #32BB76 (the check), white ground.
+     Navy is the brand and marks selection and the CreditFile itself; green marks what is
+     verified; amber is debt and caution; red is refusal. Dark mode deepens the same navy. */
   :root{
-    --ground:#0E1017; --surface:#161925; --surface-2:#1D2130;
-    --ink:#E4E7F0; --muted:#969DB3; --faint:#767D93;
-    --line:#272C3B; --line-strong:#3A4157;
-    --accent:#8CA0FF; --accent-soft:#1C2140;
-    --ok:#3FC099; --ok-soft:#122E28;
-    --warn:#E29457; --warn-soft:#33231A;
-    --bad:#F4788A; --bad-soft:#361A22;
+    color-scheme:light;
+    --ground:#F4F6F9; --surface:#FFFFFF; --surface-2:#EDF1F5;
+    --ink:#041B2F; --muted:#44576B; --faint:#66788C;
+    --line:#DCE3EA; --line-strong:#B7C3CF;
+    --brand:#041B2F; --on-brand:#FFFFFF;
+    --accent:#041B2F; --accent-soft:#E4EBF3;
+    --proof:#32BB76; --link:#11804A;
+    --ok:#11804A; --ok-soft:#E2F5EA;
+    --warn:#A65A00; --warn-soft:#FFF0DC;
+    --bad:#B8263F; --bad-soft:#FBE7EB;
     --sans:Archivo,Helvetica,Arial,sans-serif;
     --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --ground:#031423; --surface:#06203A; --surface-2:#0A2946;
+      --ink:#E8EEF6; --muted:#9CB0C6; --faint:#768BA3;
+      --line:#12314F; --line-strong:#214668;
+      --brand:#0D3558; --on-brand:#E8EEF6;
+      --accent:#E8EEF6; --accent-soft:#0E3050;
+      --proof:#32BB76; --link:#5FD49A;
+      --ok:#4FCF8E; --ok-soft:#0B3326;
+      --warn:#F0A04B; --warn-soft:#3A2410;
+      --bad:#F27A8F; --bad-soft:#3A1522;
+    }
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--ground);color:var(--ink);
@@ -30,13 +52,17 @@
   .mono,code{font-family:var(--mono)}
   code{font-size:.9em;color:var(--ink);background:var(--surface-2);padding:1px 5px;border-radius:3px}
   .eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
-  a{color:var(--accent);text-decoration:none}
+  a{color:var(--link);text-decoration:none}
   a:hover{text-decoration:underline}
   b,strong{font-weight:600}
 
   header{padding:16px 0 12px;border-bottom:1px solid var(--line);
     display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
-  .brand{font-family:var(--sans);font-size:19px;font-weight:700;letter-spacing:-.01em;margin-top:2px}
+  .brand{display:flex;align-items:center;gap:9px;margin-top:4px;color:var(--ink);
+    font-family:var(--sans);font-size:19px;font-weight:700;letter-spacing:.07em}
+  .brand:hover{text-decoration:none}
+  .brand img{width:30px;height:30px;display:block}
+  .brand b{color:var(--proof);font-weight:700}
   .status{font-family:var(--mono);font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .pill{font-family:var(--sans);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
     padding:2px 8px;border-radius:10px}
@@ -113,7 +139,7 @@
   .rcol:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .rcol .cap{display:flex;flex-direction:column-reverse;border:1px solid var(--line-strong);border-bottom:none;
     border-radius:3px 3px 0 0;min-height:3px;overflow:hidden;background:rgba(255,255,255,.015)}
-  .rcol .avail{background:var(--ok);opacity:.85}
+  .rcol .avail{background:var(--proof);opacity:.9}
   .rcol .dbt{background:var(--warn);opacity:.85}
   .rcol:hover .cap{border-color:var(--muted)}
   .rcol.sel .cap{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
@@ -121,7 +147,7 @@
   .rcol.sel .rl{color:var(--accent)}
   .legend{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0 4px;font-size:12px;color:var(--muted);font-family:var(--sans)}
   .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
-  .legend .lc{border:1px solid var(--line-strong)} .legend .la{background:var(--ok)} .legend .ld{background:var(--warn)}
+  .legend .lc{border:1px solid var(--line-strong)} .legend .la{background:var(--proof)} .legend .ld{background:var(--warn)}
   input[type=range]{width:100%;margin:14px 0 4px;accent-color:var(--accent)}
   .frame{margin-top:10px;border-top:1px solid var(--line);padding-top:16px}
   .frame h3{margin:4px 0 4px;font-size:21px;letter-spacing:-.01em}
@@ -195,9 +221,10 @@
   .model .lead{margin-bottom:10px}
   .flow{display:grid;grid-template-columns:1fr 22px 1fr 22px 1.25fr 22px 1.35fr;align-items:stretch;gap:0}
   .node{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 13px}
-  .node.core{border-color:var(--accent);background:var(--accent-soft)}
+  .node.core{border-color:var(--brand);background:var(--brand);color:var(--on-brand)}
+  .node.core code{background:rgba(255,255,255,.12);color:var(--on-brand)}
   .node .k{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-  .node.core .k{color:var(--accent)}
+  .node.core .k{color:var(--proof)}
   .node .d{font-size:13.5px;line-height:1.4;margin-top:4px}
   .node code{display:inline-block;margin-top:6px;font-size:11px}
   .arr{display:flex;align-items:center;justify-content:center;color:var(--line-strong);font-size:15px}
@@ -234,7 +261,13 @@
 <header>
   <div>
     <div class="eyebrow">Creditcoin CC3 testnet &middot; read-only</div>
-    <div class="brand">ProofLine</div>
+    <a class="brand" href="./" aria-label="ProofLine">
+      <picture>
+        <source srcset="assets/mark-dark.png" media="(prefers-color-scheme: dark)">
+        <img src="assets/mark-light.png" alt="">
+      </picture>
+      <span>PROOF<b>LINE</b></span>
+    </a>
   </div>
   <div class="status" id="status">reading Creditcoin&hellip;</div>
 </header>
