@@ -1,0 +1,37 @@
+{
+  "recordedAt": "2026-09-11T13:16:47.528Z",
+  "receiver": "0x968E2BFEe40982EDB0595be7B9e0E73933d87170",
+  "note": "Each case was dry-run first and broadcast only when the dry run returned the expected error. Both transactions reverted on-chain, so neither changed any state.",
+  "cases": [
+    {
+      "case": "Replay-protected event substitution",
+      "expected": "AlreadyProcessed",
+      "reason": "AlreadyProcessed(0x86693c190805b5cba74ccffecf64ee725310eadbb2aa18112c722c584c54c13f)",
+      "source": "0x6d909c470c9be3fc0226ce05e00d770b6eaa62ba6b35ee78bf2e71c30b0b64e3",
+      "sourceNote": "InvoicePaid for invoice #1, verified in evidence/integration/run-001",
+      "sourceBlock": 11613587,
+      "sourceTxIndex": 100,
+      "eventSignature": "InvoiceDefaulted",
+      "creditcoinTx": "0xf36fdb0bc22f64c69cc509f0a40eab9ac2534fe2ef01363df62662a6324b8cf1",
+      "creditcoinBlock": 5469446,
+      "status": 0,
+      "gasUsed": "140658",
+      "relayer": "0x8468d2eB6cB8CE29D756EFD2B733a9d002F3FbE1"
+    },
+    {
+      "case": "Unauthorized source",
+      "expected": "UnauthorizedSource",
+      "reason": "UnauthorizedSource(0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238, 0x047F1cdAC2A9007188b2A8B9ffB5Ce171B88EF7c)",
+      "source": "0x606d7a6d17ee168fcec7134aff26e8d97f7f0372c92b315064df3458af17d99f",
+      "sourceNote": "a Circle USDC Transfer on Ethereum Sepolia, from a contract ProofLine did not deploy",
+      "sourceBlock": 11674848,
+      "sourceTxIndex": 6,
+      "eventSignature": "Transfer(address,address,uint256)",
+      "creditcoinTx": "0x209317f636d38d45a205b4dde4685d1628d14f340028651ff968fbd289efd94e",
+      "creditcoinBlock": 5469447,
+      "status": 0,
+      "gasUsed": "159600",
+      "relayer": "0x8468d2eB6cB8CE29D756EFD2B733a9d002F3FbE1"
+    }
+  ]
+}

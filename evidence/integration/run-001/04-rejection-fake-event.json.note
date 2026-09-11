@@ -21,3 +21,7 @@ Both rejections were caught at gas estimation, which executes the full call and 
 the contract's reason before anything is broadcast (worker/worker.mjs, spike/mainnet-probe.mjs).
 Neither was mined, so neither has a Creditcoin transaction to open. The reasons are recorded
 here and in evidence/mainnet/README.md.
+
+On 2026-09-11 the same substitution was repeated against the production receiver and sent with
+a fixed gas limit so that it would be mined: 0xf36fdb0b..., reverted with AlreadyProcessed. An
+unauthorized-source rejection was mined alongside it. Both are in evidence/refusals/.
