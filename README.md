@@ -178,6 +178,25 @@ The same `CreditFile` state can be consumed independently without giving the con
 ownership of the underlying credit history. `test_oneSettlementMovesBothConsumers` executes
 this.
 
+## Build on CreditFile
+
+Not a score. A score compresses history into one number; `CreditFile` keeps the history, its
+counters and the earned terms, and each application derives its own answer. Reading it needs
+no allowlist, no registration and no ProofLine code:
+
+```solidity
+ICreditFile constant CREDIT_FILE = ICreditFile(0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a);
+
+File memory f           = CREDIT_FILE.getCreditFile(borrower);   // settled, onTime, defaults, counterparties, volume
+CreditEvent[] memory ev = CREDIT_FILE.getCreditEvents(borrower); // every verified event, with its source block and index
+Terms memory t          = CREDIT_FILE.getTerms(borrower);        // ProofLine's own terms, optional
+```
+
+The types are in [`src/Types.sol`](src/Types.sol).
+[`src/examples/NetTermsDesk.sol`](src/examples/NetTermsDesk.sol) is a complete consumer that
+imports nothing from ProofLine, declares the return shape from the ABI, and applies its own
+policy. It is the third application above, deployed against the live file.
+
 ## Architecture
 
 ```
@@ -237,7 +256,7 @@ cast call 0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a \
 Rebuild the DApp's receipts and history from the evidence, checked against both chains:
 
 ```bash
-node script/ui-data.mjs
+node script/ui-data.mjs && node script/prerender.mjs
 ```
 
 Each Ethereum source transaction is accepted only if its block and transaction index equal the

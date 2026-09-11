@@ -190,6 +190,33 @@
   .ledger .no li::before{content:"\2715";position:absolute;left:2px;color:var(--warn);font-family:var(--sans)}
   .closing{padding:16px 24px;border-top:1px solid var(--line);font-family:var(--sans);font-size:16px;font-weight:600}
 
+  /* ---- the model: one file, many readers ---- */
+  .model{margin:6px 0 30px}
+  .model .lead{margin-bottom:14px}
+  .flow{display:grid;grid-template-columns:1fr 22px 1fr 22px 1.25fr 22px 1.35fr;align-items:stretch;gap:0}
+  .node{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+  .node.core{border-color:var(--accent);background:var(--accent-soft)}
+  .node .k{font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+  .node.core .k{color:var(--accent)}
+  .node .d{font-size:13.5px;line-height:1.4;margin-top:4px}
+  .node code{display:inline-block;margin-top:6px;font-size:11px}
+  .arr{display:flex;align-items:center;justify-content:center;color:var(--line-strong);font-size:15px}
+  .arr::before{content:"\2192"}
+  @media(max-width:860px){
+    .flow{grid-template-columns:1fr}
+    .arr{height:20px} .arr::before{content:"\2193"}
+  }
+  .model .note{margin-top:12px;max-width:80ch}
+
+  /* ---- recorded copy for readers without JavaScript ---- */
+  .static{padding:20px 24px}
+  .static h2{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:22px 0 8px}
+  .static p,.static li{font-size:14.5px;line-height:1.55}
+  .scroll{overflow-x:auto}
+  .stbl{border-collapse:collapse;width:100%;font-size:13px;min-width:560px}
+  .stbl th{font-family:var(--sans);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+  .stbl td{padding:6px 8px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px}
+
   footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--faint);line-height:1.8;word-break:break-all}
   .loading{padding:40px 20px;text-align:center;color:var(--faint);font-family:var(--mono);font-size:13px}
   @media(max-width:480px){
@@ -219,7 +246,92 @@
   <p class="terms">No wallet. No signing. No state changes. Figures are read from Creditcoin as this page draws them.</p>
 </section>
 
-<div id="app"><div class="loading">reading Creditcoin&hellip;</div></div>
+<section class="model" aria-label="How ProofLine is built">
+  <p class="lead">Verified history is the input. CreditFile is the state. Applications are the consumers.</p>
+  <div class="flow">
+    <div class="node"><div class="k">Ethereum</div><div class="d">a settlement happens</div></div>
+    <div class="arr" aria-hidden="true"></div>
+    <div class="node"><div class="k">Attestcoin</div><div class="d">proof checked by six gates</div></div>
+    <div class="arr" aria-hidden="true"></div>
+    <div class="node core"><div class="k">CreditFile</div><div class="d">one writer: history, counters, terms</div>
+      <code>getCreditFile()</code> <code>getCreditEvents()</code> <code>getTerms()</code></div>
+    <div class="arr" aria-hidden="true"></div>
+    <div class="node apps"><div class="k">Applications</div>
+      <div class="d"><b>Treasury</b> lends</div>
+      <div class="d"><b>CreditAccess</b> sets deposits</div>
+      <div class="d"><b>NetTermsDesk</b> sets supplier terms, added ten days later</div></div>
+  </div>
+  <p class="note">Not a score. A score compresses history into one number; CreditFile keeps the
+    history, its counters and the earned terms, and each application derives its own answer. No
+    application can write to it, so none can rewrite the history another one reads.</p>
+</section>
+
+<div id="app"><!-- static:start -->
+    <div class="card static">
+      <p class="note"><b>Recorded copy.</b> Written at Creditcoin block
+        5,468,583 on 2026-09-11 09:40 UTC by <code>script/prerender.mjs</code>
+        from data checked against both chains. With JavaScript on, this page replaces it with live
+        reads.</p>
+
+      <h2>Borrower state</h2>
+      <p><b>TRUSTED</b>, 80% advance, 12% APR, under
+        ProofLine policy v1. Earned from verified history (CreditFile): capacity $9,600,
+        approved line $9,600. Current consumer state (Treasury): available
+        $6,440.04, debt $3,159.96.</p>
+      <p>5 settlements verified through Attestcoin, 3 registered
+        counterparties, 100% on time, largest settlement $12,000.
+        <b>The counterparties are not shown to be economically independent: this demonstration
+        history was seeded by the builder.</b></p>
+
+      <h2>Receipts: every CreditFile event, both sides</h2>
+      <div class="scroll"><table class="stbl">
+        <thead><tr><th>Event</th><th>Amount</th><th>Ethereum source</th><th>Creditcoin verification</th></tr></thead>
+        <tbody>
+          <tr><td>Invoice #1 issued</td><td>$12,000</td><td><a href="https://sepolia.etherscan.io/tx/0x145a97b70929ab144369240471158ecff2155e2d99378ac79f8fcce4da257051">0x145a97b7…257051</a></td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0x416cea919578dc6d76a7d53557c386c07cffab9c667868a263ea6fbc04cd79a8">0x416cea91…cd79a8</a></td></tr>
+          <tr><td>Invoice #1 settled</td><td>$12,000</td><td><a href="https://sepolia.etherscan.io/tx/0x6d909c470c9be3fc0226ce05e00d770b6eaa62ba6b35ee78bf2e71c30b0b64e3">0x6d909c47…0b64e3</a></td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0xccfa6c553cc889463918fbdc5ecfbd71aae915ab73ef0cb687ccfae50d51c875">0xccfa6c55…51c875</a></td></tr>
+          <tr><td>Invoice #2 issued</td><td>$8,000</td><td><a href="https://sepolia.etherscan.io/tx/0x1266945c4781eaa1d6cbe6405775e0811bef243032b300f99d946bd451530ed4">0x1266945c…530ed4</a></td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0x73f81fd7a5ba38327ef3fb95e4a8f4b0093f83d77b731a13f447d4e73dc5b9b0">0x73f81fd7…c5b9b0</a></td></tr>
+          <tr><td>Invoice #2 settled</td><td>$8,000</td><td><a href="https://sepolia.etherscan.io/tx/0x396e50e5770fb1762fc16ed1f0f9e486af04094cd676374394ae82f38bf4b59d">0x396e50e5…f4b59d</a></td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0xfc6f67e9ad0bbcdea95db14d169fc187fd0e3f058ffedbcb9fe04097cfd1b922">0xfc6f67e9…d1b922</a></td></tr>
+          <tr><td>Invoice #3 issued</td><td>$10,000</td><td><a href="https://sepolia.etherscan.io/tx/0x71e6344f61fba55af790d67a13966dcf7d2a55e9a11d562672b6b50939428708">0x71e6344f…428708</a></td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0x0b86cc7b23f9bb022880db897106ca30ccb82634ef34ff9edade04d6946a1b21">0x0b86cc7b…6a1b21</a></td></tr>
+          <tr><td>Invoice #3 settled</td><td>$10,000</td><td><a href="https://sepolia.etherscan.io/tx/0xebe0c17aa12009daa19397eff35948e260878e95da655b0059773b8d4afaed4c">0xebe0c17a…faed4c</a></td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0x72d2f5512d63145de78d9bfbc96abc5c64f568ee58bcc4b3369cc2f25bc5c111">0x72d2f551…c5c111</a></td></tr>
+          <tr><td>Invoice #4 issued</td><td>$7,000</td><td><a href="https://sepolia.etherscan.io/tx/0x7e77d9394b00bf9d4249c79b08b9f6f183ff7e39738de460e8ee5bbd62f564c8">0x7e77d939…f564c8</a></td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0x5fbb8f98bf8ca91b5bb48066d0d8b7db1cc8eeb6448880bc97ef9a37863f014f">0x5fbb8f98…3f014f</a></td></tr>
+          <tr><td>Invoice #4 settled</td><td>$7,000</td><td><a href="https://sepolia.etherscan.io/tx/0x4a17e498091f926c61a72cce0e9cbdb57d788ae7850db13c1e24f48d356f1c73">0x4a17e498…6f1c73</a></td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0x23f2d4d4c4f532330f8bdd071435e1936ea6fba9933076dd49dc618f5616dd51">0x23f2d4d4…16dd51</a></td></tr>
+          <tr><td>Invoice #5 issued</td><td>$9,000</td><td><a href="https://sepolia.etherscan.io/tx/0xa067515aca5a625021cd19478b6492bb94ac04b39738ed96cb102633a3d92637">0xa067515a…d92637</a></td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0x1c7779441fffa3f77723c9c971f09af2fabe80befe741d938e0bdc0ab5087951">0x1c777944…087951</a></td></tr>
+          <tr><td>Invoice #5 settled</td><td>$9,000</td><td><a href="https://sepolia.etherscan.io/tx/0x3141fd1f4815eceec4120bdfda162c95bf3bc608a8d49d0a79a8306ea98da102">0x3141fd1f…8da102</a></td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0xd368ed0f38618943792a252cb5b7e691c5d533add2998ddf2f03650a0a086db5">0xd368ed0f…086db5</a></td></tr>
+          <tr><td>Invoice #6 issued</td><td>$12,000</td><td><a href="https://sepolia.etherscan.io/tx/0xbcd63bf4347cd9403db46888cb3ee22e12bcc0a2ff583a3c253b5310c51ab327">0xbcd63bf4…1ab327</a></td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0x87996e4184a66a95f925a10b1c885182f3448d6801eec0a20c8097398fd98ca9">0x87996e41…d98ca9</a></td></tr>
+          <tr><td>Borrowed 6,300</td><td>debt $6,300, available $3,300</td><td>Treasury, Creditcoin</td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0xd3174e51076cb837f1a7fd41631d6f8eb57a5f069af0055dea1a19dbb206b39d">0xd3174e51…06b39d</a></td></tr>
+          <tr><td>Repaid 3,150</td><td>debt $3,150, available $6,450</td><td>Treasury, Creditcoin</td><td><a href="https://creditcoin-testnet.blockscout.com/tx/0x3cf490de1ce46b27b22439e7f148c6cdaff78027608f9bc6fcca08c7c4ccb019">0x3cf490de…ccb019</a></td></tr>
+        </tbody>
+      </table></div>
+
+      <h2>Verification boundary: refused</h2>
+      <ul>
+          <li><b>Replay-protected event substitution</b>: <code>AlreadyProcessed</code>, mined and reverted. Creditcoin <a href="https://creditcoin-testnet.blockscout.com/tx/0xf36fdb0bc22f64c69cc509f0a40eab9ac2534fe2ef01363df62662a6324b8cf1">0xf36fdb0b…4b8cf1</a>, source <a href="https://sepolia.etherscan.io/tx/0x6d909c470c9be3fc0226ce05e00d770b6eaa62ba6b35ee78bf2e71c30b0b64e3">0x6d909c47…0b64e3</a></li>
+          <li><b>Unauthorized source</b>: <code>UnauthorizedSource</code>, mined and reverted. Creditcoin <a href="https://creditcoin-testnet.blockscout.com/tx/0x209317f636d38d45a205b4dde4685d1628d14f340028651ff968fbd289efd94e">0x209317f6…efd94e</a>, source <a href="https://sepolia.etherscan.io/tx/0x606d7a6d17ee168fcec7134aff26e8d97f7f0372c92b315064df3458af17d99f">0x606d7a6d…17d99f</a></li>
+      </ul>
+      <p>Neither changed CreditFile.</p>
+
+      <h2>Three applications, one credit file</h2>
+      <ul>
+        <li><b>Treasury</b> lends against the earned line:
+          <a href="https://creditcoin-testnet.blockscout.com/address/0x0cb2A0162ed7D5eE8fEf48A9AcE12fAdcbd24e40?tab=contract">0x0cb2A016…d24e40</a></li>
+        <li><b>CreditAccess</b> derives a deposit requirement from <code>tier</code> alone, currently
+          0%. Read-only in this demonstration; no agreement was opened:
+          <a href="https://creditcoin-testnet.blockscout.com/address/0x49DdB1b11a953BcD9894F2816878aa1a50DAb869?tab=contract">0x49DdB1b1…DAb869</a></li>
+        <li><b>NetTermsDesk</b>, deployed 2026-09-11 by a fresh address with no
+          ProofLine role, decided net 60 days by its own rules. CreditFile's code
+          and event count were unchanged: decision <a href="https://creditcoin-testnet.blockscout.com/tx/0xde9b8fe94ee22c3b38372d592dfcb644d31c857420e5904c5be39ed566d6a519">0xde9b8fe9…d6a519</a></li>
+      </ul>
+
+      <h2>Verified, and not established</h2>
+      <p><b>Verified:</b> source transaction inclusion; source receipt succeeded; expected event
+        emitted; event from the authorized source; replay identity unused; credit event persisted to
+        CreditFile; credit terms derived deterministically from that state.</p>
+      <p><b>Not established:</b> counterparties are economically independent; the demonstration
+        history represents external commercial activity; CreditFile guarantees repayment; tier
+        thresholds are Creditcoin protocol standards.</p>
+      <p><b>ProofLine verifies evidence. It does not manufacture trust outside that evidence.</b></p>
+    </div>
+    <!-- static:end --></div>
 
 <footer id="foot"></footer>
 </div>

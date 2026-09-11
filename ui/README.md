@@ -42,6 +42,10 @@ Every number can be reproduced independently:
 
 ## Deliberate choices
 
+- **Readable without JavaScript.** `node script/prerender.mjs` writes a recorded copy of the
+  state, receipts, refusals and consumers into `index.html`, dated and sourced from the same
+  checked data files, so a crawler or summariser sees the evidence too. The live page replaces
+  it with live reads.
 - **Never a figure it did not read.** If Creditcoin does not answer, the page says so and
   shows `data/snapshot.json` labelled as recorded, with its block and time. A file of zeros
   would be indistinguishable from a borrower with no history.
