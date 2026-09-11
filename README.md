@@ -78,7 +78,9 @@ node ui/serve.mjs
    transaction, the Creditcoin verification transaction, and the CreditFile state change.
 6. **Verification boundary.** Two rejections mined on the production receiver, each at a
    different gate, each one click from Blockscout.
-7. **CreditAccess.** A second consumer deriving its own terms from the same file.
+7. **Three consumers.** CreditAccess derives its own terms from the same file, and
+   NetTermsDesk, deployed ten days later by a fresh address, reads it with no change to
+   CreditFile.
 
 ## What happened on-chain
 
@@ -142,6 +144,26 @@ Each was dry-run first and broadcast only when the dry run returned the expected
 
 ## Why CreditFile is reusable infrastructure
 
+### A third application, added ten days later
+
+On 2026-09-11, ten days after `CreditFile` was deployed, a fresh address with no role in any
+ProofLine contract deployed [`NetTermsDesk`](https://creditcoin-testnet.blockscout.com/address/0x307C0Ecf5d9034DA890579Ac22dD851343b9AB5A?tab=contract)
+and asked it for one decision about the same borrower. `CreditFile`'s code hash and event count
+were read before and after. Neither changed.
+
+| | |
+|---|---|
+| Deploy | [`0xd4404fb6...`](https://creditcoin-testnet.blockscout.com/tx/0xd4404fb63e238c15ceab489c96036b47f46e187e167219cd36471c1a8fb541b8) |
+| Decision | [`0xde9b8fe9...`](https://creditcoin-testnet.blockscout.com/tx/0xde9b8fe94ee22c3b38372d592dfcb644d31c857420e5904c5be39ed566d6a519): net 60 days, 128,296 gas |
+| `CreditFile` | same code hash, 11 events before and after |
+
+`NetTermsDesk` sets supplier payment terms. It imports nothing from ProofLine: it declares the
+return shape of the public `getCreditFile()` from the ABI and applies its own policy to the raw
+file, including a verified-volume rule ProofLine's tiers do not have. It needed no permission,
+no allowlist entry and no contract change. ([evidence](evidence/third-app/))
+
+### Two consumers built alongside it
+
 `Treasury` and `CreditAccess` are two unrelated applications reading the same credit file.
 Neither imports the other. Neither computes a tier. Neither can write to it.
 
@@ -172,6 +194,8 @@ Ethereum Sepolia
       +-- UnderwritingLib -> Treasury.sol       working capital
       |
       +-- tier            -> CreditAccess.sol   security-deposit requirement
+      |
+      +-- raw file        -> NetTermsDesk.sol   supplier terms, added ten days later
 ```
 
 ## Deployed
@@ -185,6 +209,7 @@ Ethereum Sepolia
 | CC3 | `Treasury` | [`0x0cb2A016...`](https://creditcoin-testnet.blockscout.com/address/0x0cb2A0162ed7D5eE8fEf48A9AcE12fAdcbd24e40?tab=contract) | verified |
 | CC3 | `CreditAccess` | [`0x49DdB1b1...`](https://creditcoin-testnet.blockscout.com/address/0x49DdB1b11a953BcD9894F2816878aa1a50DAb869?tab=contract) | verified |
 | CC3 | `mUSD` | [`0x90A95bb6...`](https://creditcoin-testnet.blockscout.com/address/0x90A95bb62DEB47BF0614d274e7A526797168f907?tab=contract) | verified |
+| CC3 | `NetTermsDesk` | [`0x307C0Ecf...`](https://creditcoin-testnet.blockscout.com/address/0x307C0Ecf5d9034DA890579Ac22dD851343b9AB5A?tab=contract) | verified |
 
 Every contract's source is verified on Blockscout. Blockscout lists the five ProofLine contracts
 as partial matches: their deployed code is byte-identical to this repository's build, and only
@@ -197,7 +222,7 @@ npm install
 forge test
 ```
 
-118 tests, including the real `EvmV1Decoder` run against Attestcoin proofs captured from the
+124 tests, including the real `EvmV1Decoder` run against Attestcoin proofs captured from the
 live prover.
 
 Check any number in this README directly against the chain:
@@ -231,6 +256,7 @@ ones the precompile derived and `CreditFile` stored.
 | [`evidence/integration/history/`](evidence/integration/history/) | The five settlements and the tier progression |
 | [`evidence/integration/borrow/`](evidence/integration/borrow/) | Borrow and repayment, ten assertions |
 | [`evidence/mainnet/`](evidence/mainnet/) | Six gates run against a real Ethereum mainnet transaction, and the unauthorized-source rejection |
+| [`evidence/third-app/`](evidence/third-app/) | A third application deployed against the live credit file ten days later, with no change to it |
 | [`evidence/refusals/`](evidence/refusals/) | Two rejections mined on the production receiver: replay-protected event substitution and an unauthorized source |
 | [`evidence/G0-B/`](evidence/G0-B/) | Batch proving tested on our path, with a control |
 | [`ui/data/receipts.json`](ui/data/receipts.json) | Every CreditFile event mapped to its Ethereum and Creditcoin transactions |

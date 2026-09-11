@@ -123,7 +123,10 @@ Transactions: issue `0xbcd63bf4…` (verified in 7.8 min, 311,342 gas) · borrow
 > `CreditFile`. The same holds for `CreditAccess`, which sat at a 0% deposit requirement
 > throughout the borrow and repayment because it reads `tier`, and borrowing does not touch
 > tier. No CreditAccess agreement was opened: in this demonstration it is a read-only
-> consumer that derives its own deposit requirement from CreditFile state.
+> consumer that derives its own deposit requirement from CreditFile state. A third consumer,
+> NetTermsDesk, was deployed on 2026-09-11 by a fresh address against the live CreditFile,
+> importing nothing from ProofLine, with no change to CreditFile
+> ([`evidence/third-app/`](../evidence/third-app/)).
 
 ## 4. A correction we are keeping in the record
 
@@ -237,7 +240,7 @@ setter, so the system retains exactly one privileged call: `setAuthorizedSource`
 
 ```bash
 npm install                    # Attestcoin SDK and contracts
-forge test                     # 118 tests, incl. real captured Attestcoin proofs
+forge test                     # 124 tests, incl. real captured Attestcoin proofs
 node script/deploy.mjs         # both networks
 node script/history-emit.mjs   # demonstration settlement events on Sepolia
 node script/history-prove.mjs  # prove them (resumable)

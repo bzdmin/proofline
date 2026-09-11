@@ -65,6 +65,7 @@ async function readLive() {
     cf:  new ethers.Contract(CFG.CreditFile,   ABIS.CreditFile,   p),
     tre: new ethers.Contract(CFG.Treasury,     ABIS.Treasury,     p),
     acc: new ethers.Contract(CFG.CreditAccess, ABIS.CreditAccess, p),
+    ntd: new ethers.Contract(CFG.NetTermsDesk, ABIS.NetTermsDesk, p),
   };
   const b = CFG.borrower;
   const read = (async () => {
@@ -73,9 +74,10 @@ async function readLive() {
     const [file, events, debt, dep] = await Promise.all([
       c.cf.getCreditFile(b, o), c.cf.getCreditEvents(b, o), c.tre.debtOf(b, o), c.acc.requiredDepositBps(b, o),
     ]);
-    const terms = await c.cf.getTermsWithDebt(b, debt, o);
+    const [terms, q] = await Promise.all([c.cf.getTermsWithDebt(b, debt, o), c.ntd.quote(b, o)]);
     return { mode: 'live', block, file: plain(file), events: plain(events), terms: plain(terms),
-             debt: debt.toString(), depositBps: dep.toString() };
+             debt: debt.toString(), depositBps: dep.toString(),
+             desk: { netDays: Number(q[0]), basis: q[1] } };
   })();
   const late = new Promise((_, no) => setTimeout(() => no(new Error('no answer within 15 seconds')), 15000));
   const d = await Promise.race([read, late]);
@@ -212,6 +214,26 @@ function render() {
     </section>
 
     <section class="sec">
+      <div class="panel">
+        <h2>A third application, added ten days later &middot; NetTermsDesk</h2>
+        <div class="pad">
+          <div class="eyebrow">Supplier payment terms it decides${d.desk ? ', read live' : ', as recorded'}</div>
+          <div class="big">${deskTerms(d.desk || CFG.netTermsDesk.decision)}</div>
+          <p class="note">Deployed on ${CFG.netTermsDesk.deployedOn} by a fresh address with no role in
+            any ProofLine contract. It imports nothing from ProofLine: it reads the public
+            <code>getCreditFile()</code> and applies its own rules, including a verified-volume test
+            ProofLine's tiers do not have. CreditFile's code and event count were identical before
+            and after. <b>No permission, no allowlist, no contract change.</b></p>
+          <div class="links">
+            <span>Contract</span><a href="${CFG.cc3Explorer}/address/${CFG.NetTermsDesk}?tab=contract" target="_blank" rel="noopener">${short(CFG.NetTermsDesk)}</a>
+            <span>Deploy</span><a href="${CFG.cc3Explorer}/tx/${CFG.netTermsDesk.deployTx}" target="_blank" rel="noopener">${short(CFG.netTermsDesk.deployTx)}</a>
+            <span>Decision</span><a href="${CFG.cc3Explorer}/tx/${CFG.netTermsDesk.decideTx}" target="_blank" rel="noopener">${short(CFG.netTermsDesk.decideTx)}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
       <div class="card">
         <div class="ledger">
           <div class="yes"><h3>Verified</h3><ul>
@@ -267,6 +289,8 @@ function whyHtml(d) {
       ${money(f.maxSettledAmount)}, the largest settlement verified. Not the largest invoice issued:
       being paid is what earns capacity.</p>`;
 }
+
+const deskTerms = (x) => num(x.netDays) ? `net ${num(x.netDays)} days` : 'cash in advance';
 
 function buyerOf(addr) {
   const hit = Object.entries(CFG.buyers).find(([, a]) => a.toLowerCase() === String(addr).toLowerCase());

@@ -60,12 +60,12 @@
   <div class="grow" style="display:flex;flex-direction:column;justify-content:center">
     <div class="eyebrow">BUIDL CTC 2026 Fall &middot; DeFi &middot; RWA</div>
     <h1>ProofLine</h1>
-    <p class="lead">Verified economic history becomes reusable credit.</p>
+    <p class="lead">A credit file only a verified proof can write, and any app can read.</p>
     <p style="max-width:58ch">Ethereum contains evidence of economic behaviour. Attestcoin lets
     Creditcoin verify that evidence. ProofLine turns verified events into persistent credit
     state that independent applications can consume.</p>
   </div>
-  <div class="foot">Live on Ethereum Sepolia &amp; Creditcoin CC3 &middot; 118 tests &middot; every material claim reproducible from the repo</div>
+  <div class="foot">Live on Ethereum Sepolia &amp; Creditcoin CC3 &middot; 124 tests &middot; 8 contracts source-verified &middot; every material claim reproducible from the repo</div>
 </div>
 
 <!-- 2 ------------------------------------------------------------------ -->
@@ -117,7 +117,7 @@
 <div class="slide"><div class="n">04</div>
   <div class="eyebrow">How it works</div>
   <div class="grow" style="display:flex;align-items:center">
-<pre style="font-size:11.5pt;line-height:1.75">Ethereum Sepolia
+<pre style="font-size:11.5pt;line-height:1.55">Ethereum Sepolia
   <b>Receivable.sol</b>          real mUSD moves, invariants enforced on-chain
       │
       ▼
@@ -132,7 +132,9 @@
       │
       ├── UnderwritingLib → <b>Treasury.sol</b>       working capital
       │
-      └── tier            → <b>CreditAccess.sol</b>   security deposit</pre>
+      ├── tier            → <b>CreditAccess.sol</b>   security deposit
+      │
+      └── raw file        → <b>NetTermsDesk.sol</b>   supplier terms <span class="acc">· added ten days later</span></pre>
   </div>
   <div class="foot">One writer. CreditFile changes only when a proof verifies, in the same transaction</div>
 </div>
@@ -185,10 +187,10 @@
   <div class="eyebrow">The distinction</div>
   <h2>Why this is infrastructure,<br>not another lending app</h2>
   <div class="cols3 grow" style="align-content:start">
-    <div class="card"><div class="k">Reusable</div><div class="v acc">2</div>
-      <div class="s">Independent consumers over one credit file. Treasury lends; CreditAccess
-      derives a deposit requirement, read-only. Neither imports the other, neither computes a tier, neither
-      can write.</div></div>
+    <div class="card"><div class="k">Reusable</div><div class="v acc">3</div>
+      <div class="s">Independent consumers over one credit file. The third, NetTermsDesk, was
+      deployed ten days later by a fresh address: it imports nothing, needed no permission,
+      and CreditFile did not change.</div></div>
     <div class="card"><div class="k">Load-bearing</div><div class="v ok">1</div>
       <div class="s">One writer. Delete Attestcoin and the credit file is immutable -
       not degraded, not stale. The financial state transition becomes impossible.</div></div>
@@ -199,7 +201,7 @@
   <p style="margin-top:2mm">One verified settlement moved Treasury from 70%/14% to 80%/12% and
   CreditAccess's deposit requirement from 40% to 0%, through a credit file that imports
   neither application. <strong>The invoice contract is our source of evidence, not the product.</strong></p>
-  <div class="foot">Any Creditcoin application can read getCreditFile / getCreditEvents / getTerms</div>
+  <div class="foot">Done, not claimed: NetTermsDesk 0x307C0Ecf &middot; decision 0xde9b8fe9, net 60 &middot; CreditFile code hash and 11 events unchanged</div>
 </div>
 
 <!-- 8 ------------------------------------------------------------------ -->
@@ -246,7 +248,7 @@
       </div>
     </div>
   </div>
-  <div class="foot">118 tests &middot; evidence/ separates documented, measured and designed &middot; github.com/bzdmin/proofline</div>
+  <div class="foot">124 tests &middot; 8 contracts source-verified &middot; 2 rejections mined on-chain &middot; github.com/bzdmin/proofline</div>
 </div>
 
 </body></html>

@@ -31,5 +31,19 @@
   "1:4:1": "0x4a17e498091f926c61a72cce0e9cbdb57d788ae7850db13c1e24f48d356f1c73",
   "1:5:0": "0xa067515aca5a625021cd19478b6492bb94ac04b39738ed96cb102633a3d92637",
   "1:5:1": "0x3141fd1f4815eceec4120bdfda162c95bf3bc608a8d49d0a79a8306ea98da102"
+ },
+ "NetTermsDesk": "0x307C0Ecf5d9034DA890579Ac22dD851343b9AB5A",
+ "netTermsDesk": {
+  "deployedBy": "0xbD7Ac5a96a4538b89aDd873b5BA3550AdEeA050a",
+  "deployTx": "0xd4404fb63e238c15ceab489c96036b47f46e187e167219cd36471c1a8fb541b8",
+  "decideTx": "0xde9b8fe94ee22c3b38372d592dfcb644d31c857420e5904c5be39ed566d6a519",
+  "deployedOn": "2026-09-11",
+  "decision": {
+   "netDays": 60,
+   "basis": "net 60",
+   "settled": 5,
+   "counterparties": 3,
+   "verifiedVolume": "46000000000"
+  }
  }
 }
