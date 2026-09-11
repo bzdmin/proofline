@@ -1,0 +1,380 @@
+{
+ "borrower": "0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA",
+ "frames": [
+  {
+   "label": "Invoice #1 issued",
+   "kind": "issued",
+   "key": "1:1:0",
+   "tx": "0x416cea919578dc6d76a7d53557c386c07cffab9c667868a263ea6fbc04cd79a8",
+   "block": 5412681,
+   "file": {
+    "settled": "0",
+    "onTime": "0",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "0",
+    "verifiedVolume": "0",
+    "outstandingReceivables": "12000000000",
+    "maxSettledAmount": "0",
+    "currentLimit": "0",
+    "lastUpdated": "1788277668"
+   },
+   "terms": {
+    "tier": "0",
+    "advanceBps": "5000",
+    "aprBps": "1800",
+    "capacity": "0",
+    "limit": "0",
+    "drawable": "0"
+   },
+   "debt": "0",
+   "depositBps": "10000"
+  },
+  {
+   "label": "Invoice #1 settled",
+   "kind": "settled",
+   "key": "1:1:1",
+   "tx": "0xccfa6c553cc889463918fbdc5ecfbd71aae915ab73ef0cb687ccfae50d51c875",
+   "block": 5412683,
+   "file": {
+    "settled": "1",
+    "onTime": "1",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "1",
+    "verifiedVolume": "12000000000",
+    "outstandingReceivables": "0",
+    "maxSettledAmount": "12000000000",
+    "currentLimit": "7200000000",
+    "lastUpdated": "1788277680"
+   },
+   "terms": {
+    "tier": "1",
+    "advanceBps": "6000",
+    "aprBps": "1600",
+    "capacity": "7200000000",
+    "limit": "7200000000",
+    "drawable": "0"
+   },
+   "debt": "0",
+   "depositBps": "7500"
+  },
+  {
+   "label": "Invoice #2 issued",
+   "kind": "issued",
+   "key": "1:2:0",
+   "tx": "0x73f81fd7a5ba38327ef3fb95e4a8f4b0093f83d77b731a13f447d4e73dc5b9b0",
+   "block": 5413173,
+   "file": {
+    "settled": "1",
+    "onTime": "1",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "1",
+    "verifiedVolume": "12000000000",
+    "outstandingReceivables": "8000000000",
+    "maxSettledAmount": "12000000000",
+    "currentLimit": "7200000000",
+    "lastUpdated": "1788285924"
+   },
+   "terms": {
+    "tier": "1",
+    "advanceBps": "6000",
+    "aprBps": "1600",
+    "capacity": "7200000000",
+    "limit": "7200000000",
+    "drawable": "4800000000"
+   },
+   "debt": "0",
+   "depositBps": "7500"
+  },
+  {
+   "label": "Invoice #2 settled",
+   "kind": "settled",
+   "key": "1:2:1",
+   "tx": "0xfc6f67e9ad0bbcdea95db14d169fc187fd0e3f058ffedbcb9fe04097cfd1b922",
+   "block": 5413174,
+   "file": {
+    "settled": "2",
+    "onTime": "2",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "2",
+    "verifiedVolume": "20000000000",
+    "outstandingReceivables": "0",
+    "maxSettledAmount": "12000000000",
+    "currentLimit": "7200000000",
+    "lastUpdated": "1788285948"
+   },
+   "terms": {
+    "tier": "1",
+    "advanceBps": "6000",
+    "aprBps": "1600",
+    "capacity": "7200000000",
+    "limit": "7200000000",
+    "drawable": "0"
+   },
+   "debt": "0",
+   "depositBps": "7500"
+  },
+  {
+   "label": "Invoice #3 issued",
+   "kind": "issued",
+   "key": "1:3:0",
+   "tx": "0x0b86cc7b23f9bb022880db897106ca30ccb82634ef34ff9edade04d6946a1b21",
+   "block": 5413175,
+   "file": {
+    "settled": "2",
+    "onTime": "2",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "2",
+    "verifiedVolume": "20000000000",
+    "outstandingReceivables": "10000000000",
+    "maxSettledAmount": "12000000000",
+    "currentLimit": "7200000000",
+    "lastUpdated": "1788285960"
+   },
+   "terms": {
+    "tier": "1",
+    "advanceBps": "6000",
+    "aprBps": "1600",
+    "capacity": "7200000000",
+    "limit": "7200000000",
+    "drawable": "6000000000"
+   },
+   "debt": "0",
+   "depositBps": "7500"
+  },
+  {
+   "label": "Invoice #3 settled",
+   "kind": "settled",
+   "key": "1:3:1",
+   "tx": "0x72d2f5512d63145de78d9bfbc96abc5c64f568ee58bcc4b3369cc2f25bc5c111",
+   "block": 5413176,
+   "file": {
+    "settled": "3",
+    "onTime": "3",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "3",
+    "verifiedVolume": "30000000000",
+    "outstandingReceivables": "0",
+    "maxSettledAmount": "12000000000",
+    "currentLimit": "8400000000",
+    "lastUpdated": "1788285984"
+   },
+   "terms": {
+    "tier": "2",
+    "advanceBps": "7000",
+    "aprBps": "1400",
+    "capacity": "8400000000",
+    "limit": "8400000000",
+    "drawable": "0"
+   },
+   "debt": "0",
+   "depositBps": "4000"
+  },
+  {
+   "label": "Invoice #4 issued",
+   "kind": "issued",
+   "key": "1:4:0",
+   "tx": "0x5fbb8f98bf8ca91b5bb48066d0d8b7db1cc8eeb6448880bc97ef9a37863f014f",
+   "block": 5413177,
+   "file": {
+    "settled": "3",
+    "onTime": "3",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "3",
+    "verifiedVolume": "30000000000",
+    "outstandingReceivables": "7000000000",
+    "maxSettledAmount": "12000000000",
+    "currentLimit": "8400000000",
+    "lastUpdated": "1788285996"
+   },
+   "terms": {
+    "tier": "2",
+    "advanceBps": "7000",
+    "aprBps": "1400",
+    "capacity": "8400000000",
+    "limit": "8400000000",
+    "drawable": "4900000000"
+   },
+   "debt": "0",
+   "depositBps": "4000"
+  },
+  {
+   "label": "Invoice #4 settled",
+   "kind": "settled",
+   "key": "1:4:1",
+   "tx": "0x23f2d4d4c4f532330f8bdd071435e1936ea6fba9933076dd49dc618f5616dd51",
+   "block": 5413178,
+   "file": {
+    "settled": "4",
+    "onTime": "4",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "3",
+    "verifiedVolume": "37000000000",
+    "outstandingReceivables": "0",
+    "maxSettledAmount": "12000000000",
+    "currentLimit": "8400000000",
+    "lastUpdated": "1788286008"
+   },
+   "terms": {
+    "tier": "2",
+    "advanceBps": "7000",
+    "aprBps": "1400",
+    "capacity": "8400000000",
+    "limit": "8400000000",
+    "drawable": "0"
+   },
+   "debt": "0",
+   "depositBps": "4000"
+  },
+  {
+   "label": "Invoice #5 issued",
+   "kind": "issued",
+   "key": "1:5:0",
+   "tx": "0x1c7779441fffa3f77723c9c971f09af2fabe80befe741d938e0bdc0ab5087951",
+   "block": 5413179,
+   "file": {
+    "settled": "4",
+    "onTime": "4",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "3",
+    "verifiedVolume": "37000000000",
+    "outstandingReceivables": "9000000000",
+    "maxSettledAmount": "12000000000",
+    "currentLimit": "8400000000",
+    "lastUpdated": "1788286020"
+   },
+   "terms": {
+    "tier": "2",
+    "advanceBps": "7000",
+    "aprBps": "1400",
+    "capacity": "8400000000",
+    "limit": "8400000000",
+    "drawable": "6300000000"
+   },
+   "debt": "0",
+   "depositBps": "4000"
+  },
+  {
+   "label": "Invoice #5 settled",
+   "kind": "settled",
+   "key": "1:5:1",
+   "tx": "0xd368ed0f38618943792a252cb5b7e691c5d533add2998ddf2f03650a0a086db5",
+   "block": 5413180,
+   "file": {
+    "settled": "5",
+    "onTime": "5",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "3",
+    "verifiedVolume": "46000000000",
+    "outstandingReceivables": "0",
+    "maxSettledAmount": "12000000000",
+    "currentLimit": "9600000000",
+    "lastUpdated": "1788286044"
+   },
+   "terms": {
+    "tier": "3",
+    "advanceBps": "8000",
+    "aprBps": "1200",
+    "capacity": "9600000000",
+    "limit": "9600000000",
+    "drawable": "0"
+   },
+   "debt": "0",
+   "depositBps": "0"
+  },
+  {
+   "label": "Invoice #6 issued",
+   "kind": "issued",
+   "key": "1:6:0",
+   "tx": "0x87996e4184a66a95f925a10b1c885182f3448d6801eec0a20c8097398fd98ca9",
+   "block": 5413322,
+   "file": {
+    "settled": "5",
+    "onTime": "5",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "3",
+    "verifiedVolume": "46000000000",
+    "outstandingReceivables": "12000000000",
+    "maxSettledAmount": "12000000000",
+    "currentLimit": "9600000000",
+    "lastUpdated": "1788288348"
+   },
+   "terms": {
+    "tier": "3",
+    "advanceBps": "8000",
+    "aprBps": "1200",
+    "capacity": "9600000000",
+    "limit": "9600000000",
+    "drawable": "9600000000"
+   },
+   "debt": "0",
+   "depositBps": "0"
+  },
+  {
+   "label": "Borrowed 6,300",
+   "kind": "borrow",
+   "tx": "0xd3174e51076cb837f1a7fd41631d6f8eb57a5f069af0055dea1a19dbb206b39d",
+   "block": 5413323,
+   "file": {
+    "settled": "5",
+    "onTime": "5",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "3",
+    "verifiedVolume": "46000000000",
+    "outstandingReceivables": "12000000000",
+    "maxSettledAmount": "12000000000",
+    "currentLimit": "9600000000",
+    "lastUpdated": "1788288348"
+   },
+   "terms": {
+    "tier": "3",
+    "advanceBps": "8000",
+    "aprBps": "1200",
+    "capacity": "9600000000",
+    "limit": "9600000000",
+    "drawable": "3300000000"
+   },
+   "debt": "6300000000",
+   "depositBps": "0"
+  },
+  {
+   "label": "Repaid 3,150",
+   "kind": "repay",
+   "tx": "0x3cf490de1ce46b27b22439e7f148c6cdaff78027608f9bc6fcca08c7c4ccb019",
+   "block": 5413325,
+   "file": {
+    "settled": "5",
+    "onTime": "5",
+    "defaults": "0",
+    "openDelinquencies": "0",
+    "counterparties": "3",
+    "verifiedVolume": "46000000000",
+    "outstandingReceivables": "12000000000",
+    "maxSettledAmount": "12000000000",
+    "currentLimit": "9600000000",
+    "lastUpdated": "1788288348"
+   },
+   "terms": {
+    "tier": "3",
+    "advanceBps": "8000",
+    "aprBps": "1200",
+    "capacity": "9600000000",
+    "limit": "9600000000",
+    "drawable": "6449999281"
+   },
+   "debt": "3150000719",
+   "depositBps": "0"
+  }
+ ]
+}
