@@ -151,9 +151,9 @@
       <tr class="hi"><td>#5</td><td>buyer B</td><td>$9,000</td><td class="t ok"><strong>TRUSTED</strong></td><td><strong>80%</strong></td><td><strong>12%</strong></td><td><strong>0%</strong></td></tr>
     </tbody>
   </table>
-  <p style="margin-top:6mm">Every row is a real Sepolia transaction moving mUSD between
-  distinct registered counterparties, then proven through Attestcoin. No credit state was
-  seeded: every tier change came from the proven settlement history.
+  <p style="margin-top:6mm">Every row is a Sepolia transaction moving mUSD between three
+  registered counterparties, all controlled by the builder, then verified through Attestcoin.
+  No credit state was written directly: every tier change came from a verified settlement.
   <strong>Capacity rose from 7,200 to 9,600 while the largest settlement stayed at 12,000</strong>
   - every increase came from a rate earned by history, never from a bigger invoice.</p>
   <div class="foot">Attestation 7.96 min, one attempt, covering all eight events across a 10-block span</div>
@@ -175,8 +175,8 @@
   <p style="margin-top:6mm"><strong>The first row is the architecture in one line.</strong>
   Earned standing of 9,600 with nothing currently drawable - a state that cannot be
   expressed at all if the three numbers are collapsed into one "credit limit".</p>
-  <p>Tier, capacity and line never moved. Only availability and debt responded to borrowing.
-  The <span class="mono">.001</span> is real accrued interest, left unrounded.</p>
+  <p>Verified history changes earned capacity. Receivables and debt change availability.
+  The <span class="mono">.001</span> is accrued interest: 3,150.000719 on-chain.</p>
   <div class="foot">borrow 0xd3174e51 &middot; repay 0x3cf490de &middot; ten assertions, all passing</div>
 </div>
 
@@ -187,18 +187,18 @@
   <div class="cols3 grow" style="align-content:start">
     <div class="card"><div class="k">Reusable</div><div class="v acc">2</div>
       <div class="s">Independent consumers over one credit file. Treasury lends; CreditAccess
-      waives security deposits. Neither imports the other, neither computes a tier, neither
+      derives a deposit requirement, read-only. Neither imports the other, neither computes a tier, neither
       can write.</div></div>
     <div class="card"><div class="k">Load-bearing</div><div class="v ok">1</div>
       <div class="s">One writer. Delete Attestcoin and the credit file is immutable -
       not degraded, not stale. The financial state transition becomes impossible.</div></div>
     <div class="card"><div class="k">Stateful</div><div class="v warn">10</div>
       <div class="s">Credit is persistent state, not a one-shot reaction to a proof. History
-      compounds; delinquency tightens terms immediately; a proven default freezes permanently.</div></div>
+      compounds; delinquency tightens terms immediately; a verified default freezes permanently.</div></div>
   </div>
-  <p style="margin-top:2mm">One proven settlement moved Treasury from 70%/14% to 80%/12% and
-  waived CreditAccess's 40% deposit - through a credit file that imports neither
-  application. <strong>The invoice contract is our source of evidence, not the product.</strong></p>
+  <p style="margin-top:2mm">One verified settlement moved Treasury from 70%/14% to 80%/12% and
+  CreditAccess's deposit requirement from 40% to 0%, through a credit file that imports
+  neither application. <strong>The invoice contract is our source of evidence, not the product.</strong></p>
   <div class="foot">Any Creditcoin application can read getCreditFile / getCreditEvents / getTerms</div>
 </div>
 
@@ -227,8 +227,8 @@
     <div>
       <div class="k eyebrow" style="margin-bottom:3mm">Stated plainly</div>
       <ul>
-        <li><b>Sybil resistance remains a production limitation.</b> Current controls reduce
-        self-dealing but do not establish independent counterparty identity.</li>
+        <li><b>The demonstration history was seeded by the builder.</b> ProofLine verifies the
+        events; it does not establish that counterparties are economically independent.</li>
         <li><b>Repayment is unsecured.</b> Writability is in audit, so enforcement is
         credit-state based rather than collateral seizure. Deliberate, and Creditcoin's thesis.</li>
         <li><b>Tier thresholds are our policy</b>, not a Creditcoin standard. The reusable

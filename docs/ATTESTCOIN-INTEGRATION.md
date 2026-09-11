@@ -107,14 +107,14 @@ limit" and that state cannot be expressed - which is precisely the defect that o
 borrower's line at the moment they proved a perfect payment.
 
 **Tier, capacity and line never moved.** Only `available` and `debt` responded to borrowing.
-Standing is earned from proven history; liquidity tracks current receivables and debt.
+Standing is earned from verified history; liquidity tracks current receivables and debt.
 
-**The fractional remainder is real interest.** Repaying exactly 3,150 left 3,150.001
-outstanding, because interest accrued between the draw and the repayment. It is preserved
-unrounded here deliberately: it is evidence that repayment interacts with live debt
+**The fractional remainder is real interest.** Repaying exactly 3,150 left 3,150.000719
+outstanding (3,150.001 in the table), because interest accrued between the draw and the
+repayment. It is kept deliberately: it is evidence that repayment interacts with live debt
 accounting rather than a mocked balance.
 
-Transactions: issue `0xbcd63bf4…` (proven in 7.8 min, 311,342 gas) · borrow `0xd3174e51…`
+Transactions: issue `0xbcd63bf4…` (verified in 7.8 min, 311,342 gas) · borrow `0xd3174e51…`
 (171,528 gas) · repay `0x3cf490de…` (78,148 gas).
 
 > **[DESIGN] Attestcoin is upstream of the credit decision, not downstream of the loan.**
@@ -122,7 +122,8 @@ Transactions: issue `0xbcd63bf4…` (proven in 7.8 min, 311,342 gas) · borrow `
 > does not create or modify that history, and it cannot: `Treasury` has no write path to
 > `CreditFile`. The same holds for `CreditAccess`, which sat at a 0% deposit requirement
 > throughout the borrow and repayment because it reads `tier`, and borrowing does not touch
-> tier.
+> tier. No CreditAccess agreement was opened: in this demonstration it is a read-only
+> consumer that derives its own deposit requirement from CreditFile state.
 
 ## 4. A correction we are keeping in the record
 
@@ -203,14 +204,18 @@ setter, so the system retains exactly one privileged call: `setAuthorizedSource`
   endpoint is broken; we are recording what it returned for us on 2026-09-02, with a control.
   Full detail and raw output: [`evidence/G0-B/`](../evidence/G0-B/). The verified history was
   established through the single-proof path, which is fully measured.
-- **Sybil resistance is not solved.** Five controls raise the cost of self-dealing - payer
-  registration, buyer ≠ seller, minimum qualifying amount, per-borrower exposure cap, and a
-  three-counterparty requirement for the top tier - but a determined operator with three
-  funded addresses can still manufacture history. Production needs counterparty attestations
-  and stake-at-risk. We are not claiming otherwise.
+- **The demonstration history was seeded by the builder, and counterparty independence is
+  not established.** The builder issued every invoice, controls all three registered
+  counterparties (`script/history-emit.mjs` derives two of them from the relayer key), and
+  minted the test mUSD that moved and that funds Treasury. ProofLine verifies that the
+  recorded events happened as the source contract claims. It does not establish that the
+  counterparties are economically independent. Five controls raise the cost of self-dealing -
+  payer registration, buyer ≠ seller, minimum qualifying amount, per-borrower exposure cap,
+  and a three-counterparty requirement for the top tier - but they do not establish
+  independence. Production needs counterparty attestations and stake-at-risk.
 - **Repayment is unsecured.** Writability is in audit, so proceeds on Ethereum cannot be
   routed to repayment on Creditcoin and the receivable cannot be seized. Enforcement is the
-  credit file: a proven default freezes the borrower permanently. This is deliberate -
+  credit file: a verified default freezes the borrower permanently. This is deliberate -
   ProofLine prices unsecured credit from verified behaviour rather than seizing collateral.
 - **Mainnet (chainKey 3): verification boundary exercised, credit file unchanged. [MEAS]**
   ProofLine's verification boundary has been exercised against real Ethereum mainnet data,
@@ -234,7 +239,7 @@ setter, so the system retains exactly one privileged call: `setAuthorizedSource`
 npm install                    # Attestcoin SDK and contracts
 forge test                     # 118 tests, incl. real captured Attestcoin proofs
 node script/deploy.mjs         # both networks
-node script/history-emit.mjs   # real economic facts on Sepolia
+node script/history-emit.mjs   # demonstration settlement events on Sepolia
 node script/history-prove.mjs  # prove them (resumable)
 node ui/serve.mjs              # read the live credit file
 ```

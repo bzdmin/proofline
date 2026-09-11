@@ -2,77 +2,100 @@
 
 # ProofLine
 
-**ProofLine turns verified economic events on Ethereum into reusable credit state on
-Creditcoin.**
+## Verified economic history becomes reusable credit.
 
-`CreditFile` is the primitive: a proof-backed credit-state layer that any Creditcoin
-application can read. ProofLine is the reference application built around it.
+**[Open the live DApp](https://bzdmin.github.io/proofline/)** &middot; read-only, no wallet,
+reads Creditcoin as the page draws it.
+
+ProofLine turns verified economic events on Ethereum into persistent credit state on
+Creditcoin.
+
+Attestcoin verifies the source evidence. `CreditFile` persists the resulting credit history.
+Independent applications consume that state without owning or rewriting the underlying
+history.
+
+The reference application demonstrates the complete lifecycle:
+
+```
+five verified settlement events  ->  TRUSTED  ->  $9,600 earned capacity
+                                 ->  $6,300 Treasury draw  ->  $3,150 repayment
+```
 
 ## The chain
 
 ```
-Ethereum economic event  ->  Attestcoin proof  ->  persistent CreditFile state
-                         ->  underwriting terms  ->  independent application consumption
+Ethereum source event
+  -> Attestcoin verification
+  -> CreditFile state
+  -> deterministic underwriting
+  -> independent consumer
 ```
 
-Live, on deployed contracts:
+`CreditFile` has exactly one writer, and it writes only after a proof verifies.
+**Remove Attestcoin and the credit file cannot change at all.**
 
-```
-5 proven settlements  ->  TRUSTED  ->  80% advance  ->  $9,600 earned capacity
-                      ->  $12,000 receivable  ->  $6,300 borrowed
-                      ->  $3,150 repaid  ->  available credit recovers
-```
+## What is verified, and what is not
+
+| Verified | Not established |
+|---|---|
+| Ethereum source transaction inclusion | Counterparties are economically independent |
+| Source receipt succeeded | The demonstration history represents external commercial activity |
+| Expected event was emitted | CreditFile guarantees repayment |
+| Event came from the authorized source | Tier thresholds are Creditcoin protocol standards |
+| Replay identity was unused | |
+| Credit event was persisted to `CreditFile` | |
+| Credit terms derived deterministically from that state | |
+
+**ProofLine verifies evidence. It does not manufacture trust outside that evidence.**
 
 ## Judge the live system
 
-The DApp is a **read-only inspection surface over the deployed system**. No wallet, test
-tokens, deployment, API key or environment variables are required.
+**https://bzdmin.github.io/proofline/**
+
+The DApp is a read-only inspection surface over the deployed contracts. No wallet, test
+tokens, deployment, API key or environment variables. If Creditcoin does not answer, the page
+says so and shows the last recorded state, labelled as recorded. It never shows figures it did
+not read.
+
+To run it locally instead:
 
 ```bash
 git clone https://github.com/bzdmin/proofline.git
 cd proofline
-npm install
 node ui/serve.mjs
 ```
 
-The server prints the URL to open:
-
-```
-ProofLine ui on http://localhost:4173
-  read-only. no wallet, no test tokens, no deployment, no API key.
-  reads the deployed Sepolia and Creditcoin CC3 contracts live.
-```
-
-`forge-std` is vendored, so a plain clone is enough. No `--recursive`, no submodule init.
-
 ### What to inspect
 
-1. **Live credit state.** TRUSTED, 80% advance, 12% APR.
-2. **Click "Why these terms?"** Five settlements, three counterparties, 100% on-time, zero
-   delinquencies, zero defaults, $12,000 largest proven settlement.
-3. **The derivation.** 80% of $12,000 = $9,600 earned capacity. Being paid earns capacity;
-   issuing an invoice does not.
-4. **Verified history.** Open a settlement and follow it back to its Ethereum transaction.
-5. **The proof chain.** Attested block, proof-derived `txIndex`, six verification gates,
-   authorised source, and the resulting `CreditFile` write.
-6. **Independent consumers.** Compare `CreditFile`'s earned state against Treasury's own debt
-   and availability, then open `CreditAccess` reading the same file through `tier` alone.
-
-The lifecycle has already happened on-chain: five settlements, a $6,300 draw and a $3,150
-repayment. The DApp does not ask you to recreate that evidence.
+1. **What it is, then the state.** One sentence on what ProofLine does, then the borrower's
+   tier: TRUSTED, 80% advance, 12% APR.
+2. **"Why these terms?"** Each condition the tier depends on, read from the credit file.
+3. **Verified history, with its limits beside it.** Five settlements, three registered
+   counterparties, and what that does and does not prove.
+4. **CreditFile history.** All 13 changes to the credit file. Selecting one re-reads Creditcoin
+   at that change's own block and reports whether every figure still matches.
+5. **Receipts.** Any event, as three things you can open independently: the Ethereum source
+   transaction, the Creditcoin verification transaction, and the CreditFile state change.
+6. **Verification boundary.** Two recorded rejections, each at a different gate.
+7. **CreditAccess.** A second consumer deriving its own terms from the same file.
 
 ## What happened on-chain
 
-Five settlements on Ethereum Sepolia, each moving mUSD between distinct registered
-counterparties, then proven through Attestcoin and verified on Creditcoin. No credit state
-was seeded: every tier change came from the proven settlement history.
+Five settlement events on Ethereum Sepolia across three registered counterparties, verified
+through Attestcoin and persisted in `CreditFile`. No credit state was written directly: every
+tier change came from a verified settlement event.
+
+**The history is deliberately seeded demonstration data.** The builder issued the invoices,
+controls all three counterparty addresses, and minted the test mUSD that moved and that funds
+Treasury. Attestcoin verified that each event happened as the source contract recorded it.
+Nothing here shows that the counterparties are economically independent.
 
 ```
-#1  buyerA  $12,000   ->  STANDARD   60% advance / 16% APR
-#2  buyerB   $8,000   ->  STANDARD   60% / 16%
-#3  buyerC  $10,000   ->  GOOD       70% / 14%      <- third counterparty
-#4  buyerA   $7,000   ->  GOOD       70% / 14%
-#5  buyerB   $9,000   ->  TRUSTED    80% / 12%      <- five settlements, three counterparties
+#1  counterparty A  $12,000   ->  STANDARD   60% advance / 16% APR
+#2  counterparty B   $8,000   ->  STANDARD   60% / 16%
+#3  counterparty C  $10,000   ->  GOOD       70% / 14%      <- third counterparty
+#4  counterparty A   $7,000   ->  GOOD       70% / 14%
+#5  counterparty B   $9,000   ->  TRUSTED    80% / 12%      <- five settlements, three counterparties
 ```
 
 Then the earned line was used:
@@ -82,28 +105,48 @@ Then the earned line was used:
 | Before receivable | TRUSTED | 9,600 | 9,600 | **0** | 0 |
 | Receivable outstanding | TRUSTED | 9,600 | 9,600 | 9,600 | 0 |
 | Borrowed 6,300 | TRUSTED | 9,600 | 9,600 | 3,300 | 6,300 |
-| Repaid 3,150 | TRUSTED | 9,600 | 9,600 | 6,449.999 | 3,150.001 |
+| Repaid 3,150 | TRUSTED | 9,600 | 9,600 | 6,449.999281 | 3,150.000719 |
 
-**The first row is the architecture in one line.** Earned standing of 9,600 with nothing
-currently drawable, a state that cannot be expressed if capacity, the approved line and
-available-to-draw are collapsed into a single number.
+**Verified history changes earned capacity. Receivables and debt change availability.**
 
-Tier, capacity and line never moved during borrowing. Only availability and debt did.
-`CreditFile` determines earned credit terms from verified history; consumers apply their own
-debt and utilisation when calculating available credit. The `.001` is real accrued interest,
-left unrounded.
+The first row is only representable because the three numbers are kept apart: earned standing
+of 9,600 with nothing currently drawable. Collapse capacity, approved line and available into a
+single number and that state cannot be expressed. The remainder after repaying exactly 3,150
+is interest accrued between the draw and the repayment, in mUSD's six-decimal units.
+
+Every row can be re-read from Creditcoin at its own block. The DApp does this for each change.
+
+## Two rejections, two different gates
+
+**Replay-protected event substitution.** The same Ethereum transaction was resubmitted with a
+different event type. The receiver rejected it with `AlreadyProcessed` before event decoding,
+because the proof-derived transaction identity had already been processed. A processed proof
+cannot be reused to reinterpret its source transaction as a different event.
+[Record](evidence/integration/run-001/04-rejection-fake-event.json.note)
+
+**Unauthorized source.** A real Ethereum mainnet transaction contained an event from an
+unauthorized emitter, WETH where USDC was authorized. Gates 1 through 5 passed, including
+`verifyAndEmit`, and the source authorization gate rejected it with `UnauthorizedSource`.
+[Record](evidence/mainnet/README.md)
+
+These are recorded rejection cases, caught at gas estimation and never mined. Neither changes
+`CreditFile`.
 
 ## Why CreditFile is reusable infrastructure
 
 `Treasury` and `CreditAccess` are two unrelated applications reading the same credit file.
 Neither imports the other. Neither computes a tier. Neither can write to it.
 
-One proven settlement moved both: Treasury's advance rate 70% to 80% and its APR 14% to 12%,
-while CreditAccess waived a 40% security deposit entirely. `CreditAccess` reads `tier` and
-nothing else, with no debt, no drawable and no invoice knowledge.
+One verified settlement moved Treasury's advance rate from 70% to 80% and its APR from 14% to
+12%, and moved CreditAccess's deposit requirement from 40% to 0%.
 
-That is what `test_oneSettlementMovesBothConsumers` executes and the deployed contracts
-demonstrate.
+`CreditAccess` is a second read-only consumer in the demonstration. It reads `CreditFile`
+state and derives its own deposit requirement from `tier` alone, with no debt, no drawable and
+no invoice knowledge. No `CreditAccess` agreement was opened.
+
+The same `CreditFile` state can be consumed independently without giving the consumer
+ownership of the underlying credit history. `test_oneSettlementMovesBothConsumers` executes
+this.
 
 ## Architecture
 
@@ -123,9 +166,6 @@ Ethereum Sepolia
       +-- tier            -> CreditAccess.sol   security-deposit requirement
 ```
 
-`CreditFile` has exactly one writer, and it writes only after a proof verifies.
-**Remove Attestcoin and the credit file cannot change at all.**
-
 ## Deployed
 
 | Network | Contract | Address |
@@ -140,6 +180,7 @@ Ethereum Sepolia
 ## Verify it yourself
 
 ```bash
+npm install
 forge test
 ```
 
@@ -155,6 +196,15 @@ cast call 0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a \
   --rpc-url https://rpc.cc3-testnet.creditcoin.network
 ```
 
+Rebuild the DApp's receipts and history from the evidence, checked against both chains:
+
+```bash
+node script/ui-data.mjs
+```
+
+Each Ethereum source transaction is accepted only if its block and transaction index equal the
+ones the precompile derived and `CreditFile` stored.
+
 ## Evidence
 
 `evidence/` separates what the protocol **documents**, what we **measured**, and what we
@@ -164,11 +214,12 @@ cast call 0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a \
 |---|---|
 | [`evidence/G0-A/`](evidence/G0-A/) | Protocol study: seven questions answered against live chains, plus captured proof fixtures |
 | [`evidence/G0-A/package-discrepancies.md`](evidence/G0-A/package-discrepancies.md) | Three ways the official examples do not work against the published packages |
-| [`evidence/integration/run-001/`](evidence/integration/run-001/) | First end-to-end round trip, with both rejection paths asserting zero downstream mutation |
+| [`evidence/integration/run-001/`](evidence/integration/run-001/) | First end-to-end round trip and a replay-protected event substitution, with zero downstream mutation |
 | [`evidence/integration/history/`](evidence/integration/history/) | The five settlements and the tier progression |
 | [`evidence/integration/borrow/`](evidence/integration/borrow/) | Borrow and repayment, ten assertions |
-| [`evidence/mainnet/`](evidence/mainnet/) | Six gates run against a real Ethereum mainnet transaction |
+| [`evidence/mainnet/`](evidence/mainnet/) | Six gates run against a real Ethereum mainnet transaction, and the unauthorized-source rejection |
 | [`evidence/G0-B/`](evidence/G0-B/) | Batch proving tested on our path, with a control |
+| [`ui/data/receipts.json`](ui/data/receipts.json) | Every CreditFile event mapped to its Ethereum and Creditcoin transactions |
 | [`docs/ATTESTCOIN-INTEGRATION.md`](docs/ATTESTCOIN-INTEGRATION.md) | **Attestcoin Protocol Integration Summary** |
 
 Measured, not assumed: attestation takes 7.96 to 8.7 minutes; production ingest averages
@@ -183,8 +234,8 @@ judge the submitted system, and expects an attestation wait of roughly eight min
 ```bash
 cp .env.example .env            # fill PRIVATE_KEY and RELAYER_PRIVATE_KEY
 node script/deploy.mjs          # both networks
-node script/history-emit.mjs    # real economic facts on Sepolia
-node script/history-prove.mjs   # prove them (resumable)
+node script/history-emit.mjs    # demonstration settlement events on Sepolia
+node script/history-prove.mjs   # verify them through Attestcoin (resumable)
 node script/borrow-demo.mjs     # draw against the earned line
 ```
 
@@ -192,14 +243,17 @@ Requires Foundry `v1.2.3`, the version the Attestcoin examples pin, and Node 20+
 
 ## Limitations
 
-- **Counterparty independence is not established.** The protocol verifies settlement events
-  and requires registered counterparties, but provides no external attestation that those
-  counterparties are economically independent. A determined operator could therefore
-  manufacture self-dealing history. Production needs counterparty attestations, identity, or
-  stake-at-risk.
+- **The demonstration history was seeded by the builder, and counterparty independence is
+  not established.** The three counterparties are registered addresses the builder controls
+  (`script/history-emit.mjs` derives two of them from the relayer key). ProofLine verifies that
+  the recorded events happened as the source contract claims. It does not establish that the
+  counterparties are economically independent. Registration, buyer ≠ seller, a minimum
+  qualifying amount, an exposure cap and a three-counterparty requirement raise the cost of
+  self-dealing; they do not establish independence. Production needs counterparty
+  attestations, identity, or stake-at-risk.
 - **Repayment is unsecured.** Attestcoin writability is in audit, so proceeds on Ethereum
   cannot be routed to repayment and the receivable cannot be seized. Enforcement is the
-  credit file: a proven default freezes the borrower permanently. That is deliberate, and it
+  credit file: a verified default freezes the borrower permanently. That is deliberate, and it
   is Creditcoin's own thesis.
 - **Ethereum mainnet: the verification boundary has been exercised, the credit file has not.**
   The six gates were run against a real mainnet transaction emitted by a contract we do not

@@ -1,0 +1,23 @@
+What 04-rejection-fake-event.json demonstrates: replay-protected event substitution.
+
+The file name and its "FALSE-EVENT" label were written when the attempt was run. They
+describe the intent, not the gate that fired, and are kept unedited as the raw record.
+
+The attempt took the InvoicePaid transaction already verified in 02-invoice-paid.json
+(0x6d909c47...) and asked the receiver to read it as InvoiceDefaulted instead. ASCReceiver
+rejected it at gate 1 with AlreadyProcessed, before any event decoding, because the replay key
+is derived from the proof itself (chainKey, blockHeight, txIndex) and not from the event the
+caller names.
+
+The property shown: a processed proof cannot be reused to reinterpret the same source
+transaction as a different event. CreditFile was unchanged (downstreamUnchanged: true).
+
+What it does not show: the emitter authorization gate. That gate never ran here, because
+gate 1 stops the call first. Its live rejection is evidence/mainnet/ (UnauthorizedSource, a
+real Ethereum mainnet transaction whose event came from WETH rather than the authorized
+USDC), and test/ASCSecurity.t.sol covers it in test_gate6_unauthorizedEmitterRejected.
+
+Both rejections were caught at gas estimation, which executes the full call and reverts with
+the contract's reason before anything is broadcast (worker/worker.mjs, spike/mainnet-probe.mjs).
+Neither was mined, so neither has a Creditcoin transaction to open. The reasons are recorded
+here and in evidence/mainnet/README.md.
