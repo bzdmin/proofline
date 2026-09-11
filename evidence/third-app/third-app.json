@@ -1,0 +1,36 @@
+{
+  "recordedAt": "2026-09-11T13:57:21.154Z",
+  "application": "NetTermsDesk",
+  "address": "0x307C0Ecf5d9034DA890579Ac22dD851343b9AB5A",
+  "deployedBy": "0xbD7Ac5a96a4538b89aDd873b5BA3550AdEeA050a",
+  "fundedBy": "0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA",
+  "fundingTx": "0x77326180e2c01bc28589c62071ab4e61d72c76f83be09978d6218dd4e3158efb",
+  "deployTx": "0xd4404fb63e238c15ceab489c96036b47f46e187e167219cd36471c1a8fb541b8",
+  "decideTx": "0xde9b8fe94ee22c3b38372d592dfcb644d31c857420e5904c5be39ed566d6a519",
+  "decideGas": "128296",
+  "business": "0xE5d69e9A09dA71c4B68e2e14f96c93FC50da8FDA",
+  "quote": {
+    "netDays": 60,
+    "basis": "net 60"
+  },
+  "decision": {
+    "netDays": 60,
+    "basis": "net 60",
+    "settled": 5,
+    "counterparties": 3,
+    "verifiedVolume": "46000000000"
+  },
+  "creditFile": {
+    "address": "0xAEF3D1b97bB60eBA82cf0254f724f5a8b1B1b34a",
+    "creationTx": "0x3d3fbfff9ac2b08a517bca9510e6d7523c4e0655328cf209c40085f9f97b3d19",
+    "before": {
+      "codeHash": "0xcd5a79db21ecfc0e08bdb3404cfc8ed524b71d3b59001d750399ade41e55f660",
+      "events": "11"
+    },
+    "after": {
+      "codeHash": "0xcd5a79db21ecfc0e08bdb3404cfc8ed524b71d3b59001d750399ade41e55f660",
+      "events": "11"
+    },
+    "unchanged": true
+  }
+}
