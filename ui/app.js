@@ -107,7 +107,8 @@ function render() {
       <div class="tier">
         <span class="name t-${tier}">${tier}</span>
         <span class="rates">${pct(t.advanceBps)} advance &middot; ${pct(t.aprBps)} APR &middot; ${money(t.capacity)} earned capacity</span>
-        <button class="btn" id="whybtn" aria-expanded="${state.why}" aria-controls="whybox">Why these terms?</button>
+        <button class="btn why" id="whybtn" aria-expanded="${state.why}" aria-controls="whybox"
+          title="Show each condition the tier depends on"><span class="q" aria-hidden="true">?</span>Why these terms?<span class="chev" aria-hidden="true"></span></button>
       </div>
       <div id="whybox" class="whybox" ${state.why ? '' : 'hidden'}>${whyHtml(d)}</div>
     </div>
