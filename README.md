@@ -21,6 +21,9 @@ five verified settlement events  ->  TRUSTED  ->  $9,600 earned capacity
                                  ->  $6,300 Treasury draw  ->  $3,150 repayment
 ```
 
+**Live now:** 11 verified events, a draw and a repayment, three applications reading one credit
+file, two rejections mined at different gates, 8 of 8 contracts source-verified.
+
 ## The chain
 
 ```
