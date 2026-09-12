@@ -17,13 +17,13 @@
      caution; red is refusal. Structure stays neutral so it never competes with the evidence. */
   :root{
     color-scheme:dark;
-    --ground:#090A0C; --surface:#111315; --surface-2:#17191C;
-    --ink:#F3F1EC; --muted:#A5A39D; --faint:#7D7F7C;
-    --line:#25282C; --line-strong:#3A3D42;
-    --accent:#F3F1EC; --accent-soft:#1C1E21;
-    --proof:#35D07F;
-    --ok:#35D07F; --ok-soft:#0F2A1C;
-    --warn:#D6A05A; --warn-soft:#2A2114;
+    --ground:#0A0B0D; --surface:#111315; --surface-2:#17191C;
+    --ink:#F1EFE9; --muted:#A5A39D; --faint:#858780;
+    --line:#292C30; --line-strong:#3A3D42;
+    --accent:#F1EFE9; --accent-soft:#1C1E21;
+    --proof:#32C77A; --ceiling:#E8E6DF;
+    --ok:#32C77A; --ok-soft:#0F2A1C;
+    --warn:#C98D52; --warn-soft:#2A2114;
     --bad:#E46B72; --bad-soft:#2B1517;
     --sans:Archivo,Helvetica,Arial,sans-serif;
     --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
@@ -123,17 +123,22 @@
     padding-bottom:22px;border-bottom:1px solid var(--line);position:relative}
   .rcol{all:unset;cursor:pointer;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:stretch;position:relative;border-radius:4px}
   .rcol:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-  .rcol .cap{display:flex;flex-direction:column-reverse;border:1px solid var(--line-strong);border-bottom:none;
-    border-radius:3px 3px 0 0;min-height:3px;overflow:hidden;background:rgba(255,255,255,.015)}
+  /* The box is the earned ceiling: an off-white boundary, never a fill. Only what a consumer
+     can draw (green) and what it owes (copper) are coloured. */
+  .rcol .cap{display:flex;flex-direction:column-reverse;
+    border:1px solid rgba(232,230,223,.28);border-top:2px solid var(--ceiling);border-bottom:none;
+    border-radius:2px 2px 0 0;min-height:2px;overflow:hidden;background:rgba(255,255,255,.02)}
   .rcol .avail{background:var(--proof);opacity:.9}
   .rcol .dbt{background:var(--warn);opacity:.85}
-  .rcol:hover .cap{border-color:var(--muted)}
-  .rcol.sel .cap{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+  .rcol:hover .cap{border-color:rgba(232,230,223,.55);border-top-color:var(--ceiling)}
+  .rcol.sel{background:var(--surface-2)}
+  .rcol.sel .cap{border-color:rgba(232,230,223,.7);border-top-color:var(--ceiling)}
   .rcol .rl{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;color:var(--faint);white-space:nowrap}
   .rcol.sel .rl{color:var(--accent)}
   .legend{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0 4px;font-size:12px;color:var(--muted);font-family:var(--sans)}
   .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
-  .legend .lc{border:1px solid var(--line-strong)} .legend .la{background:var(--proof)} .legend .ld{background:var(--warn)}
+  .legend .lc{height:2px;background:var(--ceiling);border-radius:0;vertical-align:3px}
+  .legend .la{background:var(--proof)} .legend .ld{background:var(--warn)}
   input[type=range]{width:100%;margin:14px 0 4px;accent-color:var(--accent)}
   .frame{margin-top:10px;border-top:1px solid var(--line);padding-top:16px}
   .frame h3{margin:4px 0 4px;font-size:21px;letter-spacing:-.01em}
