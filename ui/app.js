@@ -162,14 +162,10 @@ function render() {
       </div>
     </section>
 
-    <section class="sec cols">
+    <section class="sec">
       <div class="panel">
-        <h2>Verified events &middot; ${d.events.length}</h2>
+        <h2>Verified events &middot; ${d.events.length} &middot; open one for its receipts</h2>
         <div id="events">${d.events.map(eventRow).join('')}</div>
-      </div>
-      <div class="panel">
-        <h2>Receipts</h2>
-        <div class="rc" id="rc"></div>
       </div>
     </section>
 
@@ -265,8 +261,7 @@ function render() {
     $('whybox').hidden = !state.why;
     $('whybtn').setAttribute('aria-expanded', state.why);
   };
-  document.querySelectorAll('.ev').forEach((el) => el.onclick = () => selectEvent(+el.dataset.i));
-  renderReceipt();
+  bindEvents();
   renderRewind();
 
   $('foot').innerHTML =
@@ -308,23 +303,31 @@ function eventRow(e, i) {
              : t === 2 ? '<span class="chip c-warn">overdue</span>'
              :           '<span class="chip c-bad">default</span>';
   const late = t === 1 && num(e.timestamp) > num(e.dueDate) ? '<span class="chip c-warn">late</span>' : '';
-  return `<button class="ev ${i === state.event ? 'sel' : ''}" data-i="${i}">
-    <div class="what">Invoice #${e.obligationId} ${EVERB[t]}${chip}${late}
-      <small>${buyerOf(e.counterparty)} &middot; Ethereum block ${num(e.blockHeight).toLocaleString('en-US')}</small></div>
-    <div class="amt">${m(e.amount)}</div>
-  </button>`;
+  const sel = i === state.event;
+  return `<div class="evrow">
+    <button class="ev ${sel ? 'sel' : ''}" data-i="${i}" aria-expanded="${sel}">
+      <div class="what">Invoice #${e.obligationId} ${EVERB[t]}${chip}${late}
+        <small>${buyerOf(e.counterparty)} &middot; Ethereum block ${num(e.blockHeight).toLocaleString('en-US')}</small></div>
+      <div class="amt">${m(e.amount)}</div>
+    </button>
+    ${sel ? `<div class="rc">${receiptHtml(e)}</div>` : ''}
+  </div>`;
 }
 
+function bindEvents() {
+  document.querySelectorAll('.ev').forEach((el) => el.onclick = () => selectEvent(+el.dataset.i));
+}
+
+/// Opening an event opens its receipts directly beneath it, so the evidence and the event it
+/// belongs to are never separated by scrolling.
 function selectEvent(i) {
   state.event = i;
-  document.querySelectorAll('.ev').forEach((el) => el.classList.toggle('sel', +el.dataset.i === i));
-  renderReceipt();
+  $('events').innerHTML = DATA.events.map(eventRow).join('');
+  bindEvents();
 }
 
 /// One credit event, as three things a judge can open independently.
-function renderReceipt() {
-  const e = DATA.events[state.event];
-  if (!e) return;
+function receiptHtml(e) {
   const key = `${e.chainKey}:${e.obligationId}:${e.eventType}`;
   const r = RECEIPTS[key];
   const src = r
@@ -334,7 +337,7 @@ function renderReceipt() {
     ? `<a href="${CFG.cc3Explorer}/tx/${r.verification}" target="_blank" rel="noopener">${short(r.verification)}</a>`
     : `not mapped in this UI`;
 
-  $('rc').innerHTML = `
+  return `
     <div class="rstep">
       <div class="lbl">01 Source <b>&middot; Ethereum Sepolia</b></div>
       <div class="val">${src}</div>
