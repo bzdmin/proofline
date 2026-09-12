@@ -15,9 +15,10 @@ page draws it. `ethers` is vendored in `vendor/`.
 | `data/timeline.json` | The credit file at the Creditcoin block of each of its 13 changes |
 | `data/snapshot.json` | The current state, shown only when Creditcoin does not answer |
 
-All three data files are written by `node script/ui-data.mjs`, which accepts a source
-transaction only if its Ethereum block and transaction index equal the ones the precompile
-derived and CreditFile stored.
+`receipts.json`, `timeline.json` and `snapshot.json` are written by `node script/ui-data.mjs`,
+which accepts a source transaction only if its Ethereum block and transaction index equal the
+ones the precompile derived and CreditFile stored. `config.json` holds the addresses and is
+updated when something is deployed.
 
 Every number can be reproduced independently:
 

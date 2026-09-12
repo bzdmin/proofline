@@ -398,7 +398,8 @@ function renderRewind() {
     : `<span>Creditcoin transaction, Treasury.${f.kind}</span><a href="${CFG.cc3Explorer}/tx/${f.tx}" target="_blank" rel="noopener">${short(f.tx)}</a>`;
 
   $('rw').innerHTML = `
-    <div class="chart" role="group" aria-label="Earned capacity, available and debt at each change">${cols}</div>
+    <div class="chart" style="grid-template-columns:repeat(${frames.length},1fr)"
+         role="group" aria-label="Earned capacity, available and debt at each change">${cols}</div>
     <div class="legend"><span><i class="lc"></i>earned capacity</span><span><i class="la"></i>available</span><span><i class="ld"></i>debt</span></div>
     <input type="range" id="rwr" min="0" max="${frames.length - 1}" value="${i}" aria-label="Choose a change">
     <div class="frame">
