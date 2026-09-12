@@ -53,7 +53,7 @@
   .pill{font-family:var(--sans);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
     padding:2px 8px;border-radius:10px}
   .pill.ok{background:var(--ok-soft);color:var(--ok)}
-  .pill.warn{background:var(--warn-soft);color:var(--warn)}
+  .pill.warn{background:var(--surface-2);color:var(--muted)}
 
   /* ---- thesis: what this is, before any number ---- */
   .thesis{padding:24px 0 16px}
@@ -98,7 +98,9 @@
   .stat .k{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:3px}
   .vh .limits{padding:20px 24px;display:flex;flex-direction:column;gap:14px}
   .limits h3{margin:0 0 3px;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
-  .limits .yes h3{color:var(--ok)} .limits .no h3{color:var(--warn)}
+  /* Copper is money: debt, overdue, capital drawn. What is simply not established is
+     informational, so it stays neutral. */
+  .limits .yes h3{color:var(--ok)} .limits .no h3{color:var(--muted)}
   .limits p{margin:0;font-size:14px;line-height:1.5}
 
   /* ---- the numbers, grouped by who owns them ---- */
@@ -199,12 +201,12 @@
   .ledger > div + div{border-left:1px solid var(--line)}
   @media(max-width:760px){.ledger > div + div{border-left:none;border-top:1px solid var(--line)}}
   .ledger h3{margin:0 0 10px;font-size:11px;letter-spacing:.16em;text-transform:uppercase}
-  .ledger .yes h3{color:var(--ok)} .ledger .no h3{color:var(--warn)}
+  .ledger .yes h3{color:var(--ok)} .ledger .no h3{color:var(--muted)}
   .ledger ul{margin:0;padding:0;list-style:none}
   .ledger li{padding:6px 0 6px 22px;position:relative;font-size:14.5px;line-height:1.45;border-bottom:1px solid var(--line)}
   .ledger li:last-child{border-bottom:none}
   .ledger .yes li::before{content:"\2713";position:absolute;left:2px;color:var(--ok);font-family:var(--sans)}
-  .ledger .no li::before{content:"\2715";position:absolute;left:2px;color:var(--warn);font-family:var(--sans)}
+  .ledger .no li::before{content:"\2715";position:absolute;left:2px;color:var(--faint);font-family:var(--sans)}
   .closing{padding:16px 24px;border-top:1px solid var(--line);font-family:var(--sans);font-size:16px;font-weight:600}
 
   /* ---- the model: one file, many readers ---- */

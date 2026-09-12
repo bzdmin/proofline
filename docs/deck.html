@@ -6,9 +6,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
   @page { size: 297mm 167mm; margin: 0; }
+  /* Same palette as the interface: charcoal and warm white, with green for what is verified,
+     copper for capital drawn, red for refusal. Nothing else carries colour. */
   :root{
-    --ground:#0E1017; --surface:#171A24; --ink:#E8EBF3; --muted:#98A0B6; --faint:#6F778D;
-    --line:#272C3B; --accent:#8CA0FF; --ok:#3FC099; --warn:#E29457; --bad:#F4788A;
+    --ground:#0A0B0D; --surface:#111315; --surface-2:#17191C;
+    --ink:#F1EFE9; --muted:#A5A39D; --faint:#858780;
+    --line:#292C30; --accent:#F1EFE9; --proof:#32C77A;
+    --ok:#32C77A; --warn:#C98D52; --bad:#E46B72;
   }
   *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   body{margin:0;background:#05060A;font-family:"Source Serif 4",Georgia,serif;color:var(--ink)}
@@ -39,7 +43,7 @@
      border-bottom:1px solid var(--line)}
   td{padding:2.5mm 3mm;border-bottom:1px solid var(--line);font-family:"JetBrains Mono",monospace;font-size:10.5pt}
   td.t{font-family:"Source Serif 4",serif;font-size:11pt}
-  tr.hi td{background:#1C2140}
+  tr.hi td{background:var(--surface-2)}
   .cols{display:grid;grid-template-columns:1fr 1fr;gap:14mm}
   .cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:8mm}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:2mm;padding:5mm 6mm}
@@ -49,7 +53,7 @@
   .card .s{font-size:9.5pt;color:var(--muted);line-height:1.4}
   pre{font-family:"JetBrains Mono",monospace;font-size:10pt;line-height:1.6;color:var(--muted);margin:0}
   pre b{color:var(--accent);font-weight:600}
-  .ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)} .acc{color:var(--accent)}
+  .ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)} .acc{color:var(--proof)}
   ul{margin:0;padding-left:5mm;font-size:11pt;color:var(--muted);line-height:1.55}
   li{margin-bottom:1.6mm} li::marker{color:var(--faint)}
   li b{color:var(--ink)}
