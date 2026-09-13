@@ -45,7 +45,7 @@ Ethereum source event
 | Source receipt succeeded | The demonstration history represents external commercial activity |
 | Expected event was emitted | CreditFile guarantees repayment |
 | Event came from the authorized source | Tier thresholds are Creditcoin protocol standards |
-| Replay identity was unused | |
+| Replay identity was unused | Every late payment has already been reported |
 | Credit event was persisted to `CreditFile` | |
 | Credit terms derived deterministically from that state | |
 
@@ -321,6 +321,13 @@ Requires Foundry `v1.2.3`, the version the Attestcoin examples pin, and Node 20+
   qualifying amount, an exposure cap and a three-counterparty requirement raise the cost of
   self-dealing; they do not establish independence. Production needs counterparty
   attestations, identity, or stake-at-risk.
+- **The credit file is only as complete as what has been proven.** It records a late payment
+  or a default only once someone submits the proof, and anyone may. Until then it can show no
+  delinquency for an invoice that is in fact overdue: invoice #6 is past due on Sepolia, and
+  `CreditFile` shows zero open delinquencies because no late event has been proven. Reporting is
+  open to anyone on purpose, since a borrower would never report their own delinquency and a
+  trusted reporter would reintroduce an operator. The contract only accepts true reports, but
+  completeness depends on someone watching.
 - **Repayment is unsecured.** Attestcoin writability is in audit, so proceeds on Ethereum
   cannot be routed to repayment and the receivable cannot be seized. Enforcement is the
   credit file: a verified default freezes the borrower permanently. That is deliberate, and it

@@ -97,7 +97,8 @@ const html = `
         CreditFile; credit terms derived deterministically from that state.</p>
       <p><b>Not established:</b> counterparties are economically independent; the demonstration
         history represents external commercial activity; CreditFile guarantees repayment; tier
-        thresholds are Creditcoin protocol standards.</p>
+        thresholds are Creditcoin protocol standards; every late payment has already been
+        reported.</p>
       <p><b>ProofLine verifies evidence. It does not manufacture trust outside that evidence.</b></p>
     </div>
     `;
