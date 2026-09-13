@@ -115,6 +115,11 @@ Then the earned line was used:
 
 **Verified history changes earned capacity. Receivables and debt change availability.**
 
+Invoice #6 was left unpaid on purpose: Treasury lends only against outstanding receivables, so it
+is the receivable the draw was made against. That is why there are 11 verified events rather than
+12. Its due date has since passed on Sepolia. `CreditFile` shows no delinquency because no late
+event has been proven: it records only what is verified.
+
 The first row is only representable because the three numbers are kept apart: earned standing
 of 9,600 with nothing currently drawable. Collapse capacity, approved line and available into a
 single number and that state cannot be expressed. The remainder after repaying exactly 3,150

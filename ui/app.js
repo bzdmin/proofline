@@ -54,7 +54,7 @@ async function load() {
     chain = null;
     DATA = { ...(await getJSON('./data/snapshot.json')), mode: 'recorded', error: err.message };
   }
-  state.event = DATA.events.length - 1;
+  state.event = -1;
   state.frame = TL.frames.length - 1;
   render();
 }
@@ -167,6 +167,7 @@ function render() {
       <div class="panel">
         <h2>Verified events &middot; ${d.events.length} &middot; open one for its receipts</h2>
         <div id="events">${d.events.map(eventRow).join('')}</div>
+        ${openNote(d)}
       </div>
     </section>
 
@@ -304,15 +305,32 @@ function eventRow(e, i) {
              : t === 2 ? '<span class="chip c-warn">overdue</span>'
              :           '<span class="chip c-bad">default</span>';
   const late = t === 1 && num(e.timestamp) > num(e.dueDate) ? '<span class="chip c-warn">late</span>' : '';
+  const open = t === 0 && isOpen(e) ? '<span class="chip c-open">open</span>' : '';
   const sel = i === state.event;
   return `<div class="evrow">
     <button class="ev ${sel ? 'sel' : ''}" data-i="${i}" aria-expanded="${sel}">
-      <div class="what">Invoice #${e.obligationId} ${EVERB[t]}${chip}${late}
+      <div class="what">Invoice #${e.obligationId} ${EVERB[t]}${chip}${late}${open}
         <small>${buyerOf(e.counterparty)} &middot; Ethereum block ${num(e.blockHeight).toLocaleString('en-US')}</small></div>
       <div class="amt">${m(e.amount)}</div>
+      <span class="chev" aria-hidden="true"></span>
     </button>
     ${sel ? `<div class="rc">${receiptHtml(e)}</div>` : ''}
   </div>`;
+}
+
+/// An issued obligation with no later event is still open.
+const isOpen = (e) => !DATA.events.some((x) => x.obligationId === e.obligationId && num(x.eventType) !== 0);
+
+/// Say plainly which invoices are unpaid and what the file does and does not know about them,
+/// rather than let a list of issued-and-settled pairs imply every invoice was paid.
+function openNote(d) {
+  const now = Date.now() / 1000;
+  return d.events.filter((e) => num(e.eventType) === 0 && isOpen(e)).map((e) =>
+    `<div class="evnote"><b>Invoice #${e.obligationId} is still open.</b> It was left unpaid on
+      purpose: Treasury lends only against outstanding receivables, so this is the receivable the
+      draw was made against.${num(e.dueDate) < now ? ` Its due date has passed on Sepolia. CreditFile
+      shows no delinquency because no late event has been proven: it records only what is
+      verified.` : ''}</div>`).join('');
 }
 
 function bindEvents() {
@@ -322,7 +340,7 @@ function bindEvents() {
 /// Opening an event opens its receipts directly beneath it, so the evidence and the event it
 /// belongs to are never separated by scrolling.
 function selectEvent(i) {
-  state.event = i;
+  state.event = state.event === i ? -1 : i;
   $('events').innerHTML = DATA.events.map(eventRow).join('');
   bindEvents();
 }
@@ -346,14 +364,14 @@ function receiptHtml(e) {
         transaction index ${num(e.txIndex)}, as derived by the precompile from the proof and stored
         by CreditFile.</div>
     </div>
-    <div class="arrow" aria-hidden="true">&darr;</div>
+    <div class="arrow" aria-hidden="true"></div>
     <div class="rstep">
       <div class="lbl">02 Verification <b>&middot; Creditcoin CC3</b></div>
       <div class="val">${ver}</div>
       <div class="n">Creditcoin verification transaction. ASCReceiver ran six gates: replay,
         verifyAndEmit, txType, receiptStatus, logs found, authorized source.${r ? ` ${num(r.gasUsed).toLocaleString('en-US')} gas.` : ''}</div>
     </div>
-    <div class="arrow" aria-hidden="true">&darr;</div>
+    <div class="arrow" aria-hidden="true"></div>
     <div class="rstep">
       <div class="lbl">03 State <b>&middot; CreditFile</b></div>
       <div class="val">${ETYPE[num(e.eventType)]} &middot; ${money(e.amount)} &middot; invoice #${e.obligationId}</div>
