@@ -98,7 +98,7 @@ const html = `
       <p><b>Not established:</b> counterparties are economically independent; the demonstration
         history represents external commercial activity; CreditFile guarantees repayment; tier
         thresholds are Creditcoin protocol standards; every late payment has already been
-        reported.</p>
+        reported: the file shows one only after it is proven.</p>
       <p><b>ProofLine verifies evidence. It does not manufacture trust outside that evidence.</b></p>
     </div>
     `;
