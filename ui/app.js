@@ -252,7 +252,7 @@ function render() {
             <li>The demonstration history represents external commercial activity</li>
             <li>CreditFile guarantees repayment</li>
             <li>Tier thresholds are Creditcoin protocol standards</li>
-            <li>Every late payment has already been reported: the file shows one only once it is proven</li>
+            <li>Every late payment has already been reported: the file shows one only after it is proven</li>
           </ul></div>
         </div>
         <div class="closing">ProofLine verifies evidence. It does not manufacture trust outside that evidence.</div>
